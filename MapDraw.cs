@@ -17,6 +17,9 @@ namespace LADDERS
         private Dictionary<int, TileSet> TileTilesets;
         private Dictionary<int, Texture2D> TexturesTileset;
 
+        private float CameraY;
+        private float CameraSpeed = 5f;
+
 
         public MapDraw(MapRead map, string assetsPath)
         {
@@ -25,6 +28,9 @@ namespace LADDERS
             RectanglesTilesets = new Dictionary<int, List<Rectangle>>();
             TexturesTileset = new Dictionary<int, Texture2D>();
             TileTilesets = new Dictionary<int, TileSet>();
+
+            CameraY = -2304;
+            CameraSpeed = 1f;
 
             InitRectTilesets();
             LoadTextTilesets(assetsPath);
@@ -75,6 +81,14 @@ namespace LADDERS
 
         public void Update()
         {
+            if (IsKeyDown(KeyboardKey.Space))
+            {
+                CameraY += CameraSpeed;
+            }
+            if (IsKeyDown(KeyboardKey.Down))
+            {
+                CameraY -= CameraSpeed;
+            }
 
         }
 
@@ -104,7 +118,7 @@ namespace LADDERS
                     Texture2D texture = TexturesTileset[firstgid];
                     int realId = idTile - firstgid;
                     Rectangle rect = RectanglesTilesets[firstgid][realId];
-                    Vector2 pos = new Vector2(x * tileSize, y * tileSize);
+                    Vector2 pos = new Vector2(x * tileSize, (y * tileSize) + CameraY);
 
                     DrawTextureRec(texture, rect, pos, Color.White);
                 }
@@ -115,9 +129,17 @@ namespace LADDERS
         {
             int tileSize = MapRead.TileWidth;
 
+            
             foreach (Layer layer in MapRead.Layers)
             {
                 if (layer.name == "Ladders")
+                {
+                    DrawLayer(layer, tileSize);
+                }
+            }
+            foreach (Layer layer in MapRead.Layers)
+            {
+                if (layer.name == "Ground")
                 {
                     DrawLayer(layer, tileSize);
                 }

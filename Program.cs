@@ -20,11 +20,10 @@ namespace LADDERS
         {
             
 
-            InitWindow(1280, 720, "LADDERS");
+            InitWindow(1280, 768, "LADDERS");
             InitAudioDevice();
             SetTargetFPS(60);
-            SetExitKey(KeyboardKey.Null);
-            Texture2D texture = LoadTexture("assets/Tileset1.png");
+            SetExitKey(KeyboardKey.Null);            
 
             MyGameState = GameStates.Instance;
             MyGameState.AddScene("menu", MyGameMenu);
@@ -36,11 +35,12 @@ namespace LADDERS
             while (!WindowShouldClose() && !MyGameState.QuitMyGame)
             {
                 MyGameState.Update();
+                
                 BeginDrawing();
-                ClearBackground(Color.Black);
 
+                ClearBackground(Color.Black);
                 MyGameState.Draw();
-                DrawTexture(texture, 0, 0, Color.White);
+                
                 EndDrawing();
             }
            

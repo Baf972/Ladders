@@ -11,27 +11,33 @@ namespace LADDERS
 {
     public class Level1
     {
+        Bob MyBob { get; set; }
         MapRead MyMapRead { get; set; }
         MapDraw MyMapDraw { get; set; }
-        public Texture2D text;
-
+        
+        AssetsManager MyAssetsManager { get; set; }
         public Level1()
         {
             MyMapRead = new MapRead();
-            MyMapRead.LoadDatas("assets/LadderMap001.json");
+            MyMapRead.LoadDatas("assets/LadderMapLV1.json");
             MyMapDraw = new MapDraw(MyMapRead, "assets/");
-            text = LoadTexture("assets/Tileset.png");
+            MyAssetsManager = AssetsManager.Instance;
+            MyBob = Bob.Instance;
         }
 
         public void Update()
         {
             MyMapDraw.Update();
+            MyBob.HandleInput();
+            MyMapDraw.Update();
+            
+
         }
 
         public void Draw()
         {
             MyMapDraw.Draw();
-            DrawTexture(text, 100, 100, Color.White);
+            MyBob.Draw();
         }
 
         public void Close()
