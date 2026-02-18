@@ -21,23 +21,27 @@ namespace LADDERS
 
     public class Bob
     {
-        AssetsManager MyAssetsManager { get; set; }
-        BobStatesManager MyState { get; set; }
+        public AssetsManager MyAssetsManager { get; set; }
+        public BobStatesManager MyState { get; set; }
         public Texture2D TileSet { get; set; }
         public Rectangle BobRec { get; set; }
         public Rectangle BobSourceRec { get; set; }
         public Dictionary<string, Texture2D> BobStatesTextures { get; set; }
-        private BobStates BobState{ get; set; }
+        public BobStates BobState { get; set; }
         public int FrameCount { get; set; }
         public int FrameWidth { get; set; }
         public int FrameHeight { get; set; }
         public int CurrentFrame { get; set; }
         public float FrameTimer { get; set; }
         public float NewFrameTimer { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int R { get; set; }
-        public int Speed { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float R { get; set; }
+        public float SpeedJumpUp { get; set; }
+        public float SpeedFallDown { get; set; }
+        public float SpeedJumpLenght { get; set; }
+        public float SpeedUp { get; set; }
+        public float Velocity { get; set; }
         public bool IsFlipped { get; set; }
         public float Life { get; set; }
 
@@ -60,6 +64,11 @@ namespace LADDERS
             LoadStatesTextures();
             X = 608;
             Y = 480;
+            SpeedUp = 0f;
+            SpeedJumpUp = 100f;
+            SpeedFallDown = 100f;
+            SpeedJumpLenght = 90f;
+            Velocity = 150f;
             BobSourceRec = new Rectangle(0, 0, 32, 32);
             FrameCount = 0;
             FrameTimer = 30f;
@@ -74,9 +83,9 @@ namespace LADDERS
 
 
         }
-        public Bob() 
+        public Bob()
         {
-            
+
             Init();
 
         }
@@ -86,34 +95,17 @@ namespace LADDERS
             MyState.HandleInput(this);
         }
         public void Update()
-        {           
+        {
             MyState.Update(this);
 
 
-            FrameTimer -= 118 * GetFrameTime();
-            if (FrameTimer <= 0)
-            {
-                CurrentFrame++;
-                if (CurrentFrame >= FrameCount)
-                {
-                    CurrentFrame = 0;
-                }
-                FrameTimer = NewFrameTimer;
-            }
-            if (IsFlipped)
-            {
-                BobSourceRec = new Rectangle(CurrentFrame * FrameWidth, 0, -FrameWidth, FrameHeight);
-            }
-            else
-            {
-                BobSourceRec = new Rectangle(CurrentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
-            }
+
 
 
         }
         public void Draw()
         {
-            DrawTexturePro(TileSet, BobSourceRec, new Rectangle (X, Y, FrameWidth, FrameHeight), new Vector2(FrameWidth, FrameHeight), R, Color.White);
+            MyState.Draw(this);
         }
         public void Close()
         {
@@ -130,10 +122,10 @@ namespace LADDERS
             BobStatesTextures["Landing"] = MyAssetsManager.MyTexturesManager.GetTexture("assets/bobLanding.png");
         }
 
-        public void StatesTransition(BobStates newState)
+        public void StatesTransition(BobStates BobState)
         {
-            
-           switch(newState)
+
+            switch (BobState)
             {
                 case BobStates.Idle:
 
@@ -170,10 +162,11 @@ namespace LADDERS
                 case BobStates.Jumping:
 
                     TileSet = BobStatesTextures["Jumping"];
-                    FrameWidth = TileSet.Width / 5;
+                    FrameWidth = TileSet.Width / 12;
                     FrameHeight = TileSet.Height;
-                    NewFrameTimer = 15f;
-                    FrameCount = 5;
+                    NewFrameTimer = 1f;
+                    FrameCount = 12;
+                    CurrentFrame = 0;
 
 
                     break;
@@ -183,7 +176,7 @@ namespace LADDERS
                     TileSet = BobStatesTextures["Landing"];
                     FrameWidth = TileSet.Width / 10;
                     FrameHeight = TileSet.Height;
-                    NewFrameTimer = 15f;
+                    NewFrameTimer = 10f;
                     FrameCount = 10;
 
 
@@ -193,17 +186,32 @@ namespace LADDERS
                     break;
             }
 
-            MyState = newState 
+            MyState = BobState
                 switch
-                {
-                    BobStates.Idle => new BobIdle(this),
-                    BobStates.Climbing => new BobClimbing(this),
-                    BobStates.Jumping => new BobJumping(this), 
-                    BobStates.Falling => new BobFalling(this),
-                    BobStates.RunningUp => new BobRunningUp(this),
-                    BobStates.Landing => new BobLanding(this),
-                    _ => throw new ArgumentOutOfRangeException(nameof(newState), $"Not expected state value: {newState}")
-                };
+            {
+                BobStates.Idle => new BobIdle(this),
+                BobStates.Climbing => new BobClimbing(this),
+                BobStates.Jumping => new BobJumping(this),
+                BobStates.Falling => new BobFalling(this),
+                BobStates.RunningUp => new BobRunningUp(this),
+                BobStates.Landing => new BobLanding(this),
+                _ => MyState
+            };
+        }
+
+        public BobStates GetCurrentState()
+        {
+            return MyState switch
+            { 
+                BobIdle _=> BobStates.Idle,
+                BobClimbing _ => BobStates.Climbing,
+                BobJumping _ => BobStates.Jumping,
+                BobFalling _ => BobStates.Falling,
+                BobRunningUp _ => BobStates.RunningUp,
+                BobLanding _ => BobStates.Landing,
+                _ => BobStates.Idle
+            };
+
         }
     }
 }

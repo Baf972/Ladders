@@ -16,6 +16,7 @@ namespace LADDERS
         private Dictionary<int, List<Rectangle>> RectanglesTilesets;
         private Dictionary<int, TileSet> TileTilesets;
         private Dictionary<int, Texture2D> TexturesTileset;
+        private Bob MyBob { get; set; }
 
         private float CameraY;
         private float CameraSpeed = 5f;
@@ -28,9 +29,10 @@ namespace LADDERS
             RectanglesTilesets = new Dictionary<int, List<Rectangle>>();
             TexturesTileset = new Dictionary<int, Texture2D>();
             TileTilesets = new Dictionary<int, TileSet>();
+            MyBob = Bob.Instance;
 
             CameraY = -2304;
-            CameraSpeed = 0.25f;
+            CameraSpeed = MyBob.SpeedUp;
 
             InitRectTilesets();
             LoadTextTilesets(assetsPath);
@@ -80,16 +82,9 @@ namespace LADDERS
         }
 
         public void Update()
-        {
-            if (IsKeyDown(KeyboardKey.Space))
-            {
-                CameraY += CameraSpeed;
-            }
-            if (IsKeyDown(KeyboardKey.Down))
-            {
-                CameraY -= CameraSpeed;
-            }
-
+        {            
+             CameraY += MyBob.SpeedUp;
+            
         }
 
         public void DrawLayer(Layer layer, int tileSize)

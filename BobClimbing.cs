@@ -16,13 +16,25 @@ namespace LADDERS
         }
         public override void HandleInput(Bob MyBob)
         {
+
+            if (IsKeyDown(KeyboardKey.Space))
+            {
+                MyBob.SpeedUp = 0.25f;
+            }
+            if (IsKeyDown(KeyboardKey.Down))
+            {
+                MyBob.SpeedUp = -0.25f;
+            }
             if (IsKeyReleased(KeyboardKey.Space))
+            {
+                MyBob.SpeedUp = 0f;
                 MyBob.StatesTransition(BobStates.Idle);
+            }
 
             if (IsKeyDown(KeyboardKey.Left) )
             {
                 MyBob.StatesTransition(BobStates.RunningUp);
-                MyBob.IsFlipped = false;
+                MyBob.IsFlipped = false;                
             }
             else if (IsKeyDown(KeyboardKey.Right))
             {
@@ -36,6 +48,7 @@ namespace LADDERS
         }
         public override void Update(Bob MyBob)
         {
+            
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)

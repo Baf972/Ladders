@@ -23,6 +23,7 @@ namespace LADDERS
         }
         public override void Update(Bob MyBob)
         {
+            MyBob.SpeedUp = 0f;
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)
