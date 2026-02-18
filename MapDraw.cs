@@ -30,7 +30,7 @@ namespace LADDERS
             TileTilesets = new Dictionary<int, TileSet>();
 
             CameraY = -2304;
-            CameraSpeed = 1f;
+            CameraSpeed = 0.25f;
 
             InitRectTilesets();
             LoadTextTilesets(assetsPath);

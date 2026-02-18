@@ -53,7 +53,7 @@ namespace LADDERS
         {
             var MyTextures = new Dictionary<string, Texture2D>
             {
-                {"tileSet", MyTexturesManager.GetTexture("assets/tileset.png") },
+                {"tileSet", MyTexturesManager.GetTexture("assets/bobIdle.png") },
             };
         }
 

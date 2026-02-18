@@ -38,7 +38,7 @@ namespace LADDERS
                 
                 BeginDrawing();
 
-                ClearBackground(Color.Black);
+                ClearBackground(Color.Brown);
                 MyGameState.Draw();
                 
                 EndDrawing();

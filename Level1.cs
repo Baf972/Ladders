@@ -29,6 +29,7 @@ namespace LADDERS
         {
             MyMapDraw.Update();
             MyBob.HandleInput();
+            MyBob.Update();
             MyMapDraw.Update();
             
 

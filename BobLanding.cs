@@ -4,24 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Raylib_cs;
-using static Raylib_cs.Raylib;
-
 namespace LADDERS
 {
-    public class BobIdle : BobStatesManager
+   
+    public class BobLanding : BobStatesManager
     {
-
-        public BobIdle (Bob MyBob) : base(MyBob)
+        public BobLanding(Bob MyBob) : base(MyBob)
         {
         }
         public override void HandleInput(Bob MyBob)
         {
-
-            if (IsKeyDown(KeyboardKey.Space))
-            {
-                MyBob.StatesTransition(BobStates.Climbing);
-            }
             base.HandleInput(MyBob);
         }
         public override void Update(Bob MyBob)
@@ -33,4 +25,5 @@ namespace LADDERS
             base.Draw(MyBob);
         }
     }
+    
 }
