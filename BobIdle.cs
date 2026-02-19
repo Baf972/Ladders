@@ -22,6 +22,18 @@ namespace LADDERS
             {
                 MyBob.StatesTransition(BobStates.Climbing);
             }
+
+            if (IsKeyDown(KeyboardKey.Left))
+            {
+                MyBob.StatesTransition(BobStates.RunningUp);
+                MyBob.IsFlipped = false;
+            }
+            else if (IsKeyDown(KeyboardKey.Right))
+            {
+                MyBob.StatesTransition(BobStates.RunningUp);
+                MyBob.IsFlipped = true;
+            }
+
             base.HandleInput(MyBob);
         }
         public override void Update(Bob MyBob)

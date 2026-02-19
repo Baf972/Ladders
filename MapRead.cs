@@ -87,5 +87,32 @@ namespace LADDERS
         {
             UnloadDatas();
         }
+
+        public int GetTileId(int pCol, int pLig, string layername)
+        {
+            int index = pLig * Width + pCol ;
+            Layer? layer = Layers.Find(layer => layer.name == layername);
+            if (layer == null)
+            {
+                throw new KeyNotFoundException($"Layer with name '{layername}' not found.");
+            }
+            return layer.data[index];
+
+        }
+
+        // CHANGE TILE ID
+        public int ModifyTile(int Col, int Lig, string layerName, int NewId)
+        {
+            int id = Lig * Width + Col;
+            Layer? layer = Layers.Find(layer => layer.name == layerName);
+            if (layer == null)
+            {
+                throw new KeyNotFoundException($"Le calque'{layerName} does not exist.");
+            }
+
+            layer.data[id] = NewId;
+
+            return layer.data[id];
+        }
     }
 }

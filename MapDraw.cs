@@ -18,7 +18,7 @@ namespace LADDERS
         private Dictionary<int, Texture2D> TexturesTileset;
         private Bob MyBob { get; set; }
 
-        private float CameraY;
+        public static  float CameraY;
         private float CameraSpeed = 5f;
 
 
@@ -33,6 +33,7 @@ namespace LADDERS
 
             CameraY = -2304;
             CameraSpeed = MyBob.SpeedUp;
+
 
             InitRectTilesets();
             LoadTextTilesets(assetsPath);
@@ -82,20 +83,19 @@ namespace LADDERS
         }
 
         public void Update()
-        {            
-             CameraY += MyBob.SpeedUp;
+        {
+                       
             
         }
 
         public void DrawLayer(Layer layer, int tileSize)
-        {
-
+        {            
             tileSize = MapRead.TileWidth;
             for (int y = 0; y < MapRead.Height; y++)
             {
                 for (int x = 0; x < MapRead.Width; x++)
                 {
-
+                    
                     if (layer.type != "tilelayer")
                     {
                         continue;
@@ -114,10 +114,11 @@ namespace LADDERS
                     int realId = idTile - firstgid;
                     Rectangle rect = RectanglesTilesets[firstgid][realId];
                     Vector2 pos = new Vector2(x * tileSize, (y * tileSize) + CameraY);
-
-                    DrawTextureRec(texture, rect, pos, Color.White);
+                    
+                    if (pos.X > -32 && pos.X < GetScreenWidth() && pos.Y > -32 && pos.Y < GetScreenHeight())
+                        DrawTextureRec(texture, rect, pos, Color.White);
+                                        
                 }
-
             }
         }
         public void Draw()

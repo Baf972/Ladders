@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Raylib_cs;
+using static Raylib_cs.Raylib;
 
 namespace LADDERS
 {
@@ -14,6 +16,14 @@ namespace LADDERS
         }
         public override void HandleInput(Bob MyBob)
         {
+            if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
+            {
+                MyBob.StatesTransition(BobStates.Idle);
+                MyBob.SpeedFallDown = 200f;
+                MyBob.SpeedJumpUp = 40f;
+                MyBob.SpeedJumpLenght = 90;
+            }
+            
             base.HandleInput(MyBob);
         }
         public override void Update(Bob MyBob)

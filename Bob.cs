@@ -65,7 +65,7 @@ namespace LADDERS
             X = 608;
             Y = 480;
             SpeedUp = 0f;
-            SpeedJumpUp = 100f;
+            SpeedJumpUp = 40f;
             SpeedFallDown = 100f;
             SpeedJumpLenght = 90f;
             Velocity = 150f;
@@ -73,8 +73,7 @@ namespace LADDERS
             FrameCount = 0;
             FrameTimer = 30f;
             FrameWidth = 32;
-            FrameHeight = 32;
-            BobRec = new Rectangle(X, Y, FrameWidth, FrameHeight);
+            FrameHeight = 32;            
             CurrentFrame = 0;
             Life = 100f;
             MyState = new BobIdle(this);
@@ -98,7 +97,7 @@ namespace LADDERS
         {
             MyState.Update(this);
 
-
+            
 
 
 
@@ -134,6 +133,7 @@ namespace LADDERS
                     FrameHeight = TileSet.Height;
                     NewFrameTimer = 20f;
                     FrameCount = 4;
+                    
 
                     break;
 
@@ -150,10 +150,10 @@ namespace LADDERS
                 case BobStates.RunningUp:
 
                     TileSet = BobStatesTextures["RunningUp"];
-                    FrameWidth = TileSet.Width / 9;
+                    FrameWidth = TileSet.Width / 10;
                     FrameHeight = TileSet.Height;
                     NewFrameTimer = 15f;
-                    FrameCount = 9;
+                    FrameCount = 10;
                     CurrentFrame = 0;
 
 
@@ -178,6 +178,9 @@ namespace LADDERS
                     FrameHeight = TileSet.Height;
                     NewFrameTimer = 10f;
                     FrameCount = 10;
+                    NewFrameTimer = 10;
+                    CurrentFrame = 0;
+
 
 
                     break;
