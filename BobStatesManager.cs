@@ -28,6 +28,7 @@ namespace LADDERS
         protected float OldY;
         protected int ScreenWidth = GetScreenWidth();
         protected int ScreenHeight = GetScreenHeight();
+        protected float LadderTimer;
 
 
         public BobStatesManager(Bob MyBob) 
@@ -36,6 +37,7 @@ namespace LADDERS
             DeltaTime = GetFrameTime();
             StopClimbing = false;
             BreakLoop = false;
+            LadderTimer = 2;
         }
 
         public virtual void HandleInput(Bob MyBob)

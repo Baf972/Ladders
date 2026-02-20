@@ -38,6 +38,32 @@ namespace LADDERS
         }
         public override void Update(Bob MyBob)
         {
+            
+            
+
+            float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
+
+            int tileCol = (int)(MyBob.X / MapRead.TileWidth);
+            int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);
+
+            // Supprime Tile echelle en bois
+            int ModifiableTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
+            if (ModifiableTileId != 9 && ModifiableTileId != 6 && ModifiableTileId != 3 && ModifiableTileId != 0)
+            {
+                LadderTimer -= DeltaTime;
+                if (LadderTimer <= 0)
+                {
+                    MyMapRead.ModifyTile(tileCol - 1, tileLig - 1, "Ladders", 0);
+                    LadderTimer = 2;
+                }
+            }
+             
+            // Si plus d'échelle, Bob tombe
+            int DeleteTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
+            if (DeleteTileId == 0)
+                MyBob.StatesTransition(BobStates.Falling);
+
+            //DrawText("ID  " + ModifiableTileId.ToString(), 30, 50, 30, Color.White);
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)

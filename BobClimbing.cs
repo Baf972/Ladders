@@ -56,11 +56,14 @@ namespace LADDERS
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);
             int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);
             
-            int NoTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 2, "Ladders");
-
+            // Si Pas d'échelle au dessus, Bob s'arrête
+            int NoTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 2, "Ladders");  
             if (NoTileId == 0)
                 MyBob.StatesTransition(BobStates.Idle);
-            else
+
+            //Si Bob est sur une échelle en bois, elle se casse
+            int ModifiableLadderId = MyMapRead.GetTileId(tileCol - 1, tileLig + 1, "Ladders");
+            if (ModifiableLadderId != 9 && ModifiableLadderId != 6 && ModifiableLadderId != 3 && ModifiableLadderId != 0)
                 MyMapRead.ModifyTile(tileCol - 1, tileLig +1, "Ladders", 0);
 
             base.Update(MyBob);
