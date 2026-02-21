@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Raylib_cs;
@@ -41,25 +42,27 @@ namespace LADDERS
             {
                 //MyBob.Y -= MyBob.SpeedJumpUp * DeltaTime;
                 MapDraw.CameraY += MyBob.SpeedJumpUp * DeltaTime;
+                MapDraw.BackGroundPos.Y -= (MyBob.SpeedJumpUp / 3) * DeltaTime;
             }
 
-            if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
+            else if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
             {
-                //MyBob.Y += MyBob.SpeedFallDown * DeltaTime;
+                
+                MyBob.SpeedFallDown += MyBob.FallVelocity * DeltaTime;
                 MapDraw.CameraY -= MyBob.SpeedFallDown * DeltaTime;
+                MapDraw.BackGroundPos.Y -= (MyBob.SpeedFallDown / 3) * DeltaTime;
+
             }
 
             // Velocyti & Bob.X 
-            MyBob.SpeedJumpLenght += MyBob.Velocity * DeltaTime;
+            MyBob.SpeedJumpLenght -= MyBob.LenghtVelocity * DeltaTime;
 
             if (MyBob.IsFlipped)
                 MyBob.X += MyBob.SpeedJumpLenght * DeltaTime;
             else
                 MyBob.X -= MyBob.SpeedJumpLenght * DeltaTime;
+           
 
-
-
-            
 
             // Id TileMap & Collisions
             int NbCol = MapRead.Width;
@@ -98,16 +101,10 @@ namespace LADDERS
                                 CollidLadder = true;
                                 break;
 
-                                //DrawRectangleLinesEx(TileRecLadder, 2, Color.White);
+                              
                             }
                         }
-                    }
-                    /*else
-                    {
-                        //TileRecEmpty = new Rectangle((Col * MapRead.TileWidth) + 16, Lig * MapRead.TileWidth, 5, MapRead.TileWidth);
-                        CollidLadder = false;
-
-                    }*/
+                    }                   
 
 
                 }
@@ -118,6 +115,12 @@ namespace LADDERS
         }
         public  override void Draw(Bob MyBob)
         {
+            if (!MyBob.IsFlipped)
+                DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
+
+            else
+                DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
+
             base.Draw(MyBob);
         }
     }

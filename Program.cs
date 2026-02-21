@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -18,9 +19,10 @@ namespace LADDERS
         static GamePlay? MyGamePlay = new GamePlay();
         public static int Main()
         {
-            
+            int gameWidth = 1280;
+            int gameHeight = 720;
 
-            InitWindow(1280, 768, "LADDERS");
+            InitWindow(gameWidth, gameHeight, "LADDERS");
             InitAudioDevice();
             SetTargetFPS(60);
             SetExitKey(KeyboardKey.Null);            
@@ -32,15 +34,24 @@ namespace LADDERS
 
             MyGameState.ChangeScene("menu");
 
+            //ToggleFullscreen();
+
             while (!WindowShouldClose() && !MyGameState.QuitMyGame)
             {
-                MyGameState.Update();
-                
+
+                if (IsKeyPressed(KeyboardKey.F11))
+                    ToggleFullscreen();
+
+                if (IsKeyPressed(KeyboardKey.Escape))
+                    MyGameState.ChangeScene("menu");
+
+                MyGameState.Update();   
+
                 BeginDrawing();
 
-                ClearBackground(Color.Brown);
+                ClearBackground(Color.Black);
                 MyGameState.Draw();
-                
+                                              
                 EndDrawing();
             }
            

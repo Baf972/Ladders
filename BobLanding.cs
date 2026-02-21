@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Raylib_cs;
@@ -21,7 +22,7 @@ namespace LADDERS
                 MyBob.StatesTransition(BobStates.Idle);
                 MyBob.SpeedFallDown = 200f;
                 MyBob.SpeedJumpUp = 40f;
-                MyBob.SpeedJumpLenght = 90;
+                MyBob.SpeedJumpLenght = 200f;
             }
             
             base.HandleInput(MyBob);
@@ -32,6 +33,11 @@ namespace LADDERS
         }
         public override void Draw(Bob MyBob)
         {
+            if (!MyBob.IsFlipped)
+                DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
+            else
+                DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth - 40, MyBob.FrameHeight), MyBob.R, Color.White);
+
             base.Draw(MyBob);
         }
     }

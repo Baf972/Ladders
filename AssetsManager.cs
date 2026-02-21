@@ -20,12 +20,11 @@ namespace LADDERS
             {
                 AssetsTextures[filePath] = LoadTexture(filePath);
             }
-                return AssetsTextures[filePath];
+            return AssetsTextures[filePath];
         }
     }
     public class AssetsManager
     {
-        public TextureManager MyTexturesManager;
 
         private static AssetsManager? instance;
         public static AssetsManager Instance
@@ -39,12 +38,17 @@ namespace LADDERS
                 return instance;
             }
         }
+
+        public TextureManager MyTexturesManager;
+
+        public List<Assets> LadderParts;
+
         public void Init()
         {
             MyTexturesManager = new TextureManager();
             InitializedTexture();
         }
-        public AssetsManager() 
+        public AssetsManager()
         {
             Init();
         }
@@ -53,8 +57,13 @@ namespace LADDERS
         {
             var MyTextures = new Dictionary<string, Texture2D>
             {
-                {"tileSet", MyTexturesManager.GetTexture("assets/bobIdle.png") },
+                {"BackGround", MyTexturesManager.GetTexture("assets/BackGround.png") },
+                {"LadderPart1", MyTexturesManager.GetTexture("assets/LadderParts.png") },
+
+
             };
+
+            LadderParts = new List<Assets>();
         }
 
 

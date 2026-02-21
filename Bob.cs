@@ -39,11 +39,14 @@ namespace LADDERS
         public float R { get; set; }
         public float SpeedJumpUp { get; set; }
         public float SpeedFallDown { get; set; }
+        public float SpeedOutScreen { get; set; }
         public float SpeedJumpLenght { get; set; }
         public float SpeedUp { get; set; }
-        public float Velocity { get; set; }
+        public float FallVelocity { get; set; }
+        public float LenghtVelocity { get; set; }
         public bool IsFlipped { get; set; }
         public float Life { get; set; }
+        public float Energy { get; set; }
 
         private static Bob? instance;
         public static Bob Instance
@@ -62,20 +65,23 @@ namespace LADDERS
             BobStatesTextures = new Dictionary<string, Texture2D>();
             MyAssetsManager = AssetsManager.Instance;
             LoadStatesTextures();
-            X = 608;
+            X = 768;
             Y = 480;
             SpeedUp = 0f;
             SpeedJumpUp = 40f;
-            SpeedFallDown = 100f;
-            SpeedJumpLenght = 90f;
-            Velocity = 150f;
+            SpeedFallDown = 200f;
+            SpeedJumpLenght = 200f;
+            SpeedOutScreen = 300f;
+            LenghtVelocity = 100f;
+            FallVelocity = 200f;
             BobSourceRec = new Rectangle(0, 0, 32, 32);
             FrameCount = 0;
             FrameTimer = 30f;
             FrameWidth = 32;
             FrameHeight = 32;            
             CurrentFrame = 0;
-            Life = 100f;
+            Life = 3f;
+            Energy = 100f;
             MyState = new BobIdle(this);
             StatesTransition(BobStates.Idle);
 
@@ -95,6 +101,34 @@ namespace LADDERS
         }
         public void Update()
         {
+
+            if (MapDraw.CameraY <= -2120)
+            {
+                MapDraw.CameraY = -2120;
+                MapDraw.BackGroundPos.Y = - 300;
+
+                //SpeedFallDown = 0;
+                // SpeedJumpLenght = 0;
+                Y += SpeedOutScreen * GetFrameTime();
+
+                if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
+                {
+                    X = 768;
+                    Y = 480;
+                    MapDraw.CameraY = -2110;
+                    MapDraw.BackGroundPos.Y = -300;
+                    Life -= 1;
+                    Energy = 100f;
+                    StatesTransition(BobStates.Idle);
+                    SpeedJumpUp = 40f;
+                    SpeedFallDown = 200f;
+                    SpeedJumpLenght = 200f;
+                    IsFlipped = false;
+                }
+            }
+
+            
+                
             MyState.Update(this);
 
             

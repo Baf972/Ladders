@@ -13,8 +13,8 @@ namespace LADDERS
     {
         Bob MyBob { get; set; }
         MapRead MyMapRead { get; set; }
-        MapDraw MyMapDraw { get; set; }
-        
+        MapDraw MyMapDraw { get; set; }      
+        AssetsDraw MyAssetsDraw { get; set; }
         AssetsManager MyAssetsManager { get; set; }
         public Level1()
         {
@@ -22,6 +22,7 @@ namespace LADDERS
             MyMapRead.LoadDatas("assets/LadderMapLV1.json");
             MyMapDraw = new MapDraw(MyMapRead, "assets/");
             MyAssetsManager = AssetsManager.Instance;
+            MyAssetsDraw = AssetsDraw.Instance;
             MyBob = Bob.Instance;
         }
 
@@ -30,14 +31,16 @@ namespace LADDERS
             MyMapDraw.Update();
             MyBob.HandleInput();
             MyBob.Update();
-            MyMapDraw.Update();
-            
+            MyAssetsDraw.Update();
+
+
 
         }
 
         public void Draw()
         {
             MyMapDraw.Draw();
+            MyAssetsDraw.Draw();
             MyBob.Draw();
         }
 

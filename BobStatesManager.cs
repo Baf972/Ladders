@@ -14,6 +14,7 @@ namespace LADDERS
     public abstract class BobStatesManager
     {
         protected MapRead MyMapRead;
+        protected AssetsManager MyAssetsManager;
         public bool Isflipped;
         public int CurrentFrame;
         public int FrameCount;
@@ -23,21 +24,27 @@ namespace LADDERS
         public bool StopClimbing;
         protected bool BreakLoop;
         protected bool CollidLadder;
+        protected bool NoTile;
+        protected bool BreakLadder;
         protected float DeltaTime;        
         protected float OldX;
         protected float OldY;
         protected int ScreenWidth = GetScreenWidth();
         protected int ScreenHeight = GetScreenHeight();
         protected float LadderTimer;
+        protected float FallingTimer;
 
 
         public BobStatesManager(Bob MyBob) 
         {
+            MyAssetsManager = AssetsManager.Instance;
             MyMapRead = new MapRead();
             DeltaTime = GetFrameTime();
             StopClimbing = false;
             BreakLoop = false;
             LadderTimer = 2;
+            FallingTimer = 2;
+            
         }
 
         public virtual void HandleInput(Bob MyBob)
@@ -91,7 +98,7 @@ namespace LADDERS
             }
             else
             {
-                MyBob.FrameTimer -= 118 * GetFrameTime();
+                MyBob.FrameTimer -= 145 * GetFrameTime();
                 if (MyBob.FrameTimer <= 0)
                 {
                     MyBob.CurrentFrame++;
@@ -116,49 +123,7 @@ namespace LADDERS
 
         public virtual void Draw(Bob MyBob)
         {
-            MyBob.BobState = MyBob.GetCurrentState();
-
-            switch (MyBob.BobState)
-            {
-                case BobStates.Idle:
-
-                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-                    break;
-
-                case BobStates.Climbing:
-
-                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-                    break;
-
-                case BobStates.Jumping:
-
-                    if (!MyBob.IsFlipped)
-                        DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-
-                    else
-                        DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-
-                    break;
-
-                case BobStates.Falling:
-
-                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-                    break;
-
-                case BobStates.RunningUp:
-                    if (!MyBob.IsFlipped)
-                        DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth / 2, MyBob.FrameHeight), MyBob.R, Color.White);
-                    else
-                        DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth , MyBob.FrameHeight), MyBob.R, Color.White);
-                    break;
-
-                case BobStates.Landing:
-                    if (!MyBob.IsFlipped)
-                        DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-                    else
-                        DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth -40 , MyBob.FrameHeight), MyBob.R, Color.White);
-                    break;
-            }
+           
 
             //MyBob.BobRec = new Rectangle(MyBob.X + 2, MyBob.Y - MyBob.FrameHeight +10, 5, 20);
 
