@@ -58,6 +58,7 @@ namespace LADDERS
             var MyTextures = new Dictionary<string, Texture2D>
             {
                 {"BackGround", MyTexturesManager.GetTexture("assets/BackGround.png") },
+                {"BackGround2", MyTexturesManager.GetTexture("assets/BackGround2.png") },
                 {"LadderPart1", MyTexturesManager.GetTexture("assets/LadderParts.png") },
 
 

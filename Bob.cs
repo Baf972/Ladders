@@ -13,6 +13,7 @@ namespace LADDERS
     {
         Idle,
         Climbing,
+        ClimbingDown,
         Jumping,
         Falling,
         RunningUp,
@@ -41,7 +42,7 @@ namespace LADDERS
         public float SpeedFallDown { get; set; }
         public float SpeedOutScreen { get; set; }
         public float SpeedJumpLenght { get; set; }
-        public float SpeedUp { get; set; }
+        public float SpeedClimb { get; set; }
         public float FallVelocity { get; set; }
         public float LenghtVelocity { get; set; }
         public bool IsFlipped { get; set; }
@@ -67,7 +68,7 @@ namespace LADDERS
             LoadStatesTextures();
             X = 768;
             Y = 480;
-            SpeedUp = 0f;
+            SpeedClimb = 0f;
             SpeedJumpUp = 40f;
             SpeedFallDown = 200f;
             SpeedJumpLenght = 200f;
@@ -105,7 +106,7 @@ namespace LADDERS
             if (MapDraw.CameraY <= -2120)
             {
                 MapDraw.CameraY = -2120;
-                MapDraw.BackGroundPos.Y = - 300;
+                MapDraw.BackGroundPos.Y = 10;
 
                 //SpeedFallDown = 0;
                 // SpeedJumpLenght = 0;
@@ -116,7 +117,7 @@ namespace LADDERS
                     X = 768;
                     Y = 480;
                     MapDraw.CameraY = -2110;
-                    MapDraw.BackGroundPos.Y = -300;
+                    MapDraw.BackGroundPos.Y = 0;
                     Life -= 1;
                     Energy = 100f;
                     StatesTransition(BobStates.Idle);
@@ -163,15 +164,25 @@ namespace LADDERS
                 case BobStates.Idle:
 
                     TileSet = BobStatesTextures["Idle"];
-                    FrameWidth = TileSet.Width / 4;
+                    FrameWidth = TileSet.Width / 8;
                     FrameHeight = TileSet.Height;
-                    NewFrameTimer = 20f;
-                    FrameCount = 4;
+                    NewFrameTimer = 15f;
+                    FrameCount = 8;
                     
 
                     break;
 
                 case BobStates.Climbing:
+
+                    TileSet = BobStatesTextures["Climbing"];
+                    FrameWidth = TileSet.Width / 8;
+                    FrameHeight = TileSet.Height;
+                    NewFrameTimer = 15f;
+                    FrameCount = 8;
+
+                    break;
+
+                case BobStates.ClimbingDown:
 
                     TileSet = BobStatesTextures["Climbing"];
                     FrameWidth = TileSet.Width / 8;
@@ -228,6 +239,7 @@ namespace LADDERS
             {
                 BobStates.Idle => new BobIdle(this),
                 BobStates.Climbing => new BobClimbing(this),
+                BobStates.ClimbingDown => new BobClimbingDown(this),
                 BobStates.Jumping => new BobJumping(this),
                 BobStates.Falling => new BobFalling(this),
                 BobStates.RunningUp => new BobRunningUp(this),
@@ -242,6 +254,7 @@ namespace LADDERS
             { 
                 BobIdle _=> BobStates.Idle,
                 BobClimbing _ => BobStates.Climbing,
+                BobClimbingDown _ => BobStates.ClimbingDown,
                 BobJumping _ => BobStates.Jumping,
                 BobFalling _ => BobStates.Falling,
                 BobRunningUp _ => BobStates.RunningUp,

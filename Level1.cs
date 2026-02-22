@@ -32,6 +32,9 @@ namespace LADDERS
             MyBob.HandleInput();
             MyBob.Update();
             MyAssetsDraw.Update();
+            if (IsKeyDown(KeyboardKey.G))
+                MapDraw.CameraY += 30;
+
 
 
 

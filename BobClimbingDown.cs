@@ -4,16 +4,14 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
 namespace LADDERS
 {
-    public class BobIdle : BobStatesManager
+    public class BobClimbingDown : BobStatesManager
     {
-
-        public BobIdle (Bob MyBob) : base(MyBob)
+        public BobClimbingDown (Bob MyBob) : base(MyBob)
         {
         }
         public override void HandleInput(Bob MyBob)
@@ -21,62 +19,55 @@ namespace LADDERS
 
             if (IsKeyDown(KeyboardKey.Up))
             {
-                MyBob.StatesTransition(BobStates.Climbing);
-                IsIdle = false;
+                MyBob.SpeedClimb = 50 * GetFrameTime();
+                MapDraw.CameraY += MyBob.SpeedClimb;
             }
-
             if (IsKeyDown(KeyboardKey.Down))
             {
-                MyBob.StatesTransition(BobStates.ClimbingDown);
-                IsIdle = false;
-
+                MyBob.SpeedClimb = 40 * GetFrameTime();
+                MapDraw.CameraY -= MyBob.SpeedClimb;
+            }
+            if (IsKeyReleased(KeyboardKey.Down))
+            {
+                MyBob.SpeedClimb = 0f;
+                MyBob.StatesTransition(BobStates.Idle);
+            }
+            if (IsKeyReleased(KeyboardKey.Up))
+            {
+                MyBob.SpeedClimb = 0f;
+                MyBob.StatesTransition(BobStates.Idle);
             }
 
             if (IsKeyDown(KeyboardKey.Left))
             {
                 MyBob.StatesTransition(BobStates.RunningUp);
                 MyBob.IsFlipped = false;
-                IsIdle = false;
-
             }
             else if (IsKeyDown(KeyboardKey.Right))
             {
                 MyBob.StatesTransition(BobStates.RunningUp);
                 MyBob.IsFlipped = true;
-                IsIdle = false;
             }
+
+
 
             base.HandleInput(MyBob);
         }
+
         public override void Update(Bob MyBob)
         {
-            IsIdle = true;
-
+            AnimReverse = true;
 
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
-
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);
             int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);
-            
-            // Supprime Tile echelle en bois
-            int ModifiableTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
-            if (ModifiableTileId != 1312 && ModifiableTileId != 0)
-            {
-                LadderTimer -= DeltaTime;
-                if (LadderTimer <= 0)
-                {
-                    MyMapRead.ModifyTile(tileCol - 1, tileLig - 1, "Ladders", 0);
-                    LadderTimer = 2;
-                }
-                
-            }
-             
-            // Si plus d'échelle, Bob tombe
-            int DeleteTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
-            if (DeleteTileId == 0)
-                MyBob.StatesTransition(BobStates.Falling);
 
-           
+            // Si Pas d'échelle au dessous, Bob s'arrête
+            int NoTileId = MyMapRead.GetTileId(tileCol - 1, tileLig, "Ladders");
+            if (NoTileId == 0)
+                MyBob.StatesTransition(BobStates.Idle);            
+
+
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)

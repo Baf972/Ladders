@@ -28,8 +28,8 @@ namespace LADDERS
         public bool AssetActive { get; set; }
         public bool AssetAnimated { get; set; }
         public string? AssetName { get; set; }
-        public Random PartRotation { get; set; }
-        public Random PartSpeed { get; set; } 
+
+        public static Random? MyRandom;
 
 
 
@@ -46,9 +46,8 @@ namespace LADDERS
             AssetNewFrameTimer = assetNewFrameTimer;
             AssetIsFlipped = assetIsFlipped;
             AssetActive = assetActive;
-            AssetAnimated = assetAnimated;
-            PartRotation = new Random();
-            PartSpeed = new Random();
+            AssetAnimated = assetAnimated;            
+            MyRandom = new Random();
         }
 
     }

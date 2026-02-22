@@ -42,7 +42,6 @@ namespace LADDERS
             {
                 //MyBob.Y -= MyBob.SpeedJumpUp * DeltaTime;
                 MapDraw.CameraY += MyBob.SpeedJumpUp * DeltaTime;
-                MapDraw.BackGroundPos.Y -= (MyBob.SpeedJumpUp / 3) * DeltaTime;
             }
 
             else if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
@@ -50,7 +49,6 @@ namespace LADDERS
                 
                 MyBob.SpeedFallDown += MyBob.FallVelocity * DeltaTime;
                 MapDraw.CameraY -= MyBob.SpeedFallDown * DeltaTime;
-                MapDraw.BackGroundPos.Y -= (MyBob.SpeedFallDown / 3) * DeltaTime;
 
             }
 

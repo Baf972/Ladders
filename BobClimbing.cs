@@ -18,21 +18,28 @@ namespace LADDERS
         public override void HandleInput(Bob MyBob)
         {
 
-            if (IsKeyDown(KeyboardKey.Space))
+            if (IsKeyDown(KeyboardKey.Up))
             {
-                MyBob.SpeedUp = 50 * GetFrameTime();
-                MapDraw.CameraY += MyBob.SpeedUp;
+                MyBob.SpeedClimb = 50 * GetFrameTime();
+                MapDraw.CameraY += MyBob.SpeedClimb;
             }
             if (IsKeyDown(KeyboardKey.Down))
             {
-                MyBob.SpeedUp = 40 * GetFrameTime();
-                MapDraw.CameraY += MyBob.SpeedUp;
-                MapDraw.BackGroundPos.Y += MyBob.SpeedUp / 3;
+                MyBob.StatesTransition(BobStates.ClimbingDown); 
+                MapDraw.CameraY -= MyBob.SpeedClimb;                
             }
-            if (IsKeyReleased(KeyboardKey.Space))
+
+            if (IsKeyReleased(KeyboardKey.Up))
             {
-                MyBob.SpeedUp = 0f;
+                MyBob.SpeedClimb = 0f;
                 MyBob.StatesTransition(BobStates.Idle);
+                MyBob.CurrentFrame = 0;
+            }
+            if (IsKeyReleased(KeyboardKey.Down))
+            {
+                MyBob.SpeedClimb = 0f;
+                MyBob.StatesTransition(BobStates.Idle);
+                MyBob.CurrentFrame = 0;
             }
 
             if (IsKeyDown(KeyboardKey.Left) )
@@ -74,40 +81,28 @@ namespace LADDERS
             if (BreakLadder)
             {
                 Assets LadderPart1 = new Assets("Rung1", MyAssetsManager.MyTexturesManager.GetTexture("assets/Rung1.png"), (int)MyBob.X + 20, (int)MyBob.Y, 0, 0, 1, 1, false, false, false);
-                LadderPart1.PartRotation = new Random();
-                LadderPart1.AssetR = LadderPart1.PartRotation.Next(-50, +50);
-                LadderPart1.PartSpeed = new Random();
-                LadderPart1.AssetSpeed = LadderPart1.PartSpeed.Next(120, 180);
+                LadderPart1.AssetR = Assets.MyRandom.Next(-50, +50);
+                LadderPart1.AssetSpeed = Assets.MyRandom.Next(120, 180);
 
                 Assets LadderPart2 = new Assets("Rung2", MyAssetsManager.MyTexturesManager.GetTexture("assets/Rung2.png"), (int)MyBob.X - 30, (int)MyBob.Y, 0, 0, 1, 1, false, false, false);
-                LadderPart2.PartRotation = new Random();
-                LadderPart2.AssetR = LadderPart1.PartRotation.Next(-50, +50);
-                LadderPart2.PartSpeed = new Random();
-                LadderPart2.AssetSpeed = LadderPart1.PartSpeed.Next(120, 180);
+                LadderPart2.AssetR = Assets.MyRandom.Next(-50, +50);
+                LadderPart2.AssetSpeed = Assets.MyRandom.Next(120, 180);
 
                 Assets LadderPart3 = new Assets("Rung3", MyAssetsManager.MyTexturesManager.GetTexture("assets/Rung3.png"), (int)MyBob.X + 15, (int)MyBob.Y, 0, 0, 1, 1, false, false, false);
-                LadderPart3.PartRotation = new Random();
-                LadderPart3.AssetR = LadderPart1.PartRotation.Next(-50, +50);
-                LadderPart3.PartSpeed = new Random();
-                LadderPart3.AssetSpeed = LadderPart1.PartSpeed.Next(120, 180);
+                LadderPart3.AssetR = Assets.MyRandom.Next(-50, +50);
+                LadderPart3.AssetSpeed = Assets.MyRandom.Next(120, 180);
 
                 Assets LadderPart4 = new Assets("Rung4", MyAssetsManager.MyTexturesManager.GetTexture("assets/Rung4.png"), (int)MyBob.X - 25, (int)MyBob.Y, 0, 0, 1, 1, false, false, false);
-                LadderPart4.PartRotation = new Random();
-                LadderPart4.AssetR = LadderPart1.PartRotation.Next(-50, +50);
-                LadderPart4.PartSpeed = new Random();
-                LadderPart4.AssetSpeed = LadderPart1.PartSpeed.Next(120, 180);
+                LadderPart4.AssetR = Assets.MyRandom.Next(-50, +50);
+                LadderPart4.AssetSpeed = Assets.MyRandom.Next(120, 180);
 
                 Assets LadderPart5 = new Assets("Stack1", MyAssetsManager.MyTexturesManager.GetTexture("assets/Stack1.png"), (int)MyBob.X + 20, (int)MyBob.Y, 0, 0, 1, 1, false, false, false);
-                LadderPart5.PartRotation = new Random();
-                LadderPart5.AssetR = LadderPart1.PartRotation.Next(-50, +50);
-                LadderPart5.PartSpeed = new Random();
-                LadderPart5.AssetSpeed = LadderPart1.PartSpeed.Next(120, 180);
+                LadderPart5.AssetR = Assets.MyRandom.Next(-50, +50);
+                LadderPart5.AssetSpeed = Assets.MyRandom.Next(120, 180);
 
                 Assets LadderPart6 = new Assets("Stack2", MyAssetsManager.MyTexturesManager.GetTexture("assets/Stack2.png"), (int)MyBob.X - 35, (int)MyBob.Y, 0, 0, 1, 1, false, false, false);
-                LadderPart6.PartRotation = new Random();
-                LadderPart6.AssetR = LadderPart1.PartRotation.Next(-50, +50);
-                LadderPart6.PartSpeed = new Random();
-                LadderPart6.AssetSpeed = LadderPart1.PartSpeed.Next(120, 180);
+                LadderPart6.AssetR = Assets.MyRandom.Next(-50, +50);
+                LadderPart6.AssetSpeed = Assets.MyRandom.Next(120, 180);
 
                 MyAssetsManager.LadderParts.Add(LadderPart1);
                 MyAssetsManager.LadderParts.Add(LadderPart2);

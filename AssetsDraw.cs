@@ -11,6 +11,8 @@ namespace LADDERS
 {
     public class AssetsDraw
     {
+
+        private AssetsManager MyAssetsManager {  get; set; }
         private static AssetsDraw? instance;
         public static AssetsDraw Instance
         {
@@ -27,6 +29,7 @@ namespace LADDERS
         private Random PartSpeed { get; set; } = new Random();
         public AssetsDraw()
         {
+            MyAssetsManager = AssetsManager.Instance;
             // Initialize any necessary resources here
         }
 
@@ -34,14 +37,18 @@ namespace LADDERS
         {
             float DeltaTime = GetFrameTime();
 
-            foreach (Assets part in AssetsManager.Instance.LadderParts)
+            foreach (Assets part in AssetsManager.Instance.LadderParts.ToList())
             {
                 part.AssetCurrentFrame = 1;
+
+                
+                
 
                 part.AssetY += part.AssetSpeed * DeltaTime;
                 part.AssetR += part.AssetR * DeltaTime;
 
-               
+               if (part.AssetY > GetScreenHeight() + part.AssetFrameHeight)
+                    MyAssetsManager.LadderParts.Remove(part);
 
 
                 int frame = part.AssetFrameWidth * part.AssetCurrentFrame;
@@ -57,6 +64,7 @@ namespace LADDERS
             {
                 DrawTexturePro(part.AssetTileSet, part.AssetSourceRec, new Rectangle(part.AssetX, part.AssetY, part.AssetFrameWidth, part.AssetFrameHeight), new Vector2(part.AssetFrameWidth / 2, 0), part.AssetR, Color.White);
             }
+            //DrawText("Parts  " + MyAssetsManager.LadderParts.Count.ToString(), 40, 40, 30, Color.White);
         }   
         public void Close()
         {

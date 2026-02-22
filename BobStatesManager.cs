@@ -26,6 +26,8 @@ namespace LADDERS
         protected bool CollidLadder;
         protected bool NoTile;
         protected bool BreakLadder;
+        protected bool AnimReverse;
+        protected bool IsIdle;
         protected float DeltaTime;        
         protected float OldX;
         protected float OldY;
@@ -33,6 +35,8 @@ namespace LADDERS
         protected int ScreenHeight = GetScreenHeight();
         protected float LadderTimer;
         protected float FallingTimer;
+        protected float LadderPartsTimer;
+        
 
 
         public BobStatesManager(Bob MyBob) 
@@ -42,9 +46,9 @@ namespace LADDERS
             DeltaTime = GetFrameTime();
             StopClimbing = false;
             BreakLoop = false;
-            LadderTimer = 2;
-            FallingTimer = 2;
-            
+            LadderTimer = 2f;
+            FallingTimer = 2f;
+            LadderPartsTimer = 0.1f;
         }
 
         public virtual void HandleInput(Bob MyBob)
@@ -92,6 +96,32 @@ namespace LADDERS
                     if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
                     {
                         MyBob.CurrentFrame = MyBob.FrameCount - 1;
+                    }
+                    MyBob.FrameTimer = MyBob.NewFrameTimer;
+                }
+            }
+            else if (AnimReverse)
+            {
+                MyBob.FrameTimer -= 118 * GetFrameTime();
+                if (MyBob.FrameTimer <= 0)
+                {
+                    MyBob.CurrentFrame--;
+                    if (MyBob.CurrentFrame <= 0)
+                    {
+                        MyBob.CurrentFrame = MyBob.FrameCount;
+                    }
+                    MyBob.FrameTimer = MyBob.NewFrameTimer;
+                }
+            }
+            else if (IsIdle)
+            {
+                MyBob.FrameTimer -= 118 * GetFrameTime();
+                if (MyBob.FrameTimer <= 0)
+                {
+                    MyBob.CurrentFrame++;
+                    if (MyBob.CurrentFrame >= MyBob.FrameCount)
+                    {
+                        MyBob.CurrentFrame = 2;
                     }
                     MyBob.FrameTimer = MyBob.NewFrameTimer;
                 }

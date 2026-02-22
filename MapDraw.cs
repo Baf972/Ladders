@@ -21,6 +21,8 @@ namespace LADDERS
 
         private Texture2D BackGround;
         public static Vector2 BackGroundPos;
+        private Texture2D BackGround2;
+        public static Vector2 BackGround2Pos;
 
         public static  float CameraY;
         private float CameraSpeed = 5f;
@@ -37,10 +39,12 @@ namespace LADDERS
             
             MyBob = Bob.Instance;
             BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround.png");
-            BackGroundPos =  new Vector2(0, -300); 
+            BackGround2 = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");
+            BackGroundPos =  new Vector2(0, 400);
+            BackGround2Pos =  new Vector2(0, -420); 
 
             CameraY = -2110;
-            CameraSpeed = MyBob.SpeedUp;
+            CameraSpeed = MyBob.SpeedClimb;
 
 
             InitRectTilesets();
@@ -134,15 +138,9 @@ namespace LADDERS
         {
             int tileSize = MapRead.TileWidth;
 
-            DrawTexture(BackGround,(int) BackGroundPos.X, (int)(BackGroundPos.Y + (CameraY / 4)), Color.White);
+            DrawTexture(BackGround,(int) BackGroundPos.X, (int)(BackGroundPos.Y + (CameraY /2)), Color.White);
+            DrawTexture(BackGround2,(int) BackGround2Pos.X, (int)(BackGround2Pos.Y + (CameraY)), Color.White);
                 
-            foreach (Layer layer in MapRead.Layers)
-            {
-                if (layer.name == "Fond1")
-                {
-                    DrawLayer(layer, tileSize);
-                }
-            }
             foreach (Layer layer in MapRead.Layers)
             {
                 if (layer.name == "Fond2")
@@ -153,6 +151,34 @@ namespace LADDERS
             foreach (Layer layer in MapRead.Layers)
             {
                 if (layer.name == "Fond3")
+                {
+                    DrawLayer(layer, tileSize);
+                }
+            }
+            foreach (Layer layer in MapRead.Layers)
+            {
+                if (layer.name == "Fond4")
+                {
+                    DrawLayer(layer, tileSize);
+                }
+            }
+            foreach (Layer layer in MapRead.Layers)
+            {
+                if (layer.name == "Fond5")
+                {
+                    DrawLayer(layer, tileSize);
+                }
+            }
+            foreach (Layer layer in MapRead.Layers)
+            {
+                if (layer.name == "Montain")
+                {
+                    DrawLayer(layer, tileSize);
+                }
+            }
+            foreach (Layer layer in MapRead.Layers)
+            {
+                if (layer.name == "Ground")
                 {
                     DrawLayer(layer, tileSize);
                 }
