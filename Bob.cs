@@ -48,6 +48,7 @@ namespace LADDERS
         public bool IsFlipped { get; set; }
         public float Life { get; set; }
         public float Energy { get; set; }
+        public int CollisionRange { get; set; }
 
         private static Bob? instance;
         public static Bob Instance
@@ -67,8 +68,8 @@ namespace LADDERS
             MyAssetsManager = AssetsManager.Instance;
             LoadStatesTextures();
             X = 768;
-            Y = 480;
-            SpeedClimb = 0f;
+            Y = 500;
+            SpeedClimb = 50f;
             SpeedJumpUp = 40f;
             SpeedFallDown = 200f;
             SpeedJumpLenght = 200f;
@@ -84,6 +85,7 @@ namespace LADDERS
             Life = 3f;
             Energy = 100f;
             MyState = new BobIdle(this);
+            CollisionRange = 100;
             StatesTransition(BobStates.Idle);
 
 
@@ -102,31 +104,20 @@ namespace LADDERS
         }
         public void Update()
         {
-
-            if (MapDraw.CameraY <= -2120)
+            
+            if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
             {
-                MapDraw.CameraY = -2120;
-                MapDraw.BackGroundPos.Y = 10;
-
-                //SpeedFallDown = 0;
-                // SpeedJumpLenght = 0;
-                Y += SpeedOutScreen * GetFrameTime();
-
-                if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
-                {
-                    X = 768;
-                    Y = 480;
-                    MapDraw.CameraY = -2110;
-                    MapDraw.BackGroundPos.Y = 0;
-                    Life -= 1;
-                    Energy = 100f;
-                    StatesTransition(BobStates.Idle);
-                    SpeedJumpUp = 40f;
-                    SpeedFallDown = 200f;
-                    SpeedJumpLenght = 200f;
-                    IsFlipped = false;
-                }
+                X = 768;
+                Y = 500;
+                Life -= 1;
+                Energy = 100f;
+                StatesTransition(BobStates.Idle);
+                SpeedJumpUp = 40f;
+                SpeedFallDown = 200f;
+                SpeedJumpLenght = 200f;
+                IsFlipped = false;
             }
+            
 
             
                 
@@ -230,7 +221,13 @@ namespace LADDERS
 
                     break;
                 case BobStates.Falling:
-                    // Transition to Falling state
+                    TileSet = BobStatesTextures["Falling"];
+                    FrameWidth = TileSet.Width / 4;
+                    FrameHeight = TileSet.Height;
+                    NewFrameTimer = 10f;
+                    FrameCount = 4;
+                    NewFrameTimer = 10;
+                    CurrentFrame = 0;
                     break;
             }
 

@@ -77,6 +77,8 @@ namespace LADDERS
                 MyBob.StatesTransition(BobStates.Falling);
 
            
+            
+               
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)

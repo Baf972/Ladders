@@ -34,14 +34,19 @@ namespace LADDERS
             //CollidLadder = false;
             BreakLoop = true;
 
-            
-            
+
+            JumpingTimer -= DeltaTime;
                        
 
             if (MyBob.CurrentFrame < MyBob.FrameCount - 1)
             {
                 //MyBob.Y -= MyBob.SpeedJumpUp * DeltaTime;
                 MapDraw.CameraY += MyBob.SpeedJumpUp * DeltaTime;
+                foreach(Assets gift in MyAssetsManager.Gifts)
+                {
+                    gift.AssetY += MyBob.SpeedJumpUp * DeltaTime;
+                }
+                
             }
 
             else if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
@@ -49,6 +54,11 @@ namespace LADDERS
                 
                 MyBob.SpeedFallDown += MyBob.FallVelocity * DeltaTime;
                 MapDraw.CameraY -= MyBob.SpeedFallDown * DeltaTime;
+
+                foreach (Assets gift in MyAssetsManager.Gifts)
+                {
+                    gift.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+                }
 
             }
 
@@ -97,14 +107,16 @@ namespace LADDERS
                             {
                                 MyBob.X = (Col + 1) * MapRead.TileWidth;
                                 CollidLadder = true;
-                                break;
-
-                              
+                                break;                              
                             }
                         }
-                    }                   
-
-
+                    }        
+                    
+                    if ((MapDraw.CameraY <= -2110 && MyBob.X < 100) || JumpingTimer <= 0)
+                    {
+                        MyBob.StatesTransition(BobStates.Falling);
+                        JumpingTimer = 2f;
+                    }
                 }
             }
            
@@ -119,6 +131,7 @@ namespace LADDERS
             else
                 DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
 
+            //DrawText("JTimer  " + JumpingTimer.ToString(), 40, 40, 30, Color.White);
             base.Draw(MyBob);
         }
     }

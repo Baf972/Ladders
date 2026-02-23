@@ -16,6 +16,7 @@ namespace LADDERS
         MapDraw MyMapDraw { get; set; }      
         AssetsDraw MyAssetsDraw { get; set; }
         AssetsManager MyAssetsManager { get; set; }
+        AssetsUpdate MyAssetsUpdate { get; set; }
         public Level1()
         {
             MyMapRead = new MapRead();
@@ -24,6 +25,9 @@ namespace LADDERS
             MyAssetsManager = AssetsManager.Instance;
             MyAssetsDraw = AssetsDraw.Instance;
             MyBob = Bob.Instance;
+            MyAssetsUpdate = AssetsUpdate.Instance;
+
+
         }
 
         public void Update()
@@ -32,6 +36,7 @@ namespace LADDERS
             MyBob.HandleInput();
             MyBob.Update();
             MyAssetsDraw.Update();
+            MyAssetsUpdate.Update();
             if (IsKeyDown(KeyboardKey.G))
                 MapDraw.CameraY += 30;
 
@@ -44,6 +49,9 @@ namespace LADDERS
         {
             MyMapDraw.Draw();
             MyAssetsDraw.Draw();
+            MyAssetsUpdate.Draw();
+
+
             MyBob.Draw();
         }
 
@@ -52,6 +60,6 @@ namespace LADDERS
             MyMapRead.Close();
         }
 
-
+        
     }
 }

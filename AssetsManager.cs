@@ -40,8 +40,8 @@ namespace LADDERS
         }
 
         public TextureManager MyTexturesManager;
-
         public List<Assets> LadderParts;
+        public List<Assets> Gifts;
 
         public void Init()
         {
@@ -60,12 +60,17 @@ namespace LADDERS
                 {"BackGround", MyTexturesManager.GetTexture("assets/BackGround.png") },
                 {"BackGround2", MyTexturesManager.GetTexture("assets/BackGround2.png") },
                 {"LadderPart1", MyTexturesManager.GetTexture("assets/LadderParts.png") },
+                {"Gift", MyTexturesManager.GetTexture("assets/Gift.png")},
+                {"GiftExplo", MyTexturesManager.GetTexture("assets/GiftExplo.png")},
 
 
             };
 
             LadderParts = new List<Assets>();
+            Gifts = new List<Assets>();
         }
+
+        
 
 
     }

@@ -35,6 +35,7 @@ namespace LADDERS
         protected int ScreenHeight = GetScreenHeight();
         protected float LadderTimer;
         protected float FallingTimer;
+        protected float JumpingTimer; // Durée du Saut
         protected float LadderPartsTimer;
         
 
@@ -49,6 +50,7 @@ namespace LADDERS
             LadderTimer = 2f;
             FallingTimer = 2f;
             LadderPartsTimer = 0.1f;
+            JumpingTimer = 2f;
         }
 
         public virtual void HandleInput(Bob MyBob)
@@ -153,8 +155,8 @@ namespace LADDERS
 
         public virtual void Draw(Bob MyBob)
         {
-           
 
+            //DrawText("ListGifts  " + MyAssetsManager.Gifts.Count.ToString(), 40, 40, 30, Color.White);
             //MyBob.BobRec = new Rectangle(MyBob.X + 2, MyBob.Y - MyBob.FrameHeight +10, 5, 20);
 
             //DrawRectangleLinesEx(MyBob.BobRec, 2, Color.White);

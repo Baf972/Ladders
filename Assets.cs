@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Raylib_cs;
+using static Raylib_cs.Raylib;
 
 namespace LADDERS
 {
     public class Assets
     {
+             
+        private AssetsManager MyAssetsManager {  get; set; }
+        private Bob MyBob {  get; set; }
         public Texture2D AssetTileSet { get; set; }
         public Rectangle AssetSourceRec { get; set; }
+        public Rectangle AssetRec { get; set; }
         public float AssetX { get; set; }
         public float AssetY { get; set; }
         public float AssetR { get; set; }
@@ -35,6 +41,8 @@ namespace LADDERS
 
         public Assets(string name, Texture2D assetTileSet, int assetX, int assetY, int assetR, int assetSpeed, int assetFrameCount, int assetNewFrameTimer, bool assetActive, bool assetAnimated, bool assetIsFlipped)
         {
+            MyBob = Bob.Instance;
+            MyAssetsManager = AssetsManager.Instance;
             AssetName = name;
             AssetTileSet = assetTileSet;
             AssetX = assetX;
@@ -48,7 +56,10 @@ namespace LADDERS
             AssetActive = assetActive;
             AssetAnimated = assetAnimated;            
             MyRandom = new Random();
+            AssetRec = new Rectangle(AssetX, AssetY, AssetFrameWidth, AssetFrameHeight);
         }
+
+       
 
     }
 }

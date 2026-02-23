@@ -43,13 +43,15 @@ namespace LADDERS
             BackGroundPos =  new Vector2(0, 400);
             BackGround2Pos =  new Vector2(0, -420); 
 
-            CameraY = -2110;
-            CameraSpeed = MyBob.SpeedClimb;
+            CameraY = -2160;
+            //CameraSpeed = MyBob.SpeedClimb;
 
 
             InitRectTilesets();
             LoadTextTilesets(assetsPath);
             AssoTilesTilesets();
+
+            DeliverGifts();
         }
 
         private void InitRectTilesets()
@@ -98,6 +100,8 @@ namespace LADDERS
         {
                        
             
+
+             
 
         }
 
@@ -213,6 +217,30 @@ namespace LADDERS
 
         }
 
+        public void DeliverGifts()
+        {
+            int NbCol = MapRead.Width;
+            int NbLig = MapRead.Height;
 
+            int TileWidth = 32;
+            int TileHeight = 32;
+
+            for (int Col = 0; Col < NbCol; Col++)
+            {
+                for (int Lig = 0; Lig < NbLig; Lig++)
+                {                    
+                    int TileId = MyMapRead.GetTileId(Col, Lig, "Gifts");
+                    if (TileId == 1387)
+                    {
+                        float x = (Col * TileWidth) + 16;
+                        float y = (Lig * TileHeight) + CameraY;
+
+                        Assets myGift = new Assets("Gift", MyAssetsManager.MyTexturesManager.GetTexture("assets/Gift.png"), (int)x , (int)y, 0, 0, 22, 10, false, false, false);
+                        MyAssetsManager.Gifts.Add(myGift);
+                    }
+                }
+            }
+            
+        }
     }
 }

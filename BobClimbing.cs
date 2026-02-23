@@ -20,25 +20,39 @@ namespace LADDERS
 
             if (IsKeyDown(KeyboardKey.Up))
             {
-                MyBob.SpeedClimb = 50 * GetFrameTime();
-                MapDraw.CameraY += MyBob.SpeedClimb;
+                if (MyBob.Y > 480)
+                    MyBob.Y -= 50 * GetFrameTime();
+
+                if (MyBob.Y < 480)
+                    {
+                        MyBob.SpeedClimb = 50 * GetFrameTime();
+                        MapDraw.CameraY += MyBob.SpeedClimb;
+                    foreach (Assets gift in MyAssetsManager.Gifts)
+                    {
+                        gift.AssetY += MyBob.SpeedClimb; 
+                    }
+
+                }
+
             }
             if (IsKeyDown(KeyboardKey.Down))
             {
-                MyBob.StatesTransition(BobStates.ClimbingDown); 
-                MapDraw.CameraY -= MyBob.SpeedClimb;                
+                MyBob.StatesTransition(BobStates.ClimbingDown);
+                MyBob.SpeedClimb = 0f;
+                MyBob.CurrentFrame = 0;
             }
 
             if (IsKeyReleased(KeyboardKey.Up))
             {
-                MyBob.SpeedClimb = 0f;
                 MyBob.StatesTransition(BobStates.Idle);
+                MyBob.SpeedClimb = 0f;
                 MyBob.CurrentFrame = 0;
             }
             if (IsKeyReleased(KeyboardKey.Down))
             {
-                MyBob.SpeedClimb = 0f;
+               
                 MyBob.StatesTransition(BobStates.Idle);
+                MyBob.SpeedClimb = 0f;
                 MyBob.CurrentFrame = 0;
             }
 
