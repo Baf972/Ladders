@@ -46,7 +46,11 @@ namespace LADDERS
                 {
                     gift.AssetY += MyBob.SpeedJumpUp * DeltaTime;
                 }
-                
+                foreach (Assets fruit in MyAssetsManager.Fruits)
+                {
+                    fruit.AssetY += MyBob.SpeedJumpUp * DeltaTime;
+                }
+
             }
 
             else if (MyBob.CurrentFrame >= MyBob.FrameCount - 1)
@@ -58,6 +62,10 @@ namespace LADDERS
                 foreach (Assets gift in MyAssetsManager.Gifts)
                 {
                     gift.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+                }
+                foreach (Assets fruit in MyAssetsManager.Fruits)
+                {
+                    fruit.AssetY -= MyBob.SpeedFallDown * DeltaTime;
                 }
 
             }

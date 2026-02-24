@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,12 +12,12 @@ namespace LADDERS
 {
     public class Level1
     {
-        Bob MyBob { get; set; }
-        MapRead MyMapRead { get; set; }
-        MapDraw MyMapDraw { get; set; }      
-        AssetsDraw MyAssetsDraw { get; set; }
-        AssetsManager MyAssetsManager { get; set; }
-        AssetsUpdate MyAssetsUpdate { get; set; }
+        public Bob MyBob { get; set; }
+        public MapRead MyMapRead { get; set; }
+        public MapDraw MyMapDraw { get; set; }
+        public AssetsDraw MyAssetsDraw { get; set; }
+        public AssetsManager MyAssetsManager { get; set; }
+        public AssetsUpdate MyAssetsUpdate { get; set; }
         public Level1()
         {
             MyMapRead = new MapRead();
@@ -50,9 +51,14 @@ namespace LADDERS
             MyMapDraw.Draw();
             MyAssetsDraw.Draw();
             MyAssetsUpdate.Draw();
-
-
             MyBob.Draw();
+
+            // Clouds devant Bob
+            foreach (Assets cloud in MyAssetsManager.Clouds)
+                if (cloud.AssetName == "CloudFrontUp")
+                    DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth * 2, cloud.AssetFrameHeight * 2), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
+                else
+                    DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth, cloud.AssetFrameHeight), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
         }
 
         public void Close()

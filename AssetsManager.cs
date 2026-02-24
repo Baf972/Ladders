@@ -39,9 +39,12 @@ namespace LADDERS
             }
         }
 
-        public TextureManager MyTexturesManager;
         public List<Assets> LadderParts;
         public List<Assets> Gifts;
+        public List<Assets> Fruits;
+        public List<Assets> Clouds;
+        public TextureManager MyTexturesManager;
+
 
         public void Init()
         {
@@ -62,16 +65,26 @@ namespace LADDERS
                 {"LadderPart1", MyTexturesManager.GetTexture("assets/LadderParts.png") },
                 {"Gift", MyTexturesManager.GetTexture("assets/Gift.png")},
                 {"GiftExplo", MyTexturesManager.GetTexture("assets/GiftExplo.png")},
+                {"Fruit", MyTexturesManager.GetTexture("assets/Fruits.png")},
+                {"CloudFrontUpTex", MyTexturesManager.GetTexture("assets/CloudsFrontUp.png")},
+                {"CloudFrontTex", MyTexturesManager.GetTexture("assets/CloudsFront.png")},
 
 
             };
 
             LadderParts = new List<Assets>();
             Gifts = new List<Assets>();
+            Fruits = new List<Assets>();
+            Clouds = new List<Assets>();           
+            
         }
-
-        
-
-
+        public void Unloadtextures()
+        {
+            foreach (var texture in MyTexturesManager.AssetsTextures.Values)
+            {
+                UnloadTexture(texture);
+            }
+            MyTexturesManager.AssetsTextures.Clear();
+        }
     }
 }

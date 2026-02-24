@@ -24,6 +24,7 @@ namespace LADDERS
         private Texture2D BackGround2;
         public static Vector2 BackGround2Pos;
 
+        public static bool CloudsAppear;
         public static  float CameraY;
         private float CameraSpeed = 5f;
 
@@ -41,9 +42,11 @@ namespace LADDERS
             BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround.png");
             BackGround2 = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");
             BackGroundPos =  new Vector2(0, 400);
-            BackGround2Pos =  new Vector2(0, -420); 
+            BackGround2Pos =  new Vector2(0, -370);
 
-            CameraY = -2160;
+            //CameraY = -2160;
+            CameraY = -1050;
+
             //CameraSpeed = MyBob.SpeedClimb;
 
 
@@ -98,10 +101,9 @@ namespace LADDERS
 
         public void Update()
         {
-                       
-            
-
-             
+            // Apparition des Clouds          
+            if (CameraY >= - 1000 && CameraY < -999)
+                CloudsAppear = true;            
 
         }
 
@@ -235,8 +237,22 @@ namespace LADDERS
                         float x = (Col * TileWidth) + 16;
                         float y = (Lig * TileHeight) + CameraY;
 
-                        Assets myGift = new Assets("Gift", MyAssetsManager.MyTexturesManager.GetTexture("assets/Gift.png"), (int)x , (int)y, 0, 0, 22, 10, false, false, false);
+                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
+
+                        Assets myGift = new Assets("Gift", MyAssetsManager.MyTexturesManager.GetTexture("assets/Gift.png"), (int)x , (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
                         MyAssetsManager.Gifts.Add(myGift);
+                    }
+
+                    int TileIdFruits = MyMapRead.GetTileId(Col, Lig, "Energy");
+                    if (TileIdFruits == 1388)
+                    {
+                        float x = (Col * TileWidth) + 16;
+                        float y = (Lig * TileHeight) + CameraY;
+
+                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
+
+                        Assets myFruit = new Assets("Fruit", MyAssetsManager.MyTexturesManager.GetTexture("assets/Fruits.png"), (int)x, (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
+                        MyAssetsManager.Fruits.Add(myFruit);
                     }
                 }
             }

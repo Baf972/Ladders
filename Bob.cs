@@ -67,7 +67,9 @@ namespace LADDERS
             BobStatesTextures = new Dictionary<string, Texture2D>();
             MyAssetsManager = AssetsManager.Instance;
             LoadStatesTextures();
-            X = 768;
+            //
+            //X = 768;
+            X = 480;
             Y = 500;
             SpeedClimb = 50f;
             SpeedJumpUp = 40f;

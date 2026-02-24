@@ -28,16 +28,20 @@ namespace LADDERS
         }
         private Random PartRotation { get; set; } = new Random();
         private Random PartSpeed { get; set; } = new Random();
+        
         public AssetsDraw()
         {
             MyAssetsManager = AssetsManager.Instance;
             MyBob = Bob.Instance;
             // Initialize any necessary resources here
+                      
+            
         }
 
         public void Update()
         {
             float DeltaTime = GetFrameTime();
+            
             
 
 
@@ -56,12 +60,7 @@ namespace LADDERS
             }
 
             foreach (Assets gift in MyAssetsManager.Gifts.ToList())
-            {
-                
-                if (gift.AssetName == "GiftExplo")
-                {
-
-                }
+            {                                
                 gift.AssetFrameTimer -= 100* DeltaTime;
                 if (gift.AssetFrameTimer <= 0)
                 {
@@ -78,8 +77,36 @@ namespace LADDERS
                 }
                 int frame = gift.AssetFrameWidth * gift.AssetCurrentFrame;
                 gift.AssetSourceRec = new Rectangle(frame, 0, gift.AssetFrameWidth, gift.AssetFrameHeight);
-            }          
+            }
+
+            foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
+            {
+                fruit.AssetFrameTimer -= 100 * DeltaTime;
+                if (fruit.AssetFrameTimer <= 0)
+                {
+                    fruit.AssetCurrentFrame++;
+                    if (fruit.AssetCurrentFrame >= fruit.AssetFrameCount)
+                    {
+                       /* if (fruit.AssetName == "GiftExplo")
+                            MyAssetsManager.Gifts.Remove(fruit);
+                        else*/
+                            fruit.AssetCurrentFrame = 0;
+
+                    }
+                    fruit.AssetFrameTimer = fruit.AssetNewFrameTimer;
+                }
+                int frame = fruit.AssetFrameWidth * fruit.AssetCurrentFrame;
+                fruit.AssetSourceRec = new Rectangle(frame, 0, fruit.AssetFrameWidth, fruit.AssetFrameHeight);
+            }
+
+            foreach (Assets cloud in MyAssetsManager.Clouds)
+            {                
+                cloud.AssetCurrentFrame = 1;                    
+                int frame = cloud.AssetFrameWidth * cloud.AssetCurrentFrame;
+                cloud.AssetSourceRec = new Rectangle(frame, 0, cloud.AssetFrameWidth, cloud.AssetFrameHeight);
+            }
         }
+
 
         public void Draw()
         {
@@ -89,11 +116,18 @@ namespace LADDERS
             foreach (Assets gift in MyAssetsManager.Gifts)
                 DrawTexturePro(gift.AssetTileSet, gift.AssetSourceRec, new Rectangle(gift.AssetX, gift.AssetY - 64, gift.AssetFrameWidth, gift.AssetFrameHeight), new Vector2(gift.AssetFrameWidth / 2, 0), 0, Color.White);
 
-            //DrawText("Parts  " + MyAssetsManager.LadderParts.Count.ToString(), 40, 40, 30, Color.White);
+            foreach (Assets fruit in MyAssetsManager.Fruits)
+                DrawTexturePro(fruit.AssetTileSet, fruit.AssetSourceRec, new Rectangle(fruit.AssetX, fruit.AssetY - 64, fruit.AssetFrameWidth, fruit.AssetFrameHeight), new Vector2(fruit.AssetFrameWidth / 2, 0), 0, Color.White);
+
+            
+
+
+            DrawText(MapDraw.CameraY.ToString(), 10, 10, 20, Color.White);
+            DrawText("List Clouds    " + MyAssetsManager.Clouds.Count.ToString(), 10, 30, 20, Color.White);
         }
         public void Close()
         {
-            // Clean up any resources if necessary
+            
         }
     }
 }

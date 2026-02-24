@@ -22,7 +22,11 @@ namespace LADDERS
         {
 
             BreakLoop = true;
-
+            if (MapDraw.CameraY > -1000)
+            {
+                foreach (Assets cloud in MyAssetsManager.Clouds)
+                    cloud.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+            }
             // Bob Tombe, camera suit
             if (MapDraw.CameraY > -2160)
             {
@@ -31,6 +35,10 @@ namespace LADDERS
                 foreach (Assets gift in MyAssetsManager.Gifts)
                 {
                     gift.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+                }
+                foreach (Assets fruit in MyAssetsManager.Fruits)
+                {
+                    fruit.AssetY -= MyBob.SpeedFallDown * DeltaTime;
                 }
 
                 float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);

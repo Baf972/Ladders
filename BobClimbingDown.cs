@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Raylib_cs;
@@ -31,11 +32,20 @@ namespace LADDERS
                 {
                     MyBob.SpeedClimb = 50 * GetFrameTime();
                     MapDraw.CameraY -= MyBob.SpeedClimb;
+
                     foreach (Assets gift in MyAssetsManager.Gifts)
-                    {
                         gift.AssetY -= MyBob.SpeedClimb;
-                    }
+
+                    foreach (Assets fruit in MyAssetsManager.Fruits)
+                        fruit.AssetY -= MyBob.SpeedClimb;
                 }
+
+                if (MapDraw.CameraY > - 1000)
+                {
+                    foreach (Assets cloud in MyAssetsManager.Clouds)
+                        cloud.AssetY -= MyBob.SpeedClimb;
+                }
+                    
             }
             if (IsKeyReleased(KeyboardKey.Down))
             {                

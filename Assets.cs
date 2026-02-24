@@ -35,7 +35,7 @@ namespace LADDERS
         public bool AssetAnimated { get; set; }
         public string? AssetName { get; set; }
 
-        public static Random? MyRandom;
+        public static Random MyRandom { get; } = new Random();
 
 
 
@@ -48,15 +48,16 @@ namespace LADDERS
             AssetX = assetX;
             AssetY = assetY;
             AssetR = assetR;
+            AssetSpeed = assetSpeed;
             AssetFrameCount = assetFrameCount;
             AssetFrameWidth = assetTileSet.Width / assetFrameCount;
             AssetFrameHeight = assetTileSet.Height;
             AssetNewFrameTimer = assetNewFrameTimer;
             AssetIsFlipped = assetIsFlipped;
             AssetActive = assetActive;
-            AssetAnimated = assetAnimated;            
-            MyRandom = new Random();
+            AssetAnimated = assetAnimated;    
             AssetRec = new Rectangle(AssetX, AssetY, AssetFrameWidth, AssetFrameHeight);
+
         }
 
        
