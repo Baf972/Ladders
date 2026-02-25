@@ -20,6 +20,7 @@ namespace LADDERS
         public float AssetX { get; set; }
         public float AssetY { get; set; }
         public float AssetR { get; set; }
+        public float AssetSpeedR { get; set; }
         public int AssetSpeed { get; set; }
         public int AssetWidth { get; set; }
         public int AssetHeight { get; set; }
@@ -39,7 +40,7 @@ namespace LADDERS
 
 
 
-        public Assets(string name, Texture2D assetTileSet, int assetX, int assetY, int assetR, int assetSpeed, int assetFrameCount, int assetNewFrameTimer, bool assetActive, bool assetAnimated, bool assetIsFlipped)
+        public Assets(string name, Texture2D assetTileSet, int assetX, int assetY, int assetSpeedR, int assetSpeed, int assetFrameCount, int assetNewFrameTimer, bool assetActive, bool assetAnimated, bool assetIsFlipped)
         {
             MyBob = Bob.Instance;
             MyAssetsManager = AssetsManager.Instance;
@@ -47,7 +48,7 @@ namespace LADDERS
             AssetTileSet = assetTileSet;
             AssetX = assetX;
             AssetY = assetY;
-            AssetR = assetR;
+            AssetSpeedR = assetSpeedR;
             AssetSpeed = assetSpeed;
             AssetFrameCount = assetFrameCount;
             AssetFrameWidth = assetTileSet.Width / assetFrameCount;

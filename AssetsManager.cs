@@ -43,6 +43,7 @@ namespace LADDERS
         public List<Assets> Gifts;
         public List<Assets> Fruits;
         public List<Assets> Clouds;
+        public List<Assets> Rocks;
         public TextureManager MyTexturesManager;
 
 
@@ -60,14 +61,24 @@ namespace LADDERS
         {
             var MyTextures = new Dictionary<string, Texture2D>
             {
-                {"BackGround", MyTexturesManager.GetTexture("assets/BackGround.png") },
+
+                {"Idle", MyTexturesManager.GetTexture("assets/bobIdle.png") },
+                { "Climbing", MyTexturesManager.GetTexture("assets/bobClimbing.png")},
+                {"Jumping", MyTexturesManager.GetTexture("assets/bobJumping.png")},
+                { "Falling", MyTexturesManager.GetTexture("assets/bobFalling.png")},
+                { "RunningUp", MyTexturesManager.GetTexture("assets/bobRunningUp.png")},
+                {"Landing", MyTexturesManager.GetTexture("assets/bobLanding.png")},
+                { "BackGround", MyTexturesManager.GetTexture("assets/BackGround.png") },
                 {"BackGround2", MyTexturesManager.GetTexture("assets/BackGround2.png") },
                 {"LadderPart1", MyTexturesManager.GetTexture("assets/LadderParts.png") },
                 {"Gift", MyTexturesManager.GetTexture("assets/Gift.png")},
                 {"GiftExplo", MyTexturesManager.GetTexture("assets/GiftExplo.png")},
                 {"Fruit", MyTexturesManager.GetTexture("assets/Fruits.png")},
-                {"CloudFrontUpTex", MyTexturesManager.GetTexture("assets/CloudsFrontUp.png")},
-                {"CloudFrontTex", MyTexturesManager.GetTexture("assets/CloudsFront.png")},
+                {"CloudFrontUp", MyTexturesManager.GetTexture("assets/CloudsFrontUp.png")},
+                {"CloudFront", MyTexturesManager.GetTexture("assets/CloudsFront.png")},
+                {"RockBig", MyTexturesManager.GetTexture("assets/RockBig.png")},
+                {"RockMedium", MyTexturesManager.GetTexture("assets/RockMedium.png")},
+                {"RockSmall", MyTexturesManager.GetTexture("assets/RockSmall.png")},
 
 
             };
@@ -75,8 +86,9 @@ namespace LADDERS
             LadderParts = new List<Assets>();
             Gifts = new List<Assets>();
             Fruits = new List<Assets>();
-            Clouds = new List<Assets>();           
-            
+            Clouds = new List<Assets>();
+            Rocks = new List<Assets>();
+
         }
         public void Unloadtextures()
         {
@@ -85,6 +97,21 @@ namespace LADDERS
                 UnloadTexture(texture);
             }
             MyTexturesManager.AssetsTextures.Clear();
+        }
+
+        public void UnloadAssets()
+        {
+            Unloadtextures();
+            LadderParts.Clear();
+            Gifts.Clear();
+            Fruits.Clear();
+            Clouds.Clear();
+            Rocks.Clear();
+        }
+
+        public void Close()
+        {
+            UnloadAssets();
         }
     }
 }

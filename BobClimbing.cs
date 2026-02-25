@@ -33,6 +33,9 @@ namespace LADDERS
 
                     foreach (Assets fruit in MyAssetsManager.Fruits)
                         fruit.AssetY += MyBob.SpeedClimb;
+
+                    foreach (Assets rock in MyAssetsManager.Rocks)
+                        rock.AssetY += MyBob.SpeedClimb;
                 }
 
                 if (MapDraw.CameraY > - 1000)

@@ -18,7 +18,14 @@ namespace LADDERS
         public AssetsDraw MyAssetsDraw { get; set; }
         public AssetsManager MyAssetsManager { get; set; }
         public AssetsUpdate MyAssetsUpdate { get; set; }
+        public static bool Respawn { get; set; }
+        public static bool EndGame { get; set; }
         public Level1()
+        {
+            Init();
+        }
+
+        public void Init()
         {
             MyMapRead = new MapRead();
             MyMapRead.LoadDatas("assets/LadderMapLV1.json");
@@ -27,12 +34,19 @@ namespace LADDERS
             MyAssetsDraw = AssetsDraw.Instance;
             MyBob = Bob.Instance;
             MyAssetsUpdate = AssetsUpdate.Instance;
-
-
+            Respawn = false;
         }
-
         public void Update()
         {
+
+            if (Respawn)
+            {
+                TryAgain();
+            }
+            if (EndGame)
+            {
+                Close();
+            }
             MyMapDraw.Update();
             MyBob.HandleInput();
             MyBob.Update();
@@ -61,9 +75,24 @@ namespace LADDERS
                     DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth, cloud.AssetFrameHeight), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
         }
 
+        public void TryAgain()
+        {
+            MyMapDraw.Close();
+            MyMapRead.Close();
+            MyAssetsManager.Close();
+            MyAssetsManager.Init();
+            Init();
+            MyBob.Respawn();
+        }
         public void Close()
         {
+            MyMapDraw.Close();
             MyMapRead.Close();
+            MyAssetsManager.Close();
+            MyBob.Close();
+
+            MyBob.Init();
+            MyAssetsManager.Init();
         }
 
         

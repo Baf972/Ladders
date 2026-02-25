@@ -109,23 +109,16 @@ namespace LADDERS
             
             if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
             {
-                X = 768;
-                Y = 500;
-                Life -= 1;
-                Energy = 100f;
-                StatesTransition(BobStates.Idle);
-                SpeedJumpUp = 40f;
-                SpeedFallDown = 200f;
-                SpeedJumpLenght = 200f;
-                IsFlipped = false;
+                Level1.Respawn = true;
             }
-            
+            else if (Y >= GetScreenHeight() + FrameHeight && Life <= 0)
+            {
+                Level1.EndGame = true;
+            }
 
-            
-                
-            MyState.Update(this);
 
-            
+
+            MyState.Update(this);         
 
 
 
@@ -134,11 +127,34 @@ namespace LADDERS
         {
             MyState.Draw(this);
         }
+
+        public void Respawn()
+        {
+            Life -= 1f;
+            X = 768;
+            Y = 500;
+            SpeedJumpUp = 40f;
+            SpeedFallDown = 200f;
+            SpeedJumpLenght = 200f;
+            IsFlipped = false;
+            MapDraw.CameraY = -2160;
+            MyState = new BobIdle(this);
+            CollisionRange = 100;
+            StatesTransition(BobStates.Idle);
+        }
         public void Close()
         {
-            // Reset Bob's position, state, and other properties to their initial values
+            UnloadBobAnimations();
         }
 
+        public void UnloadBobAnimations()
+        {
+            foreach (var Texture in BobStatesTextures.Values)
+            {
+                UnloadTexture(Texture);
+            }
+            BobStatesTextures.Clear();
+        }
         public void LoadStatesTextures()
         {
             BobStatesTextures["Idle"] = MyAssetsManager.MyTexturesManager.GetTexture("assets/bobIdle.png");

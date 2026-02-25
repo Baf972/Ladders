@@ -42,14 +42,15 @@ namespace LADDERS
             {
                 //MyBob.Y -= MyBob.SpeedJumpUp * DeltaTime;
                 MapDraw.CameraY += MyBob.SpeedJumpUp * DeltaTime;
+
                 foreach(Assets gift in MyAssetsManager.Gifts)
-                {
                     gift.AssetY += MyBob.SpeedJumpUp * DeltaTime;
-                }
+
                 foreach (Assets fruit in MyAssetsManager.Fruits)
-                {
                     fruit.AssetY += MyBob.SpeedJumpUp * DeltaTime;
-                }
+
+                foreach (Assets rock in MyAssetsManager.Rocks)                
+                    rock.AssetY += MyBob.SpeedJumpUp * DeltaTime;
 
             }
 
@@ -60,15 +61,15 @@ namespace LADDERS
                 MapDraw.CameraY -= MyBob.SpeedFallDown * DeltaTime;
 
                 foreach (Assets gift in MyAssetsManager.Gifts)
-                {
                     gift.AssetY -= MyBob.SpeedFallDown * DeltaTime;
-                }
-                foreach (Assets fruit in MyAssetsManager.Fruits)
-                {
-                    fruit.AssetY -= MyBob.SpeedFallDown * DeltaTime;
-                }
 
-            }
+                foreach (Assets fruit in MyAssetsManager.Fruits)
+                    fruit.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+
+                foreach (Assets rock in MyAssetsManager.Rocks)
+                    rock.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+
+                }
 
             // Velocyti & Bob.X 
             MyBob.SpeedJumpLenght -= MyBob.LenghtVelocity * DeltaTime;
@@ -120,14 +121,16 @@ namespace LADDERS
                         }
                     }        
                     
-                    if ((MapDraw.CameraY <= -2110 && MyBob.X < 100) || JumpingTimer <= 0)
-                    {
-                        MyBob.StatesTransition(BobStates.Falling);
-                        JumpingTimer = 2f;
-                    }
+                    
                 }
             }
-           
+
+            if (MapDraw.CameraY <= -2110  || JumpingTimer <= 0)
+            {
+                MyBob.StatesTransition(BobStates.Falling);
+                JumpingTimer = 2f;
+            }
+
 
             base.Update(MyBob);
         }

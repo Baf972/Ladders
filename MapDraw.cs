@@ -175,6 +175,10 @@ namespace LADDERS
                     DrawLayer(layer, tileSize);
                 }
             }
+
+            foreach (Assets rock in MyAssetsManager.Rocks)
+                DrawTexturePro(rock.AssetTileSet, rock.AssetSourceRec, new Rectangle(rock.AssetX, rock.AssetY, rock.AssetFrameWidth, rock.AssetFrameHeight), new Vector2(rock.AssetFrameWidth / 2, rock.AssetFrameHeight / 2), rock.AssetR, Color.White);
+
             foreach (Layer layer in MapRead.Layers)
             {
                 if (layer.name == "Montain")
@@ -216,7 +220,8 @@ namespace LADDERS
         public void Close()
         {
             UnloadDatas();
-
+            UnloadTexture(BackGround);
+            UnloadTexture(BackGround2);
         }
 
         public void DeliverGifts()

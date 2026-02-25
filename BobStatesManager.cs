@@ -161,7 +161,7 @@ namespace LADDERS
 
             //DrawRectangleLinesEx(MyBob.BobRec, 2, Color.White);
 
-            //DrawText("CollidLadder: " + CollidLadder.ToString(), 10, 40, 20, Color.White);
+            DrawText("Life : " + MyBob.Life.ToString(), 10, 40, 20, Color.White);
             //DrawText(MyBob.IsFlipped.ToString(), 10, 10, 20, Color.White);
         }
     };

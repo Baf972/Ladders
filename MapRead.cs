@@ -99,17 +99,7 @@ namespace LADDERS
             return layer.data[index];
 
         }
-        public int GetTileId2(int pCol, int pLig, string layername)
-        {
-            Layer? layer = Layers.Find(layer => layer.name == layername);
-            int index = pCol * Width + pLig;
-            if (layer == null)
-            {
-                throw new KeyNotFoundException($"Layer with name '{layername}' not found.");
-            }
-            return layer.data[index];
-
-        }
+        
 
         // CHANGE TILE ID
         public int ModifyTile(int Col, int Lig, string layerName, int NewId)

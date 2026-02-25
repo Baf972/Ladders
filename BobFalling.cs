@@ -33,13 +33,13 @@ namespace LADDERS
                 MapDraw.CameraY -= MyBob.SpeedFallDown * DeltaTime;
 
                 foreach (Assets gift in MyAssetsManager.Gifts)
-                {
                     gift.AssetY -= MyBob.SpeedFallDown * DeltaTime;
-                }
+
                 foreach (Assets fruit in MyAssetsManager.Fruits)
-                {
                     fruit.AssetY -= MyBob.SpeedFallDown * DeltaTime;
-                }
+
+                foreach (Assets rock in MyAssetsManager.Rocks)
+                    rock.AssetY -= MyBob.SpeedFallDown * DeltaTime;
 
                 float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
                 int tileCol = (int)(MyBob.X / MapRead.TileWidth);

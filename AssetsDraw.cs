@@ -97,6 +97,13 @@ namespace LADDERS
                 }
                 int frame = fruit.AssetFrameWidth * fruit.AssetCurrentFrame;
                 fruit.AssetSourceRec = new Rectangle(frame, 0, fruit.AssetFrameWidth, fruit.AssetFrameHeight);
+            } 
+
+            foreach (Assets rock in MyAssetsManager.Rocks)
+            {
+                rock.AssetCurrentFrame = 1;
+                int frame = rock.AssetFrameWidth * rock.AssetCurrentFrame;
+                rock.AssetSourceRec = new Rectangle(frame, 0, rock.AssetFrameWidth, rock.AssetFrameHeight);
             }
 
             foreach (Assets cloud in MyAssetsManager.Clouds)
@@ -122,8 +129,9 @@ namespace LADDERS
             
 
 
-            DrawText(MapDraw.CameraY.ToString(), 10, 10, 20, Color.White);
-            DrawText("List Clouds    " + MyAssetsManager.Clouds.Count.ToString(), 10, 30, 20, Color.White);
+            //DrawText(MapDraw.CameraY.ToString(), 10, 10, 20, Color.White);
+            //DrawText("List Clouds    " + MyAssetsManager.Clouds.Count.ToString(), 10, 30, 20, Color.White);
+            //DrawText("List Rocks    " + MyAssetsManager.Rocks.Count.ToString(), 10, 30, 20, Color.White);
         }
         public void Close()
         {
