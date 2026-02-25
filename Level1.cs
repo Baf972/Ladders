@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,9 @@ namespace LADDERS
             if (IsKeyDown(KeyboardKey.G))
                 MapDraw.CameraY += 30;
 
+            if (IsKeyPressed(KeyboardKey.R))
+                Retry();
+
 
 
 
@@ -74,15 +78,33 @@ namespace LADDERS
                 else
                     DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth, cloud.AssetFrameHeight), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
         }
+        public void Retry()
+        {
 
+            MyMapDraw.Close();
+            MyMapRead.Close();
+            MyAssetsManager.Close();
+            MyAssetsManager = AssetsManager.Instance;
+            MyMapRead = new MapRead();
+            MyMapRead.LoadDatas("assets/LadderMapLV1.json");
+            MyMapDraw = new MapDraw(MyMapRead, "assets/");
+            MyAssetsDraw = AssetsDraw.Instance;
+            MyAssetsUpdate = AssetsUpdate.Instance;
+            MyBob.Init();
+        }
         public void TryAgain()
         {
             MyMapDraw.Close();
             MyMapRead.Close();
             MyAssetsManager.Close();
-            MyAssetsManager.Init();
-            Init();
+            MyAssetsManager = AssetsManager.Instance;
+            MyMapRead = new MapRead();
+            MyMapRead.LoadDatas("assets/LadderMapLV1.json");
+            MyMapDraw = new MapDraw(MyMapRead, "assets/");
+            MyAssetsDraw = AssetsDraw.Instance;
+            MyAssetsUpdate = AssetsUpdate.Instance;
             MyBob.Respawn();
+            Respawn = false;
         }
         public void Close()
         {

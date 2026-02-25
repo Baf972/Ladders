@@ -44,8 +44,8 @@ namespace LADDERS
             BackGroundPos =  new Vector2(0, 400);
             BackGround2Pos =  new Vector2(0, -370);
 
-            //CameraY = -2160;
-            CameraY = -1050;
+            CameraY = -2160;
+            //ameraY = -1050;
 
             //CameraSpeed = MyBob.SpeedClimb;
 
@@ -53,10 +53,9 @@ namespace LADDERS
             InitRectTilesets();
             LoadTextTilesets(assetsPath);
             AssoTilesTilesets();
-
             DeliverGifts();
         }
-
+        
         private void InitRectTilesets()
         {
             foreach (TileSet tileset in MapRead.TileSets)
@@ -175,24 +174,13 @@ namespace LADDERS
                     DrawLayer(layer, tileSize);
                 }
             }
-
-            foreach (Assets rock in MyAssetsManager.Rocks)
-                DrawTexturePro(rock.AssetTileSet, rock.AssetSourceRec, new Rectangle(rock.AssetX, rock.AssetY, rock.AssetFrameWidth, rock.AssetFrameHeight), new Vector2(rock.AssetFrameWidth / 2, rock.AssetFrameHeight / 2), rock.AssetR, Color.White);
-
             foreach (Layer layer in MapRead.Layers)
             {
                 if (layer.name == "Montain")
                 {
                     DrawLayer(layer, tileSize);
                 }
-            }
-            foreach (Layer layer in MapRead.Layers)
-            {
-                if (layer.name == "Ground")
-                {
-                    DrawLayer(layer, tileSize);
-                }
-            }
+            }            
             foreach (Layer layer in MapRead.Layers)
             {
                 if (layer.name == "Ladders")
@@ -200,6 +188,28 @@ namespace LADDERS
                     DrawLayer(layer, tileSize);
                 }
             }
+
+            foreach (Assets rock in MyAssetsManager.Rocks)
+            {
+               /*if ((rock.AssetName == "RockMedium" || rock.AssetName == "RockSmall") && rock.AssetActiv)
+                    DrawTexturePro(rock.AssetTileSet, rock.AssetSourceRec, new Rectangle(rock.AssetX + 16, rock.AssetY, rock.AssetFrameWidth, rock.AssetFrameHeight), new Vector2(rock.AssetFrameWidth / 2, rock.AssetFrameHeight / 2), rock.AssetR, Color.R);
+                else if ((rock.AssetName == "RockMedium" || rock.AssetName == "RockSmall") && !rock.AssetActiv)
+                    DrawTexturePro(rock.AssetTileSet, rock.AssetSourceRec, new Rectangle(rock.AssetX + 16, rock.AssetY, rock.AssetFrameWidth, rock.AssetFrameHeight), new Vector2(rock.AssetFrameWidth / 2, rock.AssetFrameHeight / 2), rock.AssetR, Color.White);
+                else*/
+                    DrawTexturePro(rock.AssetTileSet, rock.AssetSourceRec, new Rectangle(rock.AssetX + 16, rock.AssetY, rock.AssetFrameWidth, rock.AssetFrameHeight), new Vector2(rock.AssetFrameWidth / 2, rock.AssetFrameHeight / 2), rock.AssetR, Color.White);
+
+            }
+
+
+            foreach (Layer layer in MapRead.Layers)
+            {
+                if (layer.name == "Ground")
+                {
+                    DrawLayer(layer, tileSize);
+                }
+            }
+
+            
         }
 
         public void UnloadDatas()

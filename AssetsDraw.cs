@@ -131,7 +131,7 @@ namespace LADDERS
 
             //DrawText(MapDraw.CameraY.ToString(), 10, 10, 20, Color.White);
             //DrawText("List Clouds    " + MyAssetsManager.Clouds.Count.ToString(), 10, 30, 20, Color.White);
-            //DrawText("List Rocks    " + MyAssetsManager.Rocks.Count.ToString(), 10, 30, 20, Color.White);
+            //DrawText("List Rocks    " + MyAssetsManager.Rocks.Count.ToString(), 10, 60, 20, Color.White);
         }
         public void Close()
         {

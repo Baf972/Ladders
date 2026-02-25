@@ -46,6 +46,7 @@ namespace LADDERS
         public float FallVelocity { get; set; }
         public float LenghtVelocity { get; set; }
         public bool IsFlipped { get; set; }
+        public bool IsHurt { get; set; }
         public float Life { get; set; }
         public float Energy { get; set; }
         public int CollisionRange { get; set; }
@@ -67,9 +68,9 @@ namespace LADDERS
             BobStatesTextures = new Dictionary<string, Texture2D>();
             MyAssetsManager = AssetsManager.Instance;
             LoadStatesTextures();
-            //
-            //X = 768;
-            X = 480;
+            
+            X = 768;
+            //X = 480;
             Y = 500;
             SpeedClimb = 50f;
             SpeedJumpUp = 40f;
@@ -106,15 +107,13 @@ namespace LADDERS
         }
         public void Update()
         {
+
             
             if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
-            {
                 Level1.Respawn = true;
-            }
+
             else if (Y >= GetScreenHeight() + FrameHeight && Life <= 0)
-            {
                 Level1.EndGame = true;
-            }
 
 
 
@@ -130,6 +129,8 @@ namespace LADDERS
 
         public void Respawn()
         {
+            BobStatesTextures = new Dictionary<string, Texture2D>();
+            LoadStatesTextures();
             Life -= 1f;
             X = 768;
             Y = 500;

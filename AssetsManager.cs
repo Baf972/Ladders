@@ -79,6 +79,8 @@ namespace LADDERS
                 {"RockBig", MyTexturesManager.GetTexture("assets/RockBig.png")},
                 {"RockMedium", MyTexturesManager.GetTexture("assets/RockMedium.png")},
                 {"RockSmall", MyTexturesManager.GetTexture("assets/RockSmall.png")},
+                {"RockVerySmall1", MyTexturesManager.GetTexture("assets/RockVerySmall1.png")},
+                {"RockVerySmall2", MyTexturesManager.GetTexture("assets/RockVerySmall2.png")},
 
 
             };

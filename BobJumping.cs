@@ -125,7 +125,7 @@ namespace LADDERS
                 }
             }
 
-            if (MapDraw.CameraY <= -2110  || JumpingTimer <= 0)
+            if (MapDraw.CameraY <= -2120  || JumpingTimer <= 0)
             {
                 MyBob.StatesTransition(BobStates.Falling);
                 JumpingTimer = 2f;
@@ -137,11 +137,23 @@ namespace LADDERS
         public  override void Draw(Bob MyBob)
         {
             if (!MyBob.IsFlipped)
-                DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
-
+            {
+                if (MyBob.IsHurt)
+                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.Red);
+                else
+                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
+            }    
             else
-                DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
+            {
+                if (MyBob.IsHurt)
+                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.Red);
+                else
+                    DrawTexturePro(MyBob.TileSet, MyBob.BobSourceRec, new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y, MyBob.FrameWidth, MyBob.FrameHeight), new Vector2(MyBob.FrameWidth, MyBob.FrameHeight), MyBob.R, Color.White);
+            }
+               
 
+
+            
             //DrawText("JTimer  " + JumpingTimer.ToString(), 40, 40, 30, Color.White);
             base.Draw(MyBob);
         }

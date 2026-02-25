@@ -21,7 +21,9 @@ namespace LADDERS
         public float AssetY { get; set; }
         public float AssetR { get; set; }
         public float AssetSpeedR { get; set; }
-        public int AssetSpeed { get; set; }
+        public float AssetSpeed { get; set; }
+        public float AssetSpeedX { get; set; }
+        public float AssetVelocity { get; set; }
         public int AssetWidth { get; set; }
         public int AssetHeight { get; set; }
         public int AssetFrameWidth { get; set; }
@@ -32,7 +34,7 @@ namespace LADDERS
         public float AssetTimer { get; set; }
         public int AssetNewFrameTimer { get; set; }
         public bool AssetIsFlipped { get; set; }
-        public bool AssetActive { get; set; }
+        public bool AssetActiv { get; set; }
         public bool AssetAnimated { get; set; }
         public string? AssetName { get; set; }
 
@@ -55,9 +57,10 @@ namespace LADDERS
             AssetFrameHeight = assetTileSet.Height;
             AssetNewFrameTimer = assetNewFrameTimer;
             AssetIsFlipped = assetIsFlipped;
-            AssetActive = assetActive;
+            AssetActiv = assetActive;
             AssetAnimated = assetAnimated;    
             AssetRec = new Rectangle(AssetX, AssetY, AssetFrameWidth, AssetFrameHeight);
+            AssetVelocity = 500;
 
         }
 
