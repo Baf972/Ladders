@@ -97,7 +97,27 @@ namespace LADDERS
                 }
                 int frame = fruit.AssetFrameWidth * fruit.AssetCurrentFrame;
                 fruit.AssetSourceRec = new Rectangle(frame, 0, fruit.AssetFrameWidth, fruit.AssetFrameHeight);
-            } 
+            }
+
+            foreach (Assets endurance in MyAssetsManager.Endurance.ToList())
+            {
+                endurance.AssetFrameTimer -= 100 * DeltaTime;
+                if (endurance.AssetFrameTimer <= 0)
+                {
+                    endurance.AssetCurrentFrame++;
+                    if (endurance.AssetCurrentFrame >= endurance.AssetFrameCount)
+                    {
+                        /* if (fruit.AssetName == "GiftExplo")
+                             MyAssetsManager.Gifts.Remove(fruit);
+                         else*/
+                        endurance.AssetCurrentFrame = 0;
+
+                    }
+                    endurance.AssetFrameTimer = endurance.AssetNewFrameTimer;
+                }
+                int frame = endurance.AssetFrameWidth * endurance.AssetCurrentFrame;
+                endurance.AssetSourceRec = new Rectangle(frame, 0, endurance.AssetFrameWidth, endurance.AssetFrameHeight);
+            }
 
             foreach (Assets rock in MyAssetsManager.Rocks)
             {
@@ -126,7 +146,10 @@ namespace LADDERS
             foreach (Assets fruit in MyAssetsManager.Fruits)
                 DrawTexturePro(fruit.AssetTileSet, fruit.AssetSourceRec, new Rectangle(fruit.AssetX, fruit.AssetY - 64, fruit.AssetFrameWidth, fruit.AssetFrameHeight), new Vector2(fruit.AssetFrameWidth / 2, 0), 0, Color.White);
 
-            
+            foreach (Assets endurance in MyAssetsManager.Endurance)
+                DrawTexturePro(endurance.AssetTileSet, endurance.AssetSourceRec, new Rectangle(endurance.AssetX, endurance.AssetY - 64, endurance.AssetFrameWidth, endurance.AssetFrameHeight), new Vector2(endurance.AssetFrameWidth / 2, 0), 0, Color.White);
+
+
 
 
             //DrawText(MapDraw.CameraY.ToString(), 10, 10, 20, Color.White);

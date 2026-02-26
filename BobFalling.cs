@@ -41,6 +41,9 @@ namespace LADDERS
                 foreach (Assets rock in MyAssetsManager.Rocks)
                     rock.AssetY -= MyBob.SpeedFallDown * DeltaTime;
 
+                foreach (Assets endurance in MyAssetsManager.Endurance)
+                    endurance.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+
                 float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
                 int tileCol = (int)(MyBob.X / MapRead.TileWidth);
                 int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);

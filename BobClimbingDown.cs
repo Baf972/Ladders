@@ -21,6 +21,7 @@ namespace LADDERS
             if (IsKeyDown(KeyboardKey.Up))
             {
                 MyBob.StatesTransition(BobStates.Climbing);
+                
             }
             if (IsKeyDown(KeyboardKey.Down))
             {
@@ -41,6 +42,9 @@ namespace LADDERS
 
                     foreach (Assets rock in MyAssetsManager.Rocks)
                         rock.AssetY -= MyBob.SpeedClimb;
+
+                    foreach (Assets endurance in MyAssetsManager.Endurance)
+                        endurance.AssetY -= MyBob.SpeedClimb;
                 }
 
                 if (MapDraw.CameraY > - 1000)
@@ -82,6 +86,8 @@ namespace LADDERS
         public override void Update(Bob MyBob)
         {
             AnimReverse = true;
+
+            MyBob.Energy -= 0.5f * DeltaTime;
 
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);

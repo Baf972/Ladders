@@ -52,7 +52,7 @@ namespace LADDERS
         {
             IsIdle = true;
 
-
+            MyBob.Energy += 0.5f * DeltaTime;
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
 
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);

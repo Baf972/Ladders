@@ -269,6 +269,18 @@ namespace LADDERS
                         Assets myFruit = new Assets("Fruit", MyAssetsManager.MyTexturesManager.GetTexture("assets/Fruits.png"), (int)x, (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
                         MyAssetsManager.Fruits.Add(myFruit);
                     }
+
+                    int TileIdEndurance = MyMapRead.GetTileId(Col, Lig, "Endurance");
+                    if (TileIdEndurance == 9)
+                    {
+                        float x = (Col * TileWidth) + 16;
+                        float y = (Lig * TileHeight) + CameraY;
+
+                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
+
+                        Assets MyEndurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), (int)x, (int)y, 0, 0, 12, FrameTimerRandom, false, false, false);
+                        MyAssetsManager.Endurance.Add(MyEndurance);
+                    }
                 }
             }
             

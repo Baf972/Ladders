@@ -34,7 +34,7 @@ namespace LADDERS
             //CollidLadder = false;
             BreakLoop = true;
 
-
+            MyBob.Energy -= 2f * DeltaTime;
             JumpingTimer -= DeltaTime;
                        
 
@@ -51,6 +51,9 @@ namespace LADDERS
 
                 foreach (Assets rock in MyAssetsManager.Rocks)                
                     rock.AssetY += MyBob.SpeedJumpUp * DeltaTime;
+
+                foreach (Assets endurance in MyAssetsManager.Endurance)
+                    endurance.AssetY += MyBob.SpeedJumpUp * DeltaTime;
 
             }
 
@@ -69,7 +72,10 @@ namespace LADDERS
                 foreach (Assets rock in MyAssetsManager.Rocks)
                     rock.AssetY -= MyBob.SpeedFallDown * DeltaTime;
 
-                }
+                foreach (Assets endurance in MyAssetsManager.Endurance)
+                    endurance.AssetY -= MyBob.SpeedFallDown * DeltaTime;
+
+            }
 
             // Velocyti & Bob.X 
             MyBob.SpeedJumpLenght -= MyBob.LenghtVelocity * DeltaTime;

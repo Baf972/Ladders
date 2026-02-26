@@ -79,7 +79,7 @@ namespace LADDERS
                 BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
 
             else
-                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
+                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth + 5, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth - 10, MyBob.FrameHeight);
 
 
             foreach (Assets gift in MyAssetsManager.Gifts.ToList())
@@ -101,6 +101,7 @@ namespace LADDERS
 
                 if (CheckCollisionRecs(BobRec, fruittrec))
                 {
+                    MyBob.Energy += 15;
                     MyAssetsManager.Fruits.Remove(fruit);
                     //Assets fruitExplo = new Assets("GiftExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/GiftExplo.png"), (int)fruit.AssetX, (int)fruit.AssetY - 20, (int)fruit.AssetR, 0, 17, 5, false, false, false);
                     //MyAssetsManager.Fruits.Add(fruitExplo);
@@ -163,10 +164,12 @@ namespace LADDERS
                     }
                     if (rock.AssetActiv)
                     {
+                        MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
                             rock.AssetSpeedX = 0;
+
                         rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
 
                         if (HurtTimerVerySmall1 <= 0)
@@ -183,11 +186,13 @@ namespace LADDERS
                     Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
                     if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
                     {
+                        
                         rock.AssetActiv = true;
                         MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
+                        MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -208,11 +213,13 @@ namespace LADDERS
                     Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
                     if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
                     {
+                        
                         rock.AssetActiv = true;
                         MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
+                        MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -233,11 +240,13 @@ namespace LADDERS
                     Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
                     if (CheckCollisionRecs(BobRec, rockrec)  && !rock.AssetActiv)
                     {
+                        
                         rock.AssetActiv = true;
                         MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
+                        MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -258,11 +267,13 @@ namespace LADDERS
                     Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth / 2, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
                     if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
                     {
+                       
                         rock.AssetActiv = true;
                         MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
+                        MyBob.Endurance -= 4f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -283,11 +294,13 @@ namespace LADDERS
                     Rectangle rockrec = new Rectangle(rock.AssetX, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
                     if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
                     {
+                        
                         rock.AssetActiv = true;
                         MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
+                        MyBob.Endurance -= 6f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -321,6 +334,15 @@ namespace LADDERS
                     MyAssetsManager.Rocks.Remove(rock);
             }
 
+            foreach (Assets endurance in MyAssetsManager.Endurance.ToList())
+            {
+                Rectangle enduranceRec = new Rectangle(endurance.AssetX - 15, endurance.AssetY - endurance.AssetFrameHeight / 2 + 10, endurance.AssetFrameWidth / 2, endurance.AssetFrameHeight / 2);
+                if (CheckCollisionRecs(BobRec, enduranceRec))
+                {
+                    MyBob.Endurance = 100f;
+                    MyAssetsManager.Endurance.Remove(endurance);
+                }
+            }
 
             // Gestion des Nuages
 
@@ -372,25 +394,26 @@ namespace LADDERS
                   DrawRectangleLinesEx(giftrec, 2, Color.White);
               }*/
 
+            /*DrawRectangleLinesEx(BobRec, 2, Color.White);
 
-             /*foreach (Assets rock in MyAssetsManager.Rocks.ToList())
+            foreach (Assets rock in MyAssetsManager.Rocks.ToList())
              {
-                 if (rock.AssetName == "RockVerySmall2" )
-                 {
-                     Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight , rock.AssetFrameWidth, rock.AssetFrameHeight);
-                     //DrawRectangleLinesEx(BobRec, 2, Color.White);
-                     DrawRectangleLinesEx(rockrec, 2, Color.White);
-                 }
-                 if (rock.AssetName == "RockVerySmall2")
+                if (rock.AssetName == "RockMedium")
+                {
+                    Rectangle rockrec = new Rectangle(rock.AssetX + 5, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth - 10, rock.AssetFrameHeight);
+                    DrawRectangleLinesEx(rockrec, 2, Color.White);
+                }*/
+                 
+                 /*if (rock.AssetName == "RockVerySmall2")
                  {
                      //BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
                       Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
                      //DrawRectangleLinesEx(BobRec, 2, Color.White);
                      DrawRectangleLinesEx(rockrec, 2, Color.White);
-                 }
+                 }*/
 
-            }*/
-             DrawText("MyBobHurt  " + MyBob.IsHurt.ToString(), 40, 80, 30, Color.White) ;
+            }
+             //DrawText("MyBobHurt  " + MyBob.IsHurt.ToString(), 40, 80, 30, Color.White) ;
         }
 
         public void SpawnRocks()
@@ -453,7 +476,7 @@ namespace LADDERS
                         RockVerySmall4.AssetSpeedX = 300;
                         MyAssetsManager.Rocks.Add(RockVerySmall4);
 
-                        RockFallTimer = Assets.MyRandom.Next(1, 3);
+                        RockFallTimer = Assets.MyRandom.Next(1, 6);
                     }
 
                     

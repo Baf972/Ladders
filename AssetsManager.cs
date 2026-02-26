@@ -44,6 +44,8 @@ namespace LADDERS
         public List<Assets> Fruits;
         public List<Assets> Clouds;
         public List<Assets> Rocks;
+        public List<Assets> IconesMenu;
+        public List<Assets> Endurance;
         public TextureManager MyTexturesManager;
 
 
@@ -81,6 +83,8 @@ namespace LADDERS
                 {"RockSmall", MyTexturesManager.GetTexture("assets/RockSmall.png")},
                 {"RockVerySmall1", MyTexturesManager.GetTexture("assets/RockVerySmall1.png")},
                 {"RockVerySmall2", MyTexturesManager.GetTexture("assets/RockVerySmall2.png")},
+                {"Endurance", MyTexturesManager.GetTexture("assets/Endurance.png")},
+                {"Energy", MyTexturesManager.GetTexture("assets/Energy.png")},
 
 
             };
@@ -90,6 +94,8 @@ namespace LADDERS
             Fruits = new List<Assets>();
             Clouds = new List<Assets>();
             Rocks = new List<Assets>();
+            IconesMenu = new List<Assets>();
+            Endurance = new List<Assets>();
 
         }
         public void Unloadtextures()
@@ -109,6 +115,9 @@ namespace LADDERS
             Fruits.Clear();
             Clouds.Clear();
             Rocks.Clear();
+            IconesMenu.Clear();
+            Endurance.Clear();
+
         }
 
         public void Close()

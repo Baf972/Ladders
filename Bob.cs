@@ -48,6 +48,7 @@ namespace LADDERS
         public bool IsFlipped { get; set; }
         public bool IsHurt { get; set; }
         public float Life { get; set; }
+        public float Endurance { get; set; }
         public float Energy { get; set; }
         public int CollisionRange { get; set; }
 
@@ -85,8 +86,9 @@ namespace LADDERS
             FrameWidth = 32;
             FrameHeight = 32;            
             CurrentFrame = 0;
-            Life = 3f;
+            Life = 7f;
             Energy = 100f;
+            Endurance = 100f;
             MyState = new BobIdle(this);
             CollisionRange = 100;
             StatesTransition(BobStates.Idle);
@@ -107,16 +109,20 @@ namespace LADDERS
         }
         public void Update()
         {
+            float DeltaTime = GetFrameTime();
 
-            
             if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
                 Level1.Respawn = true;
 
             else if (Y >= GetScreenHeight() + FrameHeight && Life <= 0)
                 Level1.EndGame = true;
 
+            if (Energy <= 50)
+                Endurance -= 2 * DeltaTime;
 
-
+            if(Endurance <= 0)
+                Level1.EndGame = true;
+           
             MyState.Update(this);         
 
 
@@ -134,6 +140,8 @@ namespace LADDERS
             Life -= 1f;
             X = 768;
             Y = 500;
+            Energy = 100f;
+            Endurance = 100f;
             SpeedJumpUp = 40f;
             SpeedFallDown = 200f;
             SpeedJumpLenght = 200f;
