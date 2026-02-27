@@ -87,9 +87,9 @@ namespace LADDERS
                     fruit.AssetCurrentFrame++;
                     if (fruit.AssetCurrentFrame >= fruit.AssetFrameCount)
                     {
-                       /* if (fruit.AssetName == "GiftExplo")
-                            MyAssetsManager.Gifts.Remove(fruit);
-                        else*/
+                       if (fruit.AssetName == "FruitExplo")
+                            MyAssetsManager.Fruits.Remove(fruit);
+                        else
                             fruit.AssetCurrentFrame = 0;
 
                     }
@@ -106,13 +106,8 @@ namespace LADDERS
                 {
                     endurance.AssetCurrentFrame++;
                     if (endurance.AssetCurrentFrame >= endurance.AssetFrameCount)
-                    {
-                        /* if (fruit.AssetName == "GiftExplo")
-                             MyAssetsManager.Gifts.Remove(fruit);
-                         else*/
                         endurance.AssetCurrentFrame = 0;
 
-                    }
                     endurance.AssetFrameTimer = endurance.AssetNewFrameTimer;
                 }
                 int frame = endurance.AssetFrameWidth * endurance.AssetCurrentFrame;

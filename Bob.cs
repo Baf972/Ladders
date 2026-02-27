@@ -118,9 +118,22 @@ namespace LADDERS
                 Level1.EndGame = true;
 
             if (Energy <= 50)
-                Endurance -= 2 * DeltaTime;
+                Endurance -= 1 * DeltaTime;            
 
-            if(Endurance <= 0)
+            if (Energy >= 100)
+                Energy = 100;
+
+            if (Energy <= 0)
+                Energy = 0;
+
+
+            if (Endurance <= 0)
+                Endurance = 0;
+
+            if (Endurance >= 100)
+                Endurance = 100;
+
+            if (Endurance <= 0)
                 Level1.EndGame = true;
            
             MyState.Update(this);         

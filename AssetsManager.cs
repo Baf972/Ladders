@@ -85,6 +85,8 @@ namespace LADDERS
                 {"RockVerySmall2", MyTexturesManager.GetTexture("assets/RockVerySmall2.png")},
                 {"Endurance", MyTexturesManager.GetTexture("assets/Endurance.png")},
                 {"Energy", MyTexturesManager.GetTexture("assets/Energy.png")},
+                {"FruitExplo", MyTexturesManager.GetTexture("assets/FruitExplo.png")},
+
 
 
             };

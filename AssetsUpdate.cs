@@ -97,14 +97,14 @@ namespace LADDERS
 
             foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
             {
-                Rectangle fruittrec = new Rectangle(fruit.AssetX - 15, fruit.AssetY - fruit.AssetFrameHeight / 2 - 10, fruit.AssetFrameWidth / 2, fruit.AssetFrameHeight / 2 + 20);
+                Rectangle fruitrec = new Rectangle(fruit.AssetX - 15, fruit.AssetY - fruit.AssetFrameHeight / 2 - 10, fruit.AssetFrameWidth / 2, fruit.AssetFrameHeight / 2 + 20);
 
-                if (CheckCollisionRecs(BobRec, fruittrec))
+                if (fruit.AssetName == "Fruit" && CheckCollisionRecs(BobRec, fruitrec))
                 {
                     MyBob.Energy += 15;
                     MyAssetsManager.Fruits.Remove(fruit);
-                    //Assets fruitExplo = new Assets("GiftExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/GiftExplo.png"), (int)fruit.AssetX, (int)fruit.AssetY - 20, (int)fruit.AssetR, 0, 17, 5, false, false, false);
-                    //MyAssetsManager.Fruits.Add(fruitExplo);
+                    Assets fruitExplo = new Assets("FruitExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/FruitExplo.png"), (int)fruit.AssetX,(int)fruit.AssetY, 0 , 0, 12, 5, false, false, false);
+                    MyAssetsManager.Fruits.Add(fruitExplo);
                 }
 
             }
@@ -160,11 +160,11 @@ namespace LADDERS
                     if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
                     {
                         rock.AssetActiv = true;
-                        MyBob.IsHurt = true;
+                        //MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
-                        MyBob.Endurance -= 2f * DeltaTime;
+                        //MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -188,11 +188,11 @@ namespace LADDERS
                     {
                         
                         rock.AssetActiv = true;
-                        MyBob.IsHurt = true;
+                        //MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
-                        MyBob.Endurance -= 2f * DeltaTime;
+                        //MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -215,11 +215,11 @@ namespace LADDERS
                     {
                         
                         rock.AssetActiv = true;
-                        MyBob.IsHurt = true;
+                        //MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
-                        MyBob.Endurance -= 2f * DeltaTime;
+                        //MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -242,11 +242,11 @@ namespace LADDERS
                     {
                         
                         rock.AssetActiv = true;
-                        MyBob.IsHurt = true;
+                        //MyBob.IsHurt = true;
                     }
                     if (rock.AssetActiv)
                     {
-                        MyBob.Endurance -= 2f * DeltaTime;
+                        //MyBob.Endurance -= 2f * DeltaTime;
                         HurtTimerVerySmall1 -= DeltaTime;
                         rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                         if (rock.AssetSpeedX <= 0)
@@ -378,7 +378,7 @@ namespace LADDERS
 
         public void Draw()
         {
-            /*  foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
+            /* foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
               {
                   //Rectangle bobrec = new Rectangle(MyBob.X - MyBob.FrameWidth, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
                   Rectangle fruittrec = new Rectangle(fruit.AssetX - 15, fruit.AssetY - fruit.AssetFrameHeight /2 -10 , fruit.AssetFrameWidth /2 , fruit.AssetFrameHeight /2 +20);
@@ -392,9 +392,9 @@ namespace LADDERS
                   Rectangle giftrec = new Rectangle(gift.AssetX - 15, gift.AssetY - gift.AssetFrameHeight /2 + 10, gift.AssetFrameWidth / 2, gift.AssetFrameHeight / 2);
                   DrawRectangleLinesEx(bobrec, 2, Color.White);
                   DrawRectangleLinesEx(giftrec, 2, Color.White);
-              }*/
+              }
 
-            /*DrawRectangleLinesEx(BobRec, 2, Color.White);
+           DrawRectangleLinesEx(BobRec, 2, Color.White);
 
             foreach (Assets rock in MyAssetsManager.Rocks.ToList())
              {
@@ -402,18 +402,18 @@ namespace LADDERS
                 {
                     Rectangle rockrec = new Rectangle(rock.AssetX + 5, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth - 10, rock.AssetFrameHeight);
                     DrawRectangleLinesEx(rockrec, 2, Color.White);
-                }*/
+                }
                  
-                 /*if (rock.AssetName == "RockVerySmall2")
+                 if (rock.AssetName == "RockVerySmall2")
                  {
                      //BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
                       Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
                      //DrawRectangleLinesEx(BobRec, 2, Color.White);
                      DrawRectangleLinesEx(rockrec, 2, Color.White);
-                 }*/
+                 }
 
-            }
-             //DrawText("MyBobHurt  " + MyBob.IsHurt.ToString(), 40, 80, 30, Color.White) ;
+            }*/
+           // DrawText("Fruit List  " + MyAssetsManager.Fruits.Count.ToString(), 40, 80, 30, Color.White) ;
         }
 
         public void SpawnRocks()

@@ -11,6 +11,11 @@ using static Raylib_cs.Raylib;
 
 namespace LADDERS
 {
+    public enum  Level1States
+    {
+        root,
+        final,
+    }
     public class Level1
     {
 
@@ -20,6 +25,7 @@ namespace LADDERS
         public AssetsDraw MyAssetsDraw { get; set; }
         public AssetsManager MyAssetsManager { get; set; }
         public AssetsUpdate MyAssetsUpdate { get; set; }    
+        public Level1States Level1State { get; set; }
         public static bool Respawn { get; set; }
         public static bool EndGame { get; set; }
         public Level1()
@@ -41,6 +47,7 @@ namespace LADDERS
             MyAssetsManager.IconesMenu.Add(Endurance);
             Assets Energy = new Assets("Energy", MyAssetsManager.MyTexturesManager.GetTexture("assets/Energy.png"), 610, GetScreenHeight() - 32, 0, 0, 14, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Energy);
+            Level1State = Level1States.root;
 
         }
         public void Update()
@@ -50,20 +57,33 @@ namespace LADDERS
             {
                 TryAgain();
             }
+
             if (EndGame)
             {
+
                 Close();
             }
-            MyMapDraw.Update();
-            MyBob.HandleInput();
-            MyBob.Update();
-            MyAssetsDraw.Update();
-            MyAssetsUpdate.Update();
-            if (IsKeyDown(KeyboardKey.G))
-                MapDraw.CameraY += 30;
 
             if (IsKeyPressed(KeyboardKey.R))
                 Retry();
+
+            switch (Level1State)
+            {
+                case Level1States.root:
+
+                    MyMapDraw.Update();
+                    MyBob.HandleInput();
+                    MyBob.Update();
+                    MyAssetsDraw.Update();
+                    MyAssetsUpdate.Update();
+
+                    break;
+                case Level1States.final:
+                    break;
+            }
+            
+            
+            
 
             foreach (Assets icone in MyAssetsManager.IconesMenu)
             {
@@ -84,10 +104,19 @@ namespace LADDERS
 
         public void Draw()
         {
-            MyMapDraw.Draw();
-            MyAssetsDraw.Draw();
-            MyAssetsUpdate.Draw();
-            MyBob.Draw();
+            switch (Level1State)
+            {
+                case Level1States.root:
+                    MyMapDraw.Draw();
+                    MyAssetsDraw.Draw();
+                    MyAssetsUpdate.Draw();
+                    MyBob.Draw();
+                    break;
+                case Level1States.final:
+                    DrawText("LEVEL 1", GetScreenWidth() / 2 - 50, GetScreenHeight() / 2 - 20, 40, new Color(150, 161, 180));
+                    break;
+            }
+           
 
             //InGameMenu
             Rectangle menuRec = new Rectangle(0, GetScreenHeight() -32, GetScreenWidth(), 32);
