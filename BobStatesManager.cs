@@ -15,6 +15,11 @@ namespace LADDERS
     {
         protected MapRead MyMapRead;
         protected AssetsManager MyAssetsManager;
+        protected Sound JumpSound;
+        protected Sound ClimbWoodSound;
+        protected Sound ClimbMetalSound;
+        protected Sound LandingMetalSound;
+        protected Sound LandingWoodSound;
         public bool Isflipped;
         public int CurrentFrame;
         public int FrameCount;
@@ -37,7 +42,12 @@ namespace LADDERS
         protected float FallingTimer;
         protected float JumpingTimer; // Durée du Saut
         protected float LadderPartsTimer;
-        
+
+        protected float ClimbWoodTimer;
+        protected float ClimbMetalTimer;
+        protected bool LandingWoodTimer;
+        protected bool LandingMetalTimer;
+
 
 
         public BobStatesManager(Bob MyBob) 
@@ -51,6 +61,13 @@ namespace LADDERS
             FallingTimer = 2f;
             LadderPartsTimer = 0.1f;
             JumpingTimer = 1.5f;
+            JumpSound = LoadSound("assets/sounds/Jump.wav");
+            ClimbWoodSound = LoadSound("assets/sounds/ClimbWood.wav");
+            ClimbWoodTimer = 0.5f;
+            ClimbMetalSound = LoadSound("assets/sounds/ClimbMetal.wav");
+            ClimbMetalTimer = 0.5f;
+            LandingMetalSound = LoadSound("assets/sounds/LandingWood.wav");
+            LandingWoodSound = LoadSound("assets/sounds/LandingMetal.wav");
         }
 
         public virtual void HandleInput(Bob MyBob)

@@ -55,8 +55,14 @@ namespace LADDERS
         public bool GameFinish { get; set; }
         private bool ImportGuide { get; set; }
         private bool Guide { get; set; }
-        
 
+
+        private Sound CollisionSound;
+        private Sound FruitSound;
+        private Sound GiftSound;
+        private bool CollisionSoundPlayed;
+        private bool GiftSoundPlayed;
+        private bool FruitSoundPlayed;
 
 
         public AssetsUpdate()
@@ -74,7 +80,9 @@ namespace LADDERS
             HurtTimerVerySmall4 = 1f;
             DavidParleTimer = 3f;
             DavidParle = true;
-           
+            CollisionSound = LoadSound("assets/sounds/CollisionSound.wav");
+            CollisionSoundPlayed = false;
+
 
 
 
@@ -191,6 +199,7 @@ namespace LADDERS
                             {
                                 rock.AssetActiv = true;
                                 //MyBob.IsHurt = true;
+                                CollisionSoundPlayed = true;
                             }
                             if (rock.AssetActiv)
                             {
@@ -207,6 +216,15 @@ namespace LADDERS
                                     rock.AssetActiv = false;
                                     HurtTimerVerySmall1 = 1f;
                                     MyBob.IsHurt = false;
+                                }
+
+                                
+
+                                if (CollisionSoundPlayed)
+                                {
+                                    PlaySound(CollisionSound);
+                                    CollisionSoundPlayed = false;
+
                                 }
                             }
 
@@ -219,6 +237,7 @@ namespace LADDERS
 
                                 rock.AssetActiv = true;
                                 //MyBob.IsHurt = true;
+                                PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
@@ -235,6 +254,8 @@ namespace LADDERS
                                     HurtTimerVerySmall1 = 1f;
                                     MyBob.IsHurt = false;
                                 }
+                                
+
                             }
 
                         }
@@ -246,6 +267,7 @@ namespace LADDERS
 
                                 rock.AssetActiv = true;
                                 //MyBob.IsHurt = true;
+                                PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
@@ -262,6 +284,9 @@ namespace LADDERS
                                     HurtTimerVerySmall1 = 1f;
                                     MyBob.IsHurt = false;
                                 }
+                                
+
+                                
                             }
 
                         }
@@ -273,6 +298,7 @@ namespace LADDERS
 
                                 rock.AssetActiv = true;
                                 //MyBob.IsHurt = true;
+                                PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
@@ -289,6 +315,9 @@ namespace LADDERS
                                     HurtTimerVerySmall1 = 1f;
                                     MyBob.IsHurt = false;
                                 }
+                               
+
+                                
                             }
 
                         }
@@ -300,6 +329,7 @@ namespace LADDERS
 
                                 rock.AssetActiv = true;
                                 MyBob.IsHurt = true;
+                                PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
@@ -316,7 +346,11 @@ namespace LADDERS
                                     HurtTimerVerySmall1 = 1f;
                                     MyBob.IsHurt = false;
                                 }
+                                
+
+                                
                             }
+                            
 
                         }
                         if (rock.AssetName == "RockMedium")
@@ -327,6 +361,7 @@ namespace LADDERS
 
                                 rock.AssetActiv = true;
                                 MyBob.IsHurt = true;
+                                PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
@@ -343,7 +378,7 @@ namespace LADDERS
                                     HurtTimerVerySmall1 = 1f;
                                     MyBob.IsHurt = false;
                                 }
-                            }
+                            }                            
 
                         }
 

@@ -24,6 +24,7 @@ namespace LADDERS
                 MyBob.SpeedJumpUp = 40f;
                 MyBob.SpeedJumpLenght = 200f;
             }
+
             
             base.HandleInput(MyBob);
         }

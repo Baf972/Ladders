@@ -42,6 +42,11 @@ namespace LADDERS
         private float TextMasterClassTimer { get; set; }
         private float TextDevPersoTimer { get; set; }
 
+        private Sound FruitSound;
+        private Sound GiftSound;
+        private bool GiftSoundPlayed;
+        private bool FruitSoundPlayed;
+
         private Font FontGifts = LoadFont("assets/fonts/COOPBL.ttf");
 
         public AssetsDraw()
@@ -61,6 +66,10 @@ namespace LADDERS
             TextDLCTimer = 1;
             TextMasterClassTimer = 1;
             TextDevPersoTimer = 1;
+            FruitSound = LoadSound("assets/sounds/FruitSound.wav");
+            GiftSound = LoadSound("assets/sounds/GiftSound.wav");
+            FruitSoundPlayed = false;
+            GiftSoundPlayed = false;
         }
 
         public void Update()
@@ -98,6 +107,8 @@ namespace LADDERS
                                 if (gift.AssetName == "GiftExplo")
                                 {
                                     MyAssetsManager.Gifts.Remove(gift);
+                                    PlaySound(GiftSound);
+
 
                                     if (random == 0)
                                         TextDevPersoOk = true;
@@ -127,7 +138,11 @@ namespace LADDERS
                             if (fruit.AssetCurrentFrame >= fruit.AssetFrameCount)
                             {
                                 if (fruit.AssetName == "FruitExplo")
+                                {
+                                    PlaySound(FruitSound);
                                     MyAssetsManager.Fruits.Remove(fruit);
+
+                                }
                                 else
                                     fruit.AssetCurrentFrame = 0;
 

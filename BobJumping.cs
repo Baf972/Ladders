@@ -130,7 +130,35 @@ namespace LADDERS
                     
                 }
             }
+            if (CollidLadder)
+            {
 
+
+                float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
+                int tileCol = (int)(MyBob.X / MapRead.TileWidth);
+                int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);
+
+                int woodSoundId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
+                if (woodSoundId == 1312 && !LandingWoodTimer)
+                    LandingWoodTimer = true;
+
+                if (LandingWoodTimer)
+                {
+                    PlaySound(LandingWoodSound);
+                    LandingWoodTimer = false;
+
+                }
+                int metalSoundId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
+                if (metalSoundId == 1311 && !LandingMetalTimer)
+                    LandingMetalTimer = true;
+
+                if (LandingMetalTimer)
+                {
+                    PlaySound(LandingMetalSound);
+                    LandingMetalTimer = false;
+
+                }
+            }
             if (MapDraw.CameraY <= -2120  || JumpingTimer <= 0)
             {
                 MyBob.StatesTransition(BobStates.Falling);
