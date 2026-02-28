@@ -86,6 +86,12 @@ namespace LADDERS
             if (IsKeyPressed(KeyboardKey.R))
                 Retry();
 
+            if (IsKeyPressed(KeyboardKey.Escape))
+            {
+                Close();
+                GameStates.Instance.ChangeScene("menu");
+                
+            }
             switch (Level1State)
             {
                 case Level1States.root:
@@ -186,7 +192,7 @@ namespace LADDERS
                     DrawRectanglePro(menuRec, new Vector2(0, 0), 0, new Color(2, 6, 10));
 
                     DrawText("LIFE ...  " + MyBob.Life.ToString(), 150, GetScreenHeight() - 25, 20, new Color(150, 161, 180));
-                    DrawText("ENDURANCE ...  " + MyBob.Endurance.ToString("F0") + " % ", 400, GetScreenHeight() - 25, 20, new Color(150, 161, 180));
+                    DrawText("HEALTH ...  " + MyBob.Endurance.ToString("F0") + " % ", 400, GetScreenHeight() - 25, 20, new Color(150, 161, 180));
                     DrawText("ENERGY ...  " + MyBob.Energy.ToString("F0") + " % ", 700, GetScreenHeight() - 25, 20, new Color(150, 161, 180));
                     DrawText("R ... Recommencer ", 1000, GetScreenHeight() - 25, 20, new Color(150, 161, 180));
 

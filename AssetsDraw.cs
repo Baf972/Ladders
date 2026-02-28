@@ -53,10 +53,10 @@ namespace LADDERS
             MyAssetsManager = AssetsManager.Instance;
             MyBob = Bob.Instance;
             BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");
-            TextGuide = "Un Guide de programmation !";
-            TextDLC = "Un Pack DLC !!";
-            TextMasterClass = "Une MasterClass !";
-            TextDevPerso = "Coaching perso !";
+            TextGuide = "Guide de programmation !";
+            TextDLC = "Pack DLC !";
+            TextMasterClass = "MasterClass !";
+            TextDevPerso = "Coaching !";
             TextGuideTimer = 1;
             TextDLCTimer = 1;
             TextMasterClassTimer = 1;

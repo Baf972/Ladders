@@ -42,9 +42,6 @@ namespace LADDERS
                 if (IsKeyPressed(KeyboardKey.F11))
                     ToggleFullscreen();
 
-                if (IsKeyPressed(KeyboardKey.Escape))
-                    MyGameState.ChangeScene("menu");
-
                 MyGameState.Update();   
 
                 BeginDrawing();

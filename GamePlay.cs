@@ -30,10 +30,7 @@ namespace LADDERS
         public override void Update()
         {
 
-            if (IsKeyPressed(KeyboardKey.Escape))
-            {
-                GameStates.Instance.ChangeScene("menu");
-            }
+            
             MyLevel1.Update();
             switch (GameLevel)
             {
