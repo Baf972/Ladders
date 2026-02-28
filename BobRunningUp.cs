@@ -26,7 +26,7 @@ namespace LADDERS
         }
         public override void Update(Bob MyBob)
         {
-            MyBob.Energy -= 3f * DeltaTime;
+            MyBob.Energy -= 2f * DeltaTime;
             MyBob.SpeedClimb = 0f;
             base.Update(MyBob);
         }

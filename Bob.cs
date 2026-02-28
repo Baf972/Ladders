@@ -72,6 +72,7 @@ namespace LADDERS
 
             X = 768;
             //X = 480;
+            //Y = 500;
             Y = 500;
             SpeedClimb = 50f;
             SpeedJumpUp = 40f;

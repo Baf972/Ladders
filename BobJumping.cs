@@ -34,7 +34,7 @@ namespace LADDERS
             //CollidLadder = false;
             BreakLoop = true;
 
-            MyBob.Energy -= 2f * DeltaTime;
+            MyBob.Energy -= 1f * DeltaTime;
             JumpingTimer -= DeltaTime;
                        
 

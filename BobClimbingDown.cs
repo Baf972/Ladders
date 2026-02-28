@@ -87,7 +87,7 @@ namespace LADDERS
         {
             AnimReverse = true;
 
-            MyBob.Energy -= 0.5f * DeltaTime;
+            MyBob.Energy -= 0.3f * DeltaTime;
 
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);

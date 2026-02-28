@@ -45,7 +45,7 @@ namespace LADDERS
             BackGround2Pos =  new Vector2(0, -370);
 
             CameraY = -2160;
-            //ameraY = -1050;
+            //CameraY = -1050;
 
             //CameraSpeed = MyBob.SpeedClimb;
 

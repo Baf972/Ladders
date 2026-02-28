@@ -55,6 +55,7 @@ namespace LADDERS
         public bool GameFinish { get; set; }
         private bool ImportGuide { get; set; }
         private bool Guide { get; set; }
+        
 
 
 
@@ -302,7 +303,7 @@ namespace LADDERS
                             }
                             if (rock.AssetActiv)
                             {
-                                MyBob.Endurance -= 4f * DeltaTime;
+                                MyBob.Endurance -= 15f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -329,7 +330,7 @@ namespace LADDERS
                             }
                             if (rock.AssetActiv)
                             {
-                                MyBob.Endurance -= 6f * DeltaTime;
+                                MyBob.Endurance -= 20f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)

@@ -91,7 +91,7 @@ namespace LADDERS
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);
             int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);
-            MyBob.Energy -= 0.5f * DeltaTime;
+            MyBob.Energy -= 0.3f * DeltaTime;
 
             // Si Pas d'échelle au dessus, Bob s'arrête
             int NoTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 2, "Ladders");  

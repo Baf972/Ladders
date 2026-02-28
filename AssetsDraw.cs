@@ -29,15 +29,38 @@ namespace LADDERS
         private Random PartRotation { get; set; } = new Random();
         private Random PartSpeed { get; set; } = new Random();
         private Texture2D BackGround { get; set; }
+        private string TextGuide { get; set; }
+        private string TextDLC { get; set; }
+        private string TextMasterClass { get; set; }
+        private string TextDevPerso{ get; set; }
+        private bool TextGuideOk { get; set; }
+        private bool TextDLCOk { get; set; }
+        private bool TextMasterClassOk { get; set; }
+        private bool TextDevPersoOk{ get; set; }
+        private float TextGuideTimer { get; set; }
+        private float TextDLCTimer { get; set; }
+        private float TextMasterClassTimer { get; set; }
+        private float TextDevPersoTimer { get; set; }
 
+        private Font FontGifts = LoadFont("assets/fonts/COOPBL.ttf");
 
         public AssetsDraw()
         {
+            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789éèàùçâêîôûëïüöÉÈÀÙÇÂÊÎÔÛËÏÜÖ' .:-!?";
+            int[] codepoints = chars.Select(c => (int)c).ToArray();
+            FontGifts = LoadFontEx("assets/fonts/COOPBL.ttf", 70, codepoints, codepoints.Length);
+
             MyAssetsManager = AssetsManager.Instance;
             MyBob = Bob.Instance;
-            BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");        
-
-
+            BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");
+            TextGuide = "Un Guide de programmation !";
+            TextDLC = "Un Pack DLC !!";
+            TextMasterClass = "Une MasterClass !";
+            TextDevPerso = "Coaching perso !";
+            TextGuideTimer = 1;
+            TextDLCTimer = 1;
+            TextMasterClassTimer = 1;
+            TextDevPersoTimer = 1;
         }
 
         public void Update()
@@ -67,11 +90,24 @@ namespace LADDERS
                         gift.AssetFrameTimer -= 100 * DeltaTime;
                         if (gift.AssetFrameTimer <= 0)
                         {
+                            int random = Assets.MyRandom.Next(0, 5);
                             gift.AssetCurrentFrame++;
                             if (gift.AssetCurrentFrame >= gift.AssetFrameCount)
                             {
+
                                 if (gift.AssetName == "GiftExplo")
+                                {
                                     MyAssetsManager.Gifts.Remove(gift);
+
+                                    if (random == 0)
+                                        TextDevPersoOk = true;
+                                    else if (random == 1)
+                                        TextDLCOk = true;
+                                    else if (random == 2)
+                                        TextGuideOk = true;
+                                    else if (random == 3)
+                                        TextMasterClassOk = true;
+                                }
                                 else
                                     gift.AssetCurrentFrame = 0;
 
@@ -181,13 +217,70 @@ namespace LADDERS
                         DrawTexturePro(part.AssetTileSet, part.AssetSourceRec, new Rectangle(part.AssetX, part.AssetY, part.AssetFrameWidth, part.AssetFrameHeight), new Vector2(part.AssetFrameWidth / 2, 0), part.AssetR, Color.White);
 
                     foreach (Assets gift in MyAssetsManager.Gifts)
-                        DrawTexturePro(gift.AssetTileSet, gift.AssetSourceRec, new Rectangle(gift.AssetX, gift.AssetY - 64, gift.AssetFrameWidth, gift.AssetFrameHeight), new Vector2(gift.AssetFrameWidth / 2, 0), 0, Color.White);
+                        DrawTexturePro(gift.AssetTileSet, gift.AssetSourceRec, new Rectangle(gift.AssetX, gift.AssetY - 64, gift.AssetFrameWidth, gift.AssetFrameHeight), new Vector2(gift.AssetFrameWidth / 2, 0), 0, Color.White);   
 
                     foreach (Assets fruit in MyAssetsManager.Fruits)
                         DrawTexturePro(fruit.AssetTileSet, fruit.AssetSourceRec, new Rectangle(fruit.AssetX, fruit.AssetY - 64, fruit.AssetFrameWidth, fruit.AssetFrameHeight), new Vector2(fruit.AssetFrameWidth / 2, 0), 0, Color.White);
 
                     foreach (Assets endurance in MyAssetsManager.Endurance)
                         DrawTexturePro(endurance.AssetTileSet, endurance.AssetSourceRec, new Rectangle(endurance.AssetX, endurance.AssetY - 64, endurance.AssetFrameWidth, endurance.AssetFrameHeight), new Vector2(endurance.AssetFrameWidth / 2, 0), 0, Color.White);
+                    
+
+                    if (TextMasterClassOk)
+                    {
+                        TextMasterClassTimer -= GetFrameTime();                       
+                        float textWidth = MeasureTextEx(FontGifts, TextMasterClass, 20, 0).X;
+                        float textHeight = MeasureTextEx(FontGifts, TextMasterClass, 20, 0).Y;
+                        DrawTextPro(FontGifts, TextMasterClass, new Vector2 ((int)MyBob.X - MyBob.FrameWidth / 2, (int)MyBob.Y - MyBob.FrameHeight - 10),new Vector2(textWidth / 2, textHeight), 0, 20, 0, Color.White);
+
+                        if (TextMasterClassTimer <= 0)
+                        {
+                            TextMasterClassOk = false;
+                            TextMasterClassTimer = 1;
+                        }
+                    }
+                    if (TextDLCOk)
+                    {
+                        TextDLCTimer -= GetFrameTime();
+                        float textWidth = MeasureTextEx(FontGifts, TextDLC, 20, 0).X;
+                        float textHeight = MeasureTextEx(FontGifts, TextDLC, 20, 0).Y;
+                        DrawTextPro(FontGifts, TextDLC, new Vector2((int)MyBob.X - MyBob.FrameWidth / 2, (int)MyBob.Y - MyBob.FrameHeight -10), new Vector2(textWidth / 2, textHeight), 0, 20, 0, Color.White);
+
+                        if (TextDLCTimer <= 0)
+                        {
+                            TextDLCOk = false;
+                            TextDLCTimer = 1;
+                        }
+                    }
+                    if (TextGuideOk)
+                    {
+                        TextGuideTimer -= GetFrameTime();
+
+                        float textWidth = MeasureTextEx(FontGifts, TextGuide, 20, 0).X;
+                        float textHeight = MeasureTextEx(FontGifts, TextGuide, 20, 0).Y;
+                        DrawTextPro(FontGifts, TextGuide, new Vector2((int)MyBob.X - MyBob.FrameWidth / 2, (int)MyBob.Y - MyBob.FrameHeight - 10), new Vector2(textWidth / 2, textHeight), 0, 20, 0, Color.White);
+
+                        if (TextGuideTimer <= 0)
+                        {
+                            TextGuideOk = false;
+                            TextGuideTimer = 1;
+                        }
+                    }
+                    if (TextDevPersoOk)
+                    {
+                        TextDevPersoTimer -= GetFrameTime();
+
+                        float textWidth = MeasureTextEx(FontGifts, TextDevPerso, 20, 0).X;
+                        float textHeight = MeasureTextEx(FontGifts, TextDevPerso, 20, 0).Y;
+                        DrawTextPro(FontGifts, TextDevPerso, new Vector2((int)MyBob.X - MyBob.FrameWidth / 2, (int)MyBob.Y - MyBob.FrameHeight - 10), new Vector2(textWidth / 2, textHeight), 0, 20, 0, Color.White);
+
+                        if (TextDevPersoTimer <= 0)
+                        {
+                            TextDevPersoOk = false;
+                            TextDevPersoTimer = 1;
+                        }
+                    }
+                    
 
                     break;
 
@@ -219,7 +312,10 @@ namespace LADDERS
         }
         public void Close()
         {
-            
+            TextGuideOk = false;
+            TextDLCOk = false;
+            TextMasterClassOk = false;
+            TextDevPersoOk = false;
         }
     }
 }

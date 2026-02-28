@@ -32,6 +32,7 @@ namespace LADDERS
         public static bool EndGame { get; set; }
         public static bool CloudsFinal { get; set; }
         private int FadeRectOut {  get; set; }
+        private int FadeRectOutMontain {  get; set; }
         private int FadeRectEnd {  get; set; }
         private int FadeOutTypo {  get; set; }
         private float GameFinishTimer { get; set; }
@@ -66,7 +67,8 @@ namespace LADDERS
             GameFinishTimer = 3;
             FadeOutTypo = 255;
             FadeRectEnd = 0;
-
+            FadeRectOutMontain = 0;
+            FadeRectOut = 0;
             CloudsFinal = true;
             Level1State = Level1States.root;
             
@@ -87,12 +89,25 @@ namespace LADDERS
             switch (Level1State)
             {
                 case Level1States.root:
-
+                    if (IsKeyDown(KeyboardKey.G))
+                        MapDraw.CameraY += 10;
                     MyMapDraw.Update();
                     MyBob.HandleInput();
                     MyBob.Update();
                     MyAssetsDraw.Update();
                     MyAssetsUpdate.Update();
+
+                    if (MapDraw.CameraY >= -10)
+                    {
+                        FadeRectOutMontain += 3;
+                        if (FadeRectOutMontain >= 255)
+                        {
+                            FadeRectOutMontain = 255;
+                            Level1State = Level1States.final;
+                        }
+                            
+
+                    }
 
                     foreach (Assets icone in MyAssetsManager.IconesMenu)
                     {
@@ -111,6 +126,11 @@ namespace LADDERS
                     break;
 
                 case Level1States.final:
+
+                    FadeRectOutMontain -= 1;
+                    if (FadeRectOutMontain <= 0)
+                        FadeRectOutMontain = 0;
+
                     if (MyAssetsUpdate.GameFinish)
                     {
                         FadeRectOut += 3;
@@ -179,7 +199,8 @@ namespace LADDERS
                             DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth * 2, cloud.AssetFrameHeight * 2), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
                         else
                             DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth, cloud.AssetFrameHeight), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
-
+                    //DrawText("CamearY " + MapDraw.CameraY.ToString(), 50, 50, 30, Color.White);
+                    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), new Color(255, 255, 255, FadeRectOutMontain));
                     break;
 
                 case Level1States.final:
@@ -192,17 +213,13 @@ namespace LADDERS
 
                     MyAssetsUpdate.Draw();
                     foreach (Assets dialogue in MyAssetsManager.Dialogues)
-                    {
-                        DrawTexturePro(dialogue.AssetTileSet, dialogue.AssetSourceRec, new Rectangle(dialogue.AssetX, dialogue.AssetY, dialogue.AssetFrameWidth, dialogue.AssetFrameHeight), new Vector2(dialogue.AssetFrameWidth / 2, 0), 0, Color.White);
-                        DrawTextEx(FontDialogues, "Press Enter", new Vector2((int)dialogue.AssetX - 20, (int)dialogue.AssetY + (int)dialogue.AssetFrameHeight + 15), 18, 0, new Color(67, 41, 24));
-                        //rawText("Entrée pour continuer", (int)dialogue.AssetX, (int)dialogue.AssetY + (int)dialogue.AssetFrameHeight + 15, 15, new Color(67, 41, 24));
-                    }
+                        DrawTexturePro(dialogue.AssetTileSet, dialogue.AssetSourceRec, new Rectangle(dialogue.AssetX, dialogue.AssetY, dialogue.AssetFrameWidth, dialogue.AssetFrameHeight), new Vector2(300 , 0), 0, Color.White);
+
                     if (MyAssetsUpdate.GameFinish)
                     {
                         GameFinishTimer -= GetFrameTime();
                         DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), new Color(255, 255, 255, FadeRectOut));
-                        DrawTextEx(FontDialogues, "Merci David !", new Vector2(400, GetScreenHeight() / 2 - 50), 40, 0, new Color(67, 41, 24, FadeOutTypo));
-                        DrawTextEx(FontDialogues, "To be continued ... ", new Vector2(GetScreenWidth() - 400, GetScreenHeight() - 50), 30, 0, new Color(67, 41, 24, FadeOutTypo));
+                        DrawTextEx(FontDialogues, "Merci David !", new Vector2(515, GetScreenHeight() / 2 - 50), 40, 0, new Color(67, 41, 24, FadeOutTypo));
                         if (GameFinishTimer <= 0)
                             EndGame = true;
 
@@ -212,17 +229,21 @@ namespace LADDERS
                             if (FadeOutTypo <= 0)
                             {
                                 GameStates.Instance.ChangeScene("menu");
+                                Level1State = Level1States.root;
                                 EndGame = false;
                                 Close();
                             }                            
                         }
                     }
+
+                    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), new Color(255, 255, 255, FadeRectOutMontain));
+
                     break;
 
                 case Level1States.end:
 
                     DrawTexture(ShotBackGround, 0, 0, new Color (255, 255, 255, 150));
-                    DrawTextEx(FontDialogues, "Press R to retry or Q to Quit", new Vector2(300, GetScreenHeight() / 2 - 50), 30, 0, new Color(255, 255, 255, FadeOutTypo));
+                    DrawTextEx(FontDialogues, "Press R to retry or Q to Quit", new Vector2(430, GetScreenHeight() / 2 - 50), 30, 0, new Color(255, 255, 255, FadeOutTypo));
                     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), new Color(255, 255, 255, FadeRectEnd));
 
                     break;
@@ -239,6 +260,7 @@ namespace LADDERS
             MyMapDraw.Close();
             MyMapRead.Close();
             MyAssetsManager.Close();
+            MyAssetsDraw.Close();
             Init();
             Assets Endurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), 360, GetScreenHeight() - 32, 0, 0, 12, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Endurance);
@@ -253,6 +275,7 @@ namespace LADDERS
             MyMapDraw.Close();
             MyMapRead.Close();
             MyAssetsManager.Close();
+            MyAssetsDraw.Close();
             MyAssetsManager = AssetsManager.Instance;
             MyMapRead = new MapRead();
             MyMapRead.LoadDatas("assets/LadderMapLV1.json");
@@ -273,6 +296,7 @@ namespace LADDERS
             MyMapDraw.Close();
             MyMapRead.Close();
             MyAssetsManager.Close();
+            MyAssetsDraw.Close();
             MyBob.Close();    
             UnloadTexture(ShotBackGround);
             MyBob.Init();
