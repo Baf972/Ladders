@@ -28,14 +28,16 @@ namespace LADDERS
         }
         private Random PartRotation { get; set; } = new Random();
         private Random PartSpeed { get; set; } = new Random();
-        
+        private Texture2D BackGround { get; set; }
+
+
         public AssetsDraw()
         {
             MyAssetsManager = AssetsManager.Instance;
             MyBob = Bob.Instance;
-            // Initialize any necessary resources here
-                      
-            
+            BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");        
+
+
         }
 
         public void Update()
@@ -43,107 +45,171 @@ namespace LADDERS
             float DeltaTime = GetFrameTime();
             
             
-
-
-            foreach (Assets part in AssetsManager.Instance.LadderParts.ToList())
+            switch (Level1.Level1State)
             {
-                part.AssetCurrentFrame = 1;
-                part.AssetY += part.AssetSpeed * DeltaTime;
-                part.AssetR += part.AssetR * DeltaTime;
-
-               if (part.AssetY > GetScreenHeight() + part.AssetFrameHeight)
-                    MyAssetsManager.LadderParts.Remove(part);
-
-
-                int frame = part.AssetFrameWidth * part.AssetCurrentFrame;
-                part.AssetSourceRec = new Rectangle(frame, 0, part.AssetFrameWidth, part.AssetFrameHeight);
-            }
-
-            foreach (Assets gift in MyAssetsManager.Gifts.ToList())
-            {                                
-                gift.AssetFrameTimer -= 100* DeltaTime;
-                if (gift.AssetFrameTimer <= 0)
-                {
-                    gift.AssetCurrentFrame++;
-                    if (gift.AssetCurrentFrame >= gift.AssetFrameCount)
+                case Level1States.root:
+                    foreach (Assets part in AssetsManager.Instance.LadderParts.ToList())
                     {
-                        if (gift.AssetName == "GiftExplo")
-                            MyAssetsManager.Gifts.Remove(gift);
-                        else                        
-                            gift.AssetCurrentFrame = 0;
-                        
-                    }
-                    gift.AssetFrameTimer = gift.AssetNewFrameTimer;
-                }
-                int frame = gift.AssetFrameWidth * gift.AssetCurrentFrame;
-                gift.AssetSourceRec = new Rectangle(frame, 0, gift.AssetFrameWidth, gift.AssetFrameHeight);
-            }
+                        part.AssetCurrentFrame = 1;
+                        part.AssetY += part.AssetSpeed * DeltaTime;
+                        part.AssetR += part.AssetR * DeltaTime;
 
-            foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
-            {
-                fruit.AssetFrameTimer -= 100 * DeltaTime;
-                if (fruit.AssetFrameTimer <= 0)
-                {
-                    fruit.AssetCurrentFrame++;
-                    if (fruit.AssetCurrentFrame >= fruit.AssetFrameCount)
+                        if (part.AssetY > GetScreenHeight() + part.AssetFrameHeight)
+                            MyAssetsManager.LadderParts.Remove(part);
+
+
+                        int frame = part.AssetFrameWidth * part.AssetCurrentFrame;
+                        part.AssetSourceRec = new Rectangle(frame, 0, part.AssetFrameWidth, part.AssetFrameHeight);
+                    }
+
+                    foreach (Assets gift in MyAssetsManager.Gifts.ToList())
                     {
-                       if (fruit.AssetName == "FruitExplo")
-                            MyAssetsManager.Fruits.Remove(fruit);
-                        else
-                            fruit.AssetCurrentFrame = 0;
+                        gift.AssetFrameTimer -= 100 * DeltaTime;
+                        if (gift.AssetFrameTimer <= 0)
+                        {
+                            gift.AssetCurrentFrame++;
+                            if (gift.AssetCurrentFrame >= gift.AssetFrameCount)
+                            {
+                                if (gift.AssetName == "GiftExplo")
+                                    MyAssetsManager.Gifts.Remove(gift);
+                                else
+                                    gift.AssetCurrentFrame = 0;
 
+                            }
+                            gift.AssetFrameTimer = gift.AssetNewFrameTimer;
+                        }
+                        int frame = gift.AssetFrameWidth * gift.AssetCurrentFrame;
+                        gift.AssetSourceRec = new Rectangle(frame, 0, gift.AssetFrameWidth, gift.AssetFrameHeight);
                     }
-                    fruit.AssetFrameTimer = fruit.AssetNewFrameTimer;
-                }
-                int frame = fruit.AssetFrameWidth * fruit.AssetCurrentFrame;
-                fruit.AssetSourceRec = new Rectangle(frame, 0, fruit.AssetFrameWidth, fruit.AssetFrameHeight);
+
+                    foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
+                    {
+                        fruit.AssetFrameTimer -= 100 * DeltaTime;
+                        if (fruit.AssetFrameTimer <= 0)
+                        {
+                            fruit.AssetCurrentFrame++;
+                            if (fruit.AssetCurrentFrame >= fruit.AssetFrameCount)
+                            {
+                                if (fruit.AssetName == "FruitExplo")
+                                    MyAssetsManager.Fruits.Remove(fruit);
+                                else
+                                    fruit.AssetCurrentFrame = 0;
+
+                            }
+                            fruit.AssetFrameTimer = fruit.AssetNewFrameTimer;
+                        }
+                        int frame = fruit.AssetFrameWidth * fruit.AssetCurrentFrame;
+                        fruit.AssetSourceRec = new Rectangle(frame, 0, fruit.AssetFrameWidth, fruit.AssetFrameHeight);
+                    }
+
+                    foreach (Assets endurance in MyAssetsManager.Endurance.ToList())
+                    {
+                        endurance.AssetFrameTimer -= 100 * DeltaTime;
+                        if (endurance.AssetFrameTimer <= 0)
+                        {
+                            endurance.AssetCurrentFrame++;
+                            if (endurance.AssetCurrentFrame >= endurance.AssetFrameCount)
+                                endurance.AssetCurrentFrame = 0;
+
+                            endurance.AssetFrameTimer = endurance.AssetNewFrameTimer;
+                        }
+                        int frame = endurance.AssetFrameWidth * endurance.AssetCurrentFrame;
+                        endurance.AssetSourceRec = new Rectangle(frame, 0, endurance.AssetFrameWidth, endurance.AssetFrameHeight);
+                    }
+
+                    foreach (Assets rock in MyAssetsManager.Rocks)
+                    {
+                        rock.AssetCurrentFrame = 1;
+                        int frame = rock.AssetFrameWidth * rock.AssetCurrentFrame;
+                        rock.AssetSourceRec = new Rectangle(frame, 0, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                    }
+
+                    foreach (Assets cloud in MyAssetsManager.Clouds)
+                    {
+                        cloud.AssetCurrentFrame = 1;
+                        int frame = cloud.AssetFrameWidth * cloud.AssetCurrentFrame;
+                        cloud.AssetSourceRec = new Rectangle(frame, 0, cloud.AssetFrameWidth, cloud.AssetFrameHeight);
+                    }
+
+                    break;
+
+                case Level1States.final:
+
+                    foreach (Assets cloud in MyAssetsManager.Clouds)
+                    {
+                        cloud.AssetCurrentFrame = 1;
+                        int frame = cloud.AssetFrameWidth * cloud.AssetCurrentFrame;
+                        cloud.AssetSourceRec = new Rectangle(frame, 0, cloud.AssetFrameWidth, cloud.AssetFrameHeight);
+                    }
+
+                    foreach (Assets David in MyAssetsManager.David)
+                    {
+                        David.AssetFrameTimer -= 100 * DeltaTime;
+                        if (David.AssetFrameTimer <= 0)
+                        {
+                            David.AssetCurrentFrame++;
+                            if (David.AssetCurrentFrame >= David.AssetFrameCount)
+                                David.AssetCurrentFrame = 0;
+                            David.AssetFrameTimer = David.AssetNewFrameTimer;
+                        }
+                        int frame = David.AssetFrameWidth * David.AssetCurrentFrame;
+                        David.AssetSourceRec = new Rectangle(frame, 0, David.AssetFrameWidth, David.AssetFrameHeight);
+                    }
+
+                    foreach (Assets dialogue in MyAssetsManager.Dialogues)
+                    {
+                        dialogue.AssetCurrentFrame = 1;
+                        int frame = dialogue.AssetFrameWidth * dialogue.AssetCurrentFrame;
+                        dialogue.AssetSourceRec = new Rectangle(frame, 0, dialogue.AssetFrameWidth, dialogue.AssetFrameHeight);
+                    }
+
+                    break;
             }
 
-            foreach (Assets endurance in MyAssetsManager.Endurance.ToList())
-            {
-                endurance.AssetFrameTimer -= 100 * DeltaTime;
-                if (endurance.AssetFrameTimer <= 0)
-                {
-                    endurance.AssetCurrentFrame++;
-                    if (endurance.AssetCurrentFrame >= endurance.AssetFrameCount)
-                        endurance.AssetCurrentFrame = 0;
-
-                    endurance.AssetFrameTimer = endurance.AssetNewFrameTimer;
-                }
-                int frame = endurance.AssetFrameWidth * endurance.AssetCurrentFrame;
-                endurance.AssetSourceRec = new Rectangle(frame, 0, endurance.AssetFrameWidth, endurance.AssetFrameHeight);
-            }
-
-            foreach (Assets rock in MyAssetsManager.Rocks)
-            {
-                rock.AssetCurrentFrame = 1;
-                int frame = rock.AssetFrameWidth * rock.AssetCurrentFrame;
-                rock.AssetSourceRec = new Rectangle(frame, 0, rock.AssetFrameWidth, rock.AssetFrameHeight);
-            }
-
-            foreach (Assets cloud in MyAssetsManager.Clouds)
-            {                
-                cloud.AssetCurrentFrame = 1;                    
-                int frame = cloud.AssetFrameWidth * cloud.AssetCurrentFrame;
-                cloud.AssetSourceRec = new Rectangle(frame, 0, cloud.AssetFrameWidth, cloud.AssetFrameHeight);
-            }
+            
+                       
         }
 
 
         public void Draw()
         {
-            foreach (Assets part in AssetsManager.Instance.LadderParts)
-                DrawTexturePro(part.AssetTileSet, part.AssetSourceRec, new Rectangle(part.AssetX, part.AssetY, part.AssetFrameWidth, part.AssetFrameHeight), new Vector2(part.AssetFrameWidth / 2, 0), part.AssetR, Color.White);
+            switch (Level1.Level1State)
+            {
+                case Level1States.root:
 
-            foreach (Assets gift in MyAssetsManager.Gifts)
-                DrawTexturePro(gift.AssetTileSet, gift.AssetSourceRec, new Rectangle(gift.AssetX, gift.AssetY - 64, gift.AssetFrameWidth, gift.AssetFrameHeight), new Vector2(gift.AssetFrameWidth / 2, 0), 0, Color.White);
+                    foreach (Assets part in AssetsManager.Instance.LadderParts)
+                        DrawTexturePro(part.AssetTileSet, part.AssetSourceRec, new Rectangle(part.AssetX, part.AssetY, part.AssetFrameWidth, part.AssetFrameHeight), new Vector2(part.AssetFrameWidth / 2, 0), part.AssetR, Color.White);
 
-            foreach (Assets fruit in MyAssetsManager.Fruits)
-                DrawTexturePro(fruit.AssetTileSet, fruit.AssetSourceRec, new Rectangle(fruit.AssetX, fruit.AssetY - 64, fruit.AssetFrameWidth, fruit.AssetFrameHeight), new Vector2(fruit.AssetFrameWidth / 2, 0), 0, Color.White);
+                    foreach (Assets gift in MyAssetsManager.Gifts)
+                        DrawTexturePro(gift.AssetTileSet, gift.AssetSourceRec, new Rectangle(gift.AssetX, gift.AssetY - 64, gift.AssetFrameWidth, gift.AssetFrameHeight), new Vector2(gift.AssetFrameWidth / 2, 0), 0, Color.White);
 
-            foreach (Assets endurance in MyAssetsManager.Endurance)
-                DrawTexturePro(endurance.AssetTileSet, endurance.AssetSourceRec, new Rectangle(endurance.AssetX, endurance.AssetY - 64, endurance.AssetFrameWidth, endurance.AssetFrameHeight), new Vector2(endurance.AssetFrameWidth / 2, 0), 0, Color.White);
+                    foreach (Assets fruit in MyAssetsManager.Fruits)
+                        DrawTexturePro(fruit.AssetTileSet, fruit.AssetSourceRec, new Rectangle(fruit.AssetX, fruit.AssetY - 64, fruit.AssetFrameWidth, fruit.AssetFrameHeight), new Vector2(fruit.AssetFrameWidth / 2, 0), 0, Color.White);
 
+                    foreach (Assets endurance in MyAssetsManager.Endurance)
+                        DrawTexturePro(endurance.AssetTileSet, endurance.AssetSourceRec, new Rectangle(endurance.AssetX, endurance.AssetY - 64, endurance.AssetFrameWidth, endurance.AssetFrameHeight), new Vector2(endurance.AssetFrameWidth / 2, 0), 0, Color.White);
+
+                    break;
+
+                case Level1States.final:
+
+                    DrawTexture(BackGround, 0, 0, Color.White)  ;
+
+                    // Clouds écran final
+                    foreach (Assets cloud in MyAssetsManager.Clouds)
+                        if (cloud.AssetName == "CloudFrontUp")
+                            DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth * 2, cloud.AssetFrameHeight * 2), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
+                        else
+                            DrawTexturePro(cloud.AssetTileSet, cloud.AssetSourceRec, new Rectangle(cloud.AssetX, cloud.AssetY, cloud.AssetFrameWidth, cloud.AssetFrameHeight), new Vector2(cloud.AssetFrameWidth / 2, 0), 0, Color.White);
+
+                    foreach (Assets David in MyAssetsManager.David)
+                        DrawTexturePro(David.AssetTileSet, David.AssetSourceRec, new Rectangle(David.AssetX, David.AssetY - 64, David.AssetFrameWidth, David.AssetFrameHeight), new Vector2(David.AssetFrameWidth / 2, 0), 0, Color.White);
+
+                    
+                    break;
+            }
+                        
+           
 
 
 

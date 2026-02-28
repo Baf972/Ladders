@@ -50,7 +50,7 @@ namespace LADDERS
         public float Life { get; set; }
         public float Endurance { get; set; }
         public float Energy { get; set; }
-        public int CollisionRange { get; set; }
+        public int CollisionRange { get; set; }       
 
         private static Bob? instance;
         public static Bob Instance
@@ -69,7 +69,7 @@ namespace LADDERS
             BobStatesTextures = new Dictionary<string, Texture2D>();
             MyAssetsManager = AssetsManager.Instance;
             LoadStatesTextures();
-            
+
             X = 768;
             //X = 480;
             Y = 500;
@@ -86,14 +86,13 @@ namespace LADDERS
             FrameWidth = 32;
             FrameHeight = 32;            
             CurrentFrame = 0;
-            Life = 7f;
+            Life = 3f;
             Energy = 100f;
             Endurance = 100f;
             MyState = new BobIdle(this);
             CollisionRange = 100;
             StatesTransition(BobStates.Idle);
-
-
+            
 
         }
         public Bob()
@@ -114,8 +113,14 @@ namespace LADDERS
             if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
                 Level1.Respawn = true;
 
-            else if (Y >= GetScreenHeight() + FrameHeight && Life <= 0)
-                Level1.EndGame = true;
+            else if ( Life < 1)
+            {
+                TakeScreenshot("BackGround.png");
+                Level1.ShotBackGround = LoadTexture("BackGround.png");
+                File.Delete("ShotBackGround.png");
+                Level1.Level1State = Level1States.end;
+            }
+                
 
             if (Energy <= 50)
                 Endurance -= 1 * DeltaTime;            
@@ -125,17 +130,21 @@ namespace LADDERS
 
             if (Energy <= 0)
                 Energy = 0;
-
-
-            if (Endurance <= 0)
-                Endurance = 0;
+  
 
             if (Endurance >= 100)
                 Endurance = 100;
 
             if (Endurance <= 0)
-                Level1.EndGame = true;
-           
+            {
+                Endurance = 0;
+                Level1.Respawn = true;
+            }
+
+
+
+
+
             MyState.Update(this);         
 
 

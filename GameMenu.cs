@@ -28,6 +28,7 @@ namespace LADDERS
         private int AlphaTextureSettings { get; set; }
         private int AlphaTextureCredits { get; set; }
         private int AlphaTexturePlay { get; set; }
+        private int FadeRectOut { get; set; }
 
 
         private Font FontMenu = LoadFont("assets/fonts/COOPBL.ttf");
@@ -44,11 +45,14 @@ namespace LADDERS
             AlphaTextureSettings = 0;
             AlphaTextureCredits = 0;
             AlphaTexturePlay = 0;
+            FadeRectOut = 255;
         }
 
         public override void Update()
         {
-            
+            FadeRectOut -= 3;
+            if (FadeRectOut <= 0)
+                FadeRectOut = 0;
 
             // Sélection Items
             if (IsKeyPressed(KeyboardKey.Up))
@@ -82,6 +86,7 @@ namespace LADDERS
                     if (ItemValidated)
                     {
                         GameStates.Instance.ChangeScene("gamePlay");
+                        FadeRectOut = 255;
                         ItemValidated = false;
                     }
                     
@@ -138,11 +143,11 @@ namespace LADDERS
             {
                 if (i == SelectedItem)
                 {
-                    ItemColor = Color.White;
+                    ItemColor = new Color(67, 41, 24);
                 }
                 else
                 {
-                    ItemColor = new Color(67, 41, 24);
+                    ItemColor = Color.White;
                 }
                 DrawTextEx(FontMenu, ItemsMenu[i], new Vector2(LeftPadding, 250 + i * (FontSize + VerticalSpacing)), FontSize, 0, ItemColor);
             }
@@ -160,6 +165,7 @@ namespace LADDERS
                     break;
             }
 
+            DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), new Color(255, 255, 255, FadeRectOut));
         }
         public override void Show()
         {

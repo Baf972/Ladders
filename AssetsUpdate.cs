@@ -8,6 +8,11 @@ using static Raylib_cs.Raylib;
 
 namespace LADDERS
 {
+    public enum DavidPositions
+    {
+        UpX,
+        DownX
+    }
     public class AssetsUpdate
     {
         private static AssetsUpdate? instance;
@@ -29,6 +34,9 @@ namespace LADDERS
         public Rectangle BobRec { get; set; }
         private Assets CloudFront { get; set; }
         private Assets CloudFrontUp { get; set; }
+        public Assets David { get; set; }        
+        public Assets StuffDavid { get; set; }
+        DavidPositions DavidPosition { get; set; }
         private float RockFallTimer { get; set; }
         private float HurtTimerSmall { get; set; }
         private float HurtTimerMedium { get; set; }
@@ -38,6 +46,16 @@ namespace LADDERS
         private float HurtTimerVerySmall4{ get; set; }
         private float HurtTimerVerySmall5{ get; set; }
         private float RockColorTimer { get; set; }
+        private float DavidParleTimer { get; set; }
+        private bool DavidParle { get; set; }
+        private bool Dialogue1 { get; set; }
+        private bool ImportDialogue1 { get; set; }
+        private bool ImportDialogue2 { get; set; }
+        private bool Dialogue2 { get; set; }
+        public bool GameFinish { get; set; }
+        private bool ImportGuide { get; set; }
+        private bool Guide { get; set; }
+
 
 
         public AssetsUpdate()
@@ -53,6 +71,12 @@ namespace LADDERS
             HurtTimerVerySmall2 = 1f;
             HurtTimerVerySmall3 = 1f;
             HurtTimerVerySmall4 = 1f;
+            DavidParleTimer = 3f;
+            DavidParle = true;
+           
+
+
+
         }
 
 
@@ -60,319 +84,468 @@ namespace LADDERS
         {
             float DeltaTime = GetFrameTime();
 
-            // BobRec -> bobStates
-            BobStates MyBobState = MyBob.GetCurrentState();
 
-            if (MyBobState == BobStates.Jumping && MyBob.IsFlipped)
-                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
-
-            else if (MyBobState == BobStates.Jumping && !MyBob.IsFlipped)
-                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
-
-            else if (MyBobState == BobStates.RunningUp && !MyBob.IsFlipped)
-                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
-
-            else if (MyBobState == BobStates.RunningUp && !MyBob.IsFlipped)
-                BobRec = new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
-
-            else if (MyBobState == BobStates.Landing && MyBob.IsFlipped)
-                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
-
-            else
-                BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth + 5, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth - 10, MyBob.FrameHeight);
-
-
-            foreach (Assets gift in MyAssetsManager.Gifts.ToList())
+            switch (Level1.Level1State)
             {
-                Rectangle giftrec = new Rectangle(gift.AssetX - 15, gift.AssetY - gift.AssetFrameHeight / 2 + 10, gift.AssetFrameWidth / 2, gift.AssetFrameHeight / 2);
+                case Level1States.root:
 
-                if ( gift.AssetName == "Gift" && CheckCollisionRecs(BobRec, giftrec))
-                {
-                    MyAssetsManager.Gifts.Remove(gift);
-                    Assets giftExplo = new Assets("GiftExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/GiftExplo.png"), (int)gift.AssetX, (int)gift.AssetY-10, (int)gift.AssetR, 0 , 17, 5, false, false, false);
-                    MyAssetsManager.Gifts.Add(giftExplo);
-                }
+                    // BobRec -> bobStates
+                    BobStates MyBobState = MyBob.GetCurrentState();
 
-            }
+                    if (MyBobState == BobStates.Jumping && MyBob.IsFlipped)
+                        BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
 
-            foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
-            {
-                Rectangle fruitrec = new Rectangle(fruit.AssetX - 15, fruit.AssetY - fruit.AssetFrameHeight / 2 - 10, fruit.AssetFrameWidth / 2, fruit.AssetFrameHeight / 2 + 20);
+                    else if (MyBobState == BobStates.Jumping && !MyBob.IsFlipped)
+                        BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
 
-                if (fruit.AssetName == "Fruit" && CheckCollisionRecs(BobRec, fruitrec))
-                {
-                    MyBob.Energy += 15;
-                    MyAssetsManager.Fruits.Remove(fruit);
-                    Assets fruitExplo = new Assets("FruitExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/FruitExplo.png"), (int)fruit.AssetX,(int)fruit.AssetY, 0 , 0, 12, 5, false, false, false);
-                    MyAssetsManager.Fruits.Add(fruitExplo);
-                }
+                    else if (MyBobState == BobStates.RunningUp && !MyBob.IsFlipped)
+                        BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
 
-            }
+                    else if (MyBobState == BobStates.RunningUp && !MyBob.IsFlipped)
+                        BobRec = new Rectangle(MyBob.X + MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
 
-            // Gestion des Rochers
+                    else if (MyBobState == BobStates.Landing && MyBob.IsFlipped)
+                        BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth / 2, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth, MyBob.FrameHeight);
 
-            // Génère des rochers
-            if (MapDraw.CameraY > -2000)
-            {               
-                RockFallTimer -= DeltaTime;
-                if (RockFallTimer <= 0) // Apparition des rochers
-                    SpawnRocks();
-            }
+                    else
+                        BobRec = new Rectangle(MyBob.X - MyBob.FrameWidth + 5, MyBob.Y - MyBob.FrameHeight, MyBob.FrameWidth - 10, MyBob.FrameHeight);
 
 
-            RockColorTimer -= DeltaTime;
-
-            // Update des rochers
-            foreach (Assets rock in MyAssetsManager.Rocks.ToList())
-            {
-
-                // Deplacement et Rotation des rochers
-                rock.AssetY += rock.AssetSpeed * DeltaTime;
-
-                if (rock.AssetSpeedR >= 0)
-                {
-                    rock.AssetSpeedR += 100 * DeltaTime;
-
-                    if (rock.AssetSpeedR > 5)
+                    foreach (Assets gift in MyAssetsManager.Gifts.ToList())
                     {
-                        rock.AssetSpeedR = 5;
-                        rock.AssetR += rock.AssetSpeedR;
-                    }
-                }
-                    
-                else if (rock.AssetSpeedR < 0)
-                {
-                    rock.AssetSpeedR -= 100 * DeltaTime;
-                    if (rock.AssetSpeedR < 5)
-                    {
-                        rock.AssetSpeedR = - 5;
-                        rock.AssetR += rock.AssetSpeedR;
-                    }
-                }
+                        Rectangle giftrec = new Rectangle(gift.AssetX - 15, gift.AssetY - gift.AssetFrameHeight / 2 + 10, gift.AssetFrameWidth / 2, gift.AssetFrameHeight / 2);
 
-                
-                // Collision avec Bob    
-
-
-                if (rock.AssetName == "RockVerySmall1")
-                {
-                    Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
-                    if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
-                    {
-                        rock.AssetActiv = true;
-                        //MyBob.IsHurt = true;
-                    }
-                    if (rock.AssetActiv)
-                    {
-                        //MyBob.Endurance -= 2f * DeltaTime;
-                        HurtTimerVerySmall1 -= DeltaTime;
-                        rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
-                        if (rock.AssetSpeedX <= 0)
-                            rock.AssetSpeedX = 0;
-
-                        rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
-
-                        if (HurtTimerVerySmall1 <= 0)
+                        if (gift.AssetName == "Gift" && CheckCollisionRecs(BobRec, giftrec))
                         {
+                            MyAssetsManager.Gifts.Remove(gift);
+                            Assets giftExplo = new Assets("GiftExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/GiftExplo.png"), (int)gift.AssetX, (int)gift.AssetY - 10, (int)gift.AssetR, 0, 17, 5, false, false, false);
+                            MyAssetsManager.Gifts.Add(giftExplo);
+                        }
+
+                    }
+
+                    foreach (Assets fruit in MyAssetsManager.Fruits.ToList())
+                    {
+                        Rectangle fruitrec = new Rectangle(fruit.AssetX - 15, fruit.AssetY - fruit.AssetFrameHeight / 2 - 10, fruit.AssetFrameWidth / 2, fruit.AssetFrameHeight / 2 + 20);
+
+                        if (fruit.AssetName == "Fruit" && CheckCollisionRecs(BobRec, fruitrec))
+                        {
+                            MyBob.Energy += 15;
+                            MyAssetsManager.Fruits.Remove(fruit);
+                            Assets fruitExplo = new Assets("FruitExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/FruitExplo.png"), (int)fruit.AssetX, (int)fruit.AssetY, 0, 0, 12, 5, false, false, false);
+                            MyAssetsManager.Fruits.Add(fruitExplo);
+                        }
+
+                    }
+
+                    // Gestion des Rochers
+
+                    // Génère des rochers
+                    if (MapDraw.CameraY > -2000)
+                    {
+                        RockFallTimer -= DeltaTime;
+                        if (RockFallTimer <= 0) // Apparition des rochers
+                            SpawnRocks();
+                    }
+
+
+                    RockColorTimer -= DeltaTime;
+
+                    // Update des rochers
+                    foreach (Assets rock in MyAssetsManager.Rocks.ToList())
+                    {
+
+                        // Deplacement et Rotation des rochers
+                        rock.AssetY += rock.AssetSpeed * DeltaTime;
+
+                        if (rock.AssetSpeedR >= 0)
+                        {
+                            rock.AssetSpeedR += 100 * DeltaTime;
+
+                            if (rock.AssetSpeedR > 5)
+                            {
+                                rock.AssetSpeedR = 5;
+                                rock.AssetR += rock.AssetSpeedR;
+                            }
+                        }
+
+                        else if (rock.AssetSpeedR < 0)
+                        {
+                            rock.AssetSpeedR -= 100 * DeltaTime;
+                            if (rock.AssetSpeedR < 5)
+                            {
+                                rock.AssetSpeedR = -5;
+                                rock.AssetR += rock.AssetSpeedR;
+                            }
+                        }
+
+
+                        // Collision avec Bob    
+
+
+                        if (rock.AssetName == "RockVerySmall1")
+                        {
+                            Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                            if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                            {
+                                rock.AssetActiv = true;
+                                //MyBob.IsHurt = true;
+                            }
+                            if (rock.AssetActiv)
+                            {
+                                //MyBob.Endurance -= 2f * DeltaTime;
+                                HurtTimerVerySmall1 -= DeltaTime;
+                                rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
+                                if (rock.AssetSpeedX <= 0)
+                                    rock.AssetSpeedX = 0;
+
+                                rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
+
+                                if (HurtTimerVerySmall1 <= 0)
+                                {
+                                    rock.AssetActiv = false;
+                                    HurtTimerVerySmall1 = 1f;
+                                    MyBob.IsHurt = false;
+                                }
+                            }
+
+                        }
+                        if (rock.AssetName == "RockVerySmall2")
+                        {
+                            Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                            if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                            {
+
+                                rock.AssetActiv = true;
+                                //MyBob.IsHurt = true;
+                            }
+                            if (rock.AssetActiv)
+                            {
+                                //MyBob.Endurance -= 2f * DeltaTime;
+                                HurtTimerVerySmall1 -= DeltaTime;
+                                rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
+                                if (rock.AssetSpeedX <= 0)
+                                    rock.AssetSpeedX = 0;
+                                rock.AssetX += (int)rock.AssetSpeedX * DeltaTime;
+
+                                if (HurtTimerVerySmall1 <= 0)
+                                {
+                                    rock.AssetActiv = false;
+                                    HurtTimerVerySmall1 = 1f;
+                                    MyBob.IsHurt = false;
+                                }
+                            }
+
+                        }
+                        if (rock.AssetName == "RockVerySmall3")
+                        {
+                            Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                            if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                            {
+
+                                rock.AssetActiv = true;
+                                //MyBob.IsHurt = true;
+                            }
+                            if (rock.AssetActiv)
+                            {
+                                //MyBob.Endurance -= 2f * DeltaTime;
+                                HurtTimerVerySmall1 -= DeltaTime;
+                                rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
+                                if (rock.AssetSpeedX <= 0)
+                                    rock.AssetSpeedX = 0;
+                                rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
+
+                                if (HurtTimerVerySmall1 <= 0)
+                                {
+                                    rock.AssetActiv = false;
+                                    HurtTimerVerySmall1 = 1f;
+                                    MyBob.IsHurt = false;
+                                }
+                            }
+
+                        }
+                        if (rock.AssetName == "RockVerySmall4")
+                        {
+                            Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                            if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                            {
+
+                                rock.AssetActiv = true;
+                                //MyBob.IsHurt = true;
+                            }
+                            if (rock.AssetActiv)
+                            {
+                                //MyBob.Endurance -= 2f * DeltaTime;
+                                HurtTimerVerySmall1 -= DeltaTime;
+                                rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
+                                if (rock.AssetSpeedX <= 0)
+                                    rock.AssetSpeedX = 0;
+                                rock.AssetX += (int)rock.AssetSpeedX * DeltaTime;
+
+                                if (HurtTimerVerySmall1 <= 0)
+                                {
+                                    rock.AssetActiv = false;
+                                    HurtTimerVerySmall1 = 1f;
+                                    MyBob.IsHurt = false;
+                                }
+                            }
+
+                        }
+                        if (rock.AssetName == "RockSmall")
+                        {
+                            Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth / 2, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                            if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                            {
+
+                                rock.AssetActiv = true;
+                                MyBob.IsHurt = true;
+                            }
+                            if (rock.AssetActiv)
+                            {
+                                MyBob.Endurance -= 4f * DeltaTime;
+                                HurtTimerVerySmall1 -= DeltaTime;
+                                rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
+                                if (rock.AssetSpeedX <= 0)
+                                    rock.AssetSpeedX = 0;
+                                rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
+
+                                if (HurtTimerVerySmall1 <= 0)
+                                {
+                                    rock.AssetActiv = false;
+                                    HurtTimerVerySmall1 = 1f;
+                                    MyBob.IsHurt = false;
+                                }
+                            }
+
+                        }
+                        if (rock.AssetName == "RockMedium")
+                        {
+                            Rectangle rockrec = new Rectangle(rock.AssetX, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
+                            if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                            {
+
+                                rock.AssetActiv = true;
+                                MyBob.IsHurt = true;
+                            }
+                            if (rock.AssetActiv)
+                            {
+                                MyBob.Endurance -= 6f * DeltaTime;
+                                HurtTimerVerySmall1 -= DeltaTime;
+                                rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
+                                if (rock.AssetSpeedX <= 0)
+                                    rock.AssetSpeedX = 0;
+                                rock.AssetX += (int)rock.AssetSpeedX * DeltaTime;
+
+                                if (HurtTimerVerySmall1 <= 0)
+                                {
+                                    rock.AssetActiv = false;
+                                    HurtTimerVerySmall1 = 1f;
+                                    MyBob.IsHurt = false;
+                                }
+                            }
+
+                        }
+
+
+
+                        /*// Le rocher clignote rouge (Danger)
+                        if ((rock.AssetName == "RockMedium" || rock.AssetName == "RockSmall") && RockColorTimer >= 1)
                             rock.AssetActiv = false;
-                            HurtTimerVerySmall1 = 1f;
-                            MyBob.IsHurt = false;
+
+                        if ((rock.AssetName == "RockMedium" || rock.AssetName == "RockSmall") && RockColorTimer < 1)
+                            rock.AssetActiv = true;
+
+                        if (RockColorTimer <= 0)
+                            RockColorTimer = 2;*/
+
+
+                        if (rock.AssetY > GetScreenHeight() + rock.AssetFrameHeight)
+                            MyAssetsManager.Rocks.Remove(rock);
+                    }
+
+                    foreach (Assets endurance in MyAssetsManager.Endurance.ToList())
+                    {
+                        Rectangle enduranceRec = new Rectangle(endurance.AssetX - 15, endurance.AssetY - endurance.AssetFrameHeight / 2 + 10, endurance.AssetFrameWidth / 2, endurance.AssetFrameHeight / 2);
+                        if (CheckCollisionRecs(BobRec, enduranceRec))
+                        {
+                            MyBob.Endurance = 100f;
+                            MyAssetsManager.Endurance.Remove(endurance);
                         }
                     }
-                    
-                }
-                if (rock.AssetName == "RockVerySmall2")
-                {
-                    Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
-                    if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
-                    {
-                        
-                        rock.AssetActiv = true;
-                        //MyBob.IsHurt = true;
-                    }
-                    if (rock.AssetActiv)
-                    {
-                        //MyBob.Endurance -= 2f * DeltaTime;
-                        HurtTimerVerySmall1 -= DeltaTime;
-                        rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
-                        if (rock.AssetSpeedX <= 0)
-                            rock.AssetSpeedX = 0;
-                        rock.AssetX += (int)rock.AssetSpeedX * DeltaTime;
 
-                        if (HurtTimerVerySmall1 <= 0)
+                    // Gestion des Nuages
+
+                    if (MapDraw.CloudsAppear)
+                    {
+                        CloudFront = new Assets("CloudFront", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFront.png"), 0, -700, 0, 10, 1, 1, false, false, false);
+                        MyAssetsManager.Clouds.Add(CloudFront);
+
+                        CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), -300, -1400, 0, 5, 1, 1, false, false, false);
+                        MyAssetsManager.Clouds.Add(CloudFrontUp);
+
+                        CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), 0, -1100, 0, 15, 1, 1, false, false, false);
+                        MyAssetsManager.Clouds.Add(CloudFrontUp);
+
+
+                        MapDraw.CloudsAppear = false;
+                    }
+                    foreach (Assets cloud in MyAssetsManager.Clouds)
+                    {
+                        cloud.AssetX += cloud.AssetSpeed * DeltaTime;
+                        if (cloud.AssetX > GetScreenWidth() + cloud.AssetFrameWidth / 4)
                         {
-                            rock.AssetActiv = false;
-                            HurtTimerVerySmall1 = 1f;
-                            MyBob.IsHurt = false;
+                            if (cloud.AssetName == "CloudFront")
+                                cloud.AssetX = 0 - cloud.AssetFrameWidth;
+                            else if (cloud.AssetName == "CloudFrontUp")
+                                cloud.AssetX = 0 - cloud.AssetFrameWidth * 1.5f;
                         }
                     }
+                    break;
 
-                }
-                if (rock.AssetName == "RockVerySmall3")
-                {
-                    Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
-                    if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
+                case Level1States.final:
+
+                    // Gestion des Nuages
+
+                    if (Level1.CloudsFinal)
                     {
-                        
-                        rock.AssetActiv = true;
-                        //MyBob.IsHurt = true;
+
+                        CloudFront = new Assets("CloudFront", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFront.png"), 0, +300, 0, 10, 1, 1, false, false, false);
+                        MyAssetsManager.Clouds.Add(CloudFront);
+
+                        CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), -250, 0, 0, 5, 1, 1, false, false, false);
+                        MyAssetsManager.Clouds.Add(CloudFrontUp);
+
+                        CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), 0, 0, 0, 3, 1, 1, false, false, false);
+                        MyAssetsManager.Clouds.Add(CloudFrontUp);
+
+                        David = new Assets("David", MyAssetsManager.MyTexturesManager.GetTexture("assets/David.png"), 860, 160, 0, 10, 1, 0, false, false, false);
+                        MyAssetsManager.David.Add(David);
+
+
+                        Level1.CloudsFinal = false;
                     }
-                    if (rock.AssetActiv)
-                    {
-                        //MyBob.Endurance -= 2f * DeltaTime;
-                        HurtTimerVerySmall1 -= DeltaTime;
-                        rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
-                        if (rock.AssetSpeedX <= 0)
-                            rock.AssetSpeedX = 0;
-                        rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
 
-                        if (HurtTimerVerySmall1 <= 0)
+                    foreach (Assets cloud in MyAssetsManager.Clouds)
+                        cloud.AssetX += cloud.AssetSpeed * DeltaTime;
+
+                    foreach (Assets David in MyAssetsManager.David.ToList())
+                    {
+                        DavidParleTimer -= DeltaTime;
+
+                        if (David.AssetName == "David")
                         {
-                            rock.AssetActiv = false;
-                            HurtTimerVerySmall1 = 1f;
-                            MyBob.IsHurt = false;
+                            switch (DavidPosition)
+                            {
+                                case DavidPositions.UpX:
+
+                                    David.AssetX += David.AssetSpeed * DeltaTime;
+                                    David.AssetY += David.AssetSpeed * DeltaTime;
+
+                                    if (David.AssetX >= 865)
+                                        DavidPosition = DavidPositions.DownX;
+                                    break;
+
+                                case DavidPositions.DownX:
+
+                                    David.AssetX -= David.AssetSpeed * DeltaTime;
+                                    David.AssetY -= David.AssetSpeed * DeltaTime;
+
+                                    if (David.AssetX <= 845)
+                                        DavidPosition = DavidPositions.UpX;
+                                    break;
+                            }
+
+                            if (DavidParleTimer <= 0 && DavidParle)
+                            {
+                                David.AssetTileSet = MyAssetsManager.MyTexturesManager.GetTexture("assets/DavidParle.png");
+                                David.AssetFrameCount = 4;
+                                David.AssetNewFrameTimer = 10;
+                                Dialogue1 = true;
+                                ImportDialogue1 = true;
+                                DavidParle = false;
+                            }
+                            if (Dialogue1)
+                            {    
+                                if (ImportDialogue1)
+                                {
+                                    Assets dialogue1 = new Assets("Dialogue1", MyAssetsManager.MyTexturesManager.GetTexture("assets/Dialogue1.png"), 500, 100, 0, 0, 1, 0, false, false, false);
+                                    MyAssetsManager.Dialogues.Add(dialogue1);
+                                    ImportDialogue1 = false;
+                                }
+                                if (IsKeyPressed(KeyboardKey.Enter) || IsKeyPressed(KeyboardKey.KpEnter))
+                                {
+                                    foreach (Assets dialogue in MyAssetsManager.Dialogues.ToList())
+                                    {
+                                        if (dialogue.AssetName == "Dialogue1")
+                                            MyAssetsManager.Dialogues.Remove(dialogue);
+                                    }
+                                    Guide = true;   
+                                    ImportGuide = true;
+                                    Dialogue1 = false;
+                                }                                 
+
+                            }
+                            else if (Guide)
+                            {
+                                if (ImportGuide)
+                                {
+                                    David.AssetTileSet = MyAssetsManager.MyTexturesManager.GetTexture("assets/David.png");
+                                    David.AssetFrameCount = 1;
+                                    David.AssetNewFrameTimer = 0;
+                                    Assets guide = new Assets("Guides", MyAssetsManager.MyTexturesManager.GetTexture("assets/Guides.png"), 500, 100, 0, 0, 1, 0, false, false, false);
+                                    MyAssetsManager.Dialogues.Add(guide);
+                                    ImportGuide = false;
+                                }
+                                if (IsKeyPressed(KeyboardKey.Enter) || IsKeyPressed(KeyboardKey.KpEnter))
+                                {
+                                    foreach (Assets dialogue in MyAssetsManager.Dialogues.ToList())
+                                    {
+                                        if (dialogue.AssetName == "Guides")
+                                            MyAssetsManager.Dialogues.Remove(dialogue);
+                                    }
+                                    Dialogue2 = true;
+                                    ImportDialogue2 = true;
+                                    Guide = false;
+                                }
+
+
+                            }
+                            else if (Dialogue2)
+                            {
+                                if (ImportDialogue2)
+                                {
+                                    David.AssetTileSet = MyAssetsManager.MyTexturesManager.GetTexture("assets/DavidParle.png");
+                                    David.AssetFrameCount = 4;
+                                    David.AssetNewFrameTimer = 10;
+                                    Assets dialogue2 = new Assets("Dialogue2", MyAssetsManager.MyTexturesManager.GetTexture("assets/Dialogue2.png"), 500, 100, 0, 0, 1, 0, false, false, false);
+                                    MyAssetsManager.Dialogues.Add(dialogue2);
+                                    ImportDialogue2 = false;
+                                }
+                                if (IsKeyPressed(KeyboardKey.Enter) || IsKeyPressed(KeyboardKey.KpEnter))
+                                {
+                                    foreach (Assets dialogue in MyAssetsManager.Dialogues.ToList())
+                                    {
+                                        if (dialogue.AssetName == "Dialogue2")
+                                            MyAssetsManager.Dialogues.Remove(dialogue);
+                                    }
+                                    GameFinish = true;
+                                    Dialogue2 = false;
+                                }
+
+
+                            }
+
+                            if (GameFinish)
+                            {
+                                David.AssetTileSet = MyAssetsManager.MyTexturesManager.GetTexture("assets/David.png");
+                                David.AssetFrameCount = 1;
+                                David.AssetNewFrameTimer = 0;                                
+                            }
                         }
+                                    
                     }
-
-                }
-                if (rock.AssetName == "RockVerySmall4")
-                {
-                    Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth * 2, rock.AssetY - rock.AssetFrameHeight, rock.AssetFrameWidth, rock.AssetFrameHeight);
-                    if (CheckCollisionRecs(BobRec, rockrec)  && !rock.AssetActiv)
-                    {
-                        
-                        rock.AssetActiv = true;
-                        //MyBob.IsHurt = true;
-                    }
-                    if (rock.AssetActiv)
-                    {
-                        //MyBob.Endurance -= 2f * DeltaTime;
-                        HurtTimerVerySmall1 -= DeltaTime;
-                        rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
-                        if (rock.AssetSpeedX <= 0)
-                            rock.AssetSpeedX = 0;
-                        rock.AssetX += (int)rock.AssetSpeedX * DeltaTime;
-
-                        if (HurtTimerVerySmall1 <= 0)
-                        {
-                            rock.AssetActiv = false;
-                            HurtTimerVerySmall1 = 1f;
-                            MyBob.IsHurt = false;
-                        }
-                    }
-
-                }
-                if (rock.AssetName == "RockSmall")
-                {
-                    Rectangle rockrec = new Rectangle(rock.AssetX + rock.AssetFrameWidth / 2, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
-                    if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
-                    {
-                       
-                        rock.AssetActiv = true;
-                        MyBob.IsHurt = true;
-                    }
-                    if (rock.AssetActiv)
-                    {
-                        MyBob.Endurance -= 4f * DeltaTime;
-                        HurtTimerVerySmall1 -= DeltaTime;
-                        rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
-                        if (rock.AssetSpeedX <= 0)
-                            rock.AssetSpeedX = 0;
-                        rock.AssetX -= (int)rock.AssetSpeedX * DeltaTime;
-
-                        if (HurtTimerVerySmall1 <= 0)
-                        {
-                            rock.AssetActiv = false;
-                            HurtTimerVerySmall1 = 1f;
-                            MyBob.IsHurt = false;
-                        }
-                    }
-
-                }
-                if (rock.AssetName == "RockMedium")
-                {
-                    Rectangle rockrec = new Rectangle(rock.AssetX, rock.AssetY - rock.AssetFrameHeight / 2, rock.AssetFrameWidth, rock.AssetFrameHeight);
-                    if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
-                    {
-                        
-                        rock.AssetActiv = true;
-                        MyBob.IsHurt = true;
-                    }
-                    if (rock.AssetActiv)
-                    {
-                        MyBob.Endurance -= 6f * DeltaTime;
-                        HurtTimerVerySmall1 -= DeltaTime;
-                        rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
-                        if (rock.AssetSpeedX <= 0)
-                            rock.AssetSpeedX = 0;
-                        rock.AssetX += (int)rock.AssetSpeedX * DeltaTime;
-
-                        if (HurtTimerVerySmall1 <= 0)
-                        {
-                            rock.AssetActiv = false;
-                            HurtTimerVerySmall1 = 1f;
-                            MyBob.IsHurt = false;
-                        }
-                    }
-
-                }
-
-
-                
-                /*// Le rocher clignote rouge (Danger)
-                if ((rock.AssetName == "RockMedium" || rock.AssetName == "RockSmall") && RockColorTimer >= 1)
-                    rock.AssetActiv = false;
-
-                if ((rock.AssetName == "RockMedium" || rock.AssetName == "RockSmall") && RockColorTimer < 1)
-                    rock.AssetActiv = true;
-
-                if (RockColorTimer <= 0)
-                    RockColorTimer = 2;*/
-
-
-                if (rock.AssetY > GetScreenHeight() + rock.AssetFrameHeight)
-                    MyAssetsManager.Rocks.Remove(rock);
-            }
-
-            foreach (Assets endurance in MyAssetsManager.Endurance.ToList())
-            {
-                Rectangle enduranceRec = new Rectangle(endurance.AssetX - 15, endurance.AssetY - endurance.AssetFrameHeight / 2 + 10, endurance.AssetFrameWidth / 2, endurance.AssetFrameHeight / 2);
-                if (CheckCollisionRecs(BobRec, enduranceRec))
-                {
-                    MyBob.Endurance = 100f;
-                    MyAssetsManager.Endurance.Remove(endurance);
-                }
-            }
-
-            // Gestion des Nuages
-
-            if (MapDraw.CloudsAppear)
-            {
-                CloudFront = new Assets("CloudFront", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFront.png"), 0, -700, 0, 10, 1, 1, false, false, false);
-                MyAssetsManager.Clouds.Add(CloudFront);
-
-                CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), -300, -1400, 0, 5, 1, 1, false, false, false);
-                MyAssetsManager.Clouds.Add(CloudFrontUp);
-
-                CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), 0, -1100, 0, 15, 1, 1, false, false, false);
-                MyAssetsManager.Clouds.Add(CloudFrontUp);
-
-                CloudFrontUp = new Assets("CloudFrontUp", MyAssetsManager.MyTexturesManager.GetTexture("assets/CloudsFrontUp.png"), 300, -1100, 0, 5, 1, 1, false, false, false);
-                MyAssetsManager.Clouds.Add(CloudFrontUp);
-
-
-                MapDraw.CloudsAppear = false;
-            }
-            foreach (Assets cloud in MyAssetsManager.Clouds)
-            {
-                cloud.AssetX += cloud.AssetSpeed * DeltaTime;
-                if (cloud.AssetX > GetScreenWidth() + cloud.AssetFrameWidth / 4)
-                {
-                    if (cloud.AssetName == "CloudFront")
-                        cloud.AssetX = 0 - cloud.AssetFrameWidth;
-                    else if (cloud.AssetName == "CloudFrontUp")
-                        cloud.AssetX = 0 - cloud.AssetFrameWidth * 1.5f;
-                }   
+                    break;
+            
             }
         }
 
@@ -413,7 +586,7 @@ namespace LADDERS
                  }
 
             }*/
-           // DrawText("Fruit List  " + MyAssetsManager.Fruits.Count.ToString(), 40, 80, 30, Color.White) ;
+
         }
 
         public void SpawnRocks()

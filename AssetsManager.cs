@@ -46,6 +46,9 @@ namespace LADDERS
         public List<Assets> Rocks;
         public List<Assets> IconesMenu;
         public List<Assets> Endurance;
+        public List<Assets> David;
+        public List<Assets> Dialogues;
+
         public TextureManager MyTexturesManager;
 
 
@@ -86,7 +89,12 @@ namespace LADDERS
                 {"Endurance", MyTexturesManager.GetTexture("assets/Endurance.png")},
                 {"Energy", MyTexturesManager.GetTexture("assets/Energy.png")},
                 {"FruitExplo", MyTexturesManager.GetTexture("assets/FruitExplo.png")},
-
+                {"BobIcone", MyTexturesManager.GetTexture("assets/BobIcone.png")},
+                {"David", MyTexturesManager.GetTexture("assets/David.png")},
+                {"DavidParle", MyTexturesManager.GetTexture("assets/DavidParle.png")},
+                {"Dialogue1", MyTexturesManager.GetTexture("assets/Dialogue1.png")},
+                {"Dialogue2", MyTexturesManager.GetTexture("assets/Dialogue2.png")},
+                {"Guides", MyTexturesManager.GetTexture("assets/Guides.png")},
 
 
             };
@@ -98,6 +106,8 @@ namespace LADDERS
             Rocks = new List<Assets>();
             IconesMenu = new List<Assets>();
             Endurance = new List<Assets>();
+            David = new List<Assets>();
+            Dialogues = new List<Assets>();
 
         }
         public void Unloadtextures()
@@ -119,6 +129,8 @@ namespace LADDERS
             Rocks.Clear();
             IconesMenu.Clear();
             Endurance.Clear();
+            David.Clear();
+            Dialogues.Clear();  
 
         }
 
