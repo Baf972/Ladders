@@ -92,7 +92,7 @@ namespace LADDERS
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);
             int tileLig = (int)(AbsolutBobY / MapRead.TileWidth);
-            MyBob.Energy -= 0.3f * DeltaTime;
+            MyBob.Energy -= 0.8f * DeltaTime;
 
             // Si Pas d'échelle au dessus, Bob s'arrête
             int NoTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 2, "Ladders");  
@@ -105,7 +105,8 @@ namespace LADDERS
             if (ModifiableLadderId != 1312  && ModifiableLadderId != 0)
             {
                 MyMapRead.ModifyTile(tileCol - 1, tileLig + 1, "Ladders", 0);
-                BreakLadder = true;   
+                BreakLadder = true;
+                PlaySound(BreakingWoodSound);
             }
             int woodSoundId = MyMapRead.GetTileId(tileCol - 1, tileLig, "Ladders");
             if (woodSoundId == 1311 || woodSoundId == 0)
@@ -116,10 +117,10 @@ namespace LADDERS
                 {
                     PlaySound(ClimbWoodSound);
                     ClimbWoodTimer = 0.5f;
-
                 }
             }
-            int metalSoundId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
+            
+                int metalSoundId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
             if (metalSoundId == 1312 || metalSoundId == 0)
             {
                 ClimbMetalTimer -= GetFrameTime();

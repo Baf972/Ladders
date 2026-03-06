@@ -64,12 +64,12 @@ namespace LADDERS
         private bool GiftSoundPlayed;
         private bool FruitSoundPlayed;
 
-
-        public AssetsUpdate()
+        public void Init()
         {
-            MyAssetsManager = AssetsManager.Instance;
+            MyAssetsManager = AssetsManager.Instance;   
             MyMapRead = new MapRead();
             MyBob = Bob.Instance;
+            DeliverGifts();
             RockFallTimer = 0;
             //RockColorTimer = 2;
             HurtTimerSmall = 1f;
@@ -82,10 +82,11 @@ namespace LADDERS
             DavidParle = true;
             CollisionSound = LoadSound("assets/sounds/CollisionSound.wav");
             CollisionSoundPlayed = false;
+        }
 
-
-
-
+        public AssetsUpdate()
+        {
+            Init();
         }
 
 
@@ -139,7 +140,7 @@ namespace LADDERS
 
                         if (fruit.AssetName == "Fruit" && CheckCollisionRecs(BobRec, fruitrec))
                         {
-                            MyBob.Energy += 15;
+                            MyBob.Energy += 25;
                             MyAssetsManager.Fruits.Remove(fruit);
                             Assets fruitExplo = new Assets("FruitExplo", MyAssetsManager.MyTexturesManager.GetTexture("assets/FruitExplo.png"), (int)fruit.AssetX, (int)fruit.AssetY, 0, 0, 12, 5, false, false, false);
                             MyAssetsManager.Fruits.Add(fruitExplo);
@@ -198,12 +199,12 @@ namespace LADDERS
                             if (CheckCollisionRecs(BobRec, rockrec) && !rock.AssetActiv)
                             {
                                 rock.AssetActiv = true;
-                                //MyBob.IsHurt = true;
+                                MyBob.IsHurt = true;
                                 CollisionSoundPlayed = true;
                             }
                             if (rock.AssetActiv)
                             {
-                                //MyBob.Endurance -= 2f * DeltaTime;
+                                MyBob.Endurance -= 1f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -236,12 +237,12 @@ namespace LADDERS
                             {
 
                                 rock.AssetActiv = true;
-                                //MyBob.IsHurt = true;
+                                MyBob.IsHurt = true;
                                 PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
-                                //MyBob.Endurance -= 2f * DeltaTime;
+                                MyBob.Endurance -= 1f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -266,12 +267,12 @@ namespace LADDERS
                             {
 
                                 rock.AssetActiv = true;
-                                //MyBob.IsHurt = true;
+                                MyBob.IsHurt = true;
                                 PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
-                                //MyBob.Endurance -= 2f * DeltaTime;
+                                MyBob.Endurance -= 1f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -297,12 +298,12 @@ namespace LADDERS
                             {
 
                                 rock.AssetActiv = true;
-                                //MyBob.IsHurt = true;
+                                MyBob.IsHurt = true;
                                 PlaySound(CollisionSound);
                             }
                             if (rock.AssetActiv)
                             {
-                                //MyBob.Endurance -= 2f * DeltaTime;
+                                MyBob.Endurance -= 1f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -333,7 +334,7 @@ namespace LADDERS
                             }
                             if (rock.AssetActiv)
                             {
-                                MyBob.Endurance -= 15f * DeltaTime;
+                                MyBob.Endurance -= 12f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -365,7 +366,7 @@ namespace LADDERS
                             }
                             if (rock.AssetActiv)
                             {
-                                MyBob.Endurance -= 20f * DeltaTime;
+                                MyBob.Endurance -= 15f * DeltaTime;
                                 HurtTimerVerySmall1 -= DeltaTime;
                                 rock.AssetSpeedX -= rock.AssetVelocity * DeltaTime;
                                 if (rock.AssetSpeedX <= 0)
@@ -689,6 +690,58 @@ namespace LADDERS
                     }
 
                     
+                }
+            }
+
+        }
+
+        public void DeliverGifts()
+        {
+            int NbCol = MapRead.Width;
+            int NbLig = MapRead.Height;
+
+            int TileWidth = 32;
+            int TileHeight = 32;
+
+            for (int Col = 0; Col < NbCol; Col++)
+            {
+                for (int Lig = 0; Lig < NbLig; Lig++)
+                {
+                    int TileId = MyMapRead.GetTileId(Col, Lig, "Gifts");
+                    if (TileId == 1387)
+                    {
+                        float x = (Col * TileWidth) + 16;
+                        float y = (Lig * TileHeight) + MapDraw.CameraY;
+
+                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
+
+                        Assets myGift = new Assets("Gift", MyAssetsManager.MyTexturesManager.GetTexture("assets/Gift.png"), (int)x, (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
+                        MyAssetsManager.Gifts.Add(myGift);
+                    }
+
+                    int TileIdFruits = MyMapRead.GetTileId(Col, Lig, "Energy");
+                    if (TileIdFruits == 1388)
+                    {
+                        float x = (Col * TileWidth) + 16;
+                        float y = (Lig * TileHeight) + MapDraw.CameraY;
+
+                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
+
+                        Assets myFruit = new Assets("Fruit", MyAssetsManager.MyTexturesManager.GetTexture("assets/Fruits.png"), (int)x, (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
+                        MyAssetsManager.Fruits.Add(myFruit);
+                    }
+
+                    int TileIdEndurance = MyMapRead.GetTileId(Col, Lig, "Endurance");
+                    if (TileIdEndurance == 9)
+                    {
+                        float x = (Col * TileWidth) + 16;
+                        float y = (Lig * TileHeight) + MapDraw.CameraY;
+
+                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
+
+                        Assets MyEndurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), (int)x, (int)y, 0, 0, 12, FrameTimerRandom, false, false, false);
+                        MyAssetsManager.Endurance.Add(MyEndurance);
+                    }
                 }
             }
 

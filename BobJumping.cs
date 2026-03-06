@@ -33,8 +33,9 @@ namespace LADDERS
             OldY = MyBob.Y;
             //CollidLadder = false;
             BreakLoop = true;
+            StopSound(FallingSound);
 
-            MyBob.Energy -= 1f * DeltaTime;
+            MyBob.Energy -= 1.5f * DeltaTime;
             JumpingTimer -= DeltaTime;
                        
 
@@ -54,6 +55,9 @@ namespace LADDERS
 
                 foreach (Assets endurance in MyAssetsManager.Endurance)
                     endurance.AssetY += MyBob.SpeedJumpUp * DeltaTime;
+
+
+                
 
             }
 
@@ -84,7 +88,13 @@ namespace LADDERS
                 MyBob.X += MyBob.SpeedJumpLenght * DeltaTime;
             else
                 MyBob.X -= MyBob.SpeedJumpLenght * DeltaTime;
-           
+
+            // JumpSound
+            if (JumpTimer)
+            {
+                PlaySound(JumpSound);
+                JumpTimer = false;
+            }
 
 
             // Id TileMap & Collisions
@@ -159,7 +169,7 @@ namespace LADDERS
 
                 }
             }
-            if (MapDraw.CameraY <= -2120  || JumpingTimer <= 0)
+            if (MapDraw.CameraY <= -2180  || JumpingTimer <= 0)
             {
                 MyBob.StatesTransition(BobStates.Falling);
                 JumpingTimer = 2f;

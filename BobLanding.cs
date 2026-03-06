@@ -30,6 +30,7 @@ namespace LADDERS
         }
         public override void Update(Bob MyBob)
         {
+            StopSound(FallingSound);
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)

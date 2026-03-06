@@ -20,6 +20,13 @@ namespace LADDERS
         }
         public override void Update(Bob MyBob)
         {
+            
+            if (FallingSoundTimer)
+            {
+                StopSound(FallingSound);
+                PlaySound(FallingSound);
+                FallingSoundTimer = false;
+            }
 
             BreakLoop = true;
             if (MapDraw.CameraY > -1000)
@@ -51,10 +58,14 @@ namespace LADDERS
                 // Si Bob tombe sur une échelle en métal, il s'arrête
                 int MetalTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
                 if (MetalTileId == 1312)
-                {
+                {                    
                     MyBob.StatesTransition(BobStates.Landing);
+                    StopSound(FallingSound);
+                    PlaySound(OufSound);
+                    PlaySound(LandingWoodSound);
                     MyBob.Y += 32;
                 }
+          
 
                 // Si Bob rencontre une échelle en bois, elle se casse
                 LadderPartsTimer -= DeltaTime;
@@ -65,7 +76,6 @@ namespace LADDERS
                         MyMapRead.ModifyTile(tileCol - 1, tileLig - 2, "Ladders", 0);
                         LadderPartsTimer = 0.1f;
                         BreakLadder = true;
-
                     }
                 }
 
@@ -115,7 +125,7 @@ namespace LADDERS
                 MapDraw.BackGround2Pos.Y = -420;
                 MyBob.Y += MyBob.SpeedFallDown * DeltaTime;
             }
-
+           
 
             base.Update(MyBob);
         }

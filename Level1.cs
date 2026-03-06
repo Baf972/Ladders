@@ -49,14 +49,13 @@ namespace LADDERS
             string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789éèàùçâêîôûëïüöÉÈÀÙÇÂÊÎÔÛËÏÜÖ' .:-!?";
             int[] codepoints = chars.Select(c => (int)c).ToArray();
             FontDialogues = LoadFontEx("assets/fonts/COOPBL.ttf", 70, codepoints, codepoints.Length);
-
             MyMapRead = new MapRead();
             MyMapRead.LoadDatas("assets/LadderMapLV1.json");
             MyMapDraw = new MapDraw(MyMapRead, "assets/");
             MyAssetsManager = AssetsManager.Instance;
+            MyAssetsUpdate = AssetsUpdate.Instance;
             MyAssetsDraw = AssetsDraw.Instance;
             MyBob = Bob.Instance;
-            MyAssetsUpdate = AssetsUpdate.Instance;
             Respawn = false;
             Assets Endurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), 360, GetScreenHeight() - 32, 0, 0, 12, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Endurance);
@@ -268,13 +267,15 @@ namespace LADDERS
             MyAssetsManager.Close();
             MyAssetsDraw.Close();
             Init();
+            MyBob.Init();
+            MyAssetsUpdate.Init();
             Assets Endurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), 360, GetScreenHeight() - 32, 0, 0, 12, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Endurance);
             Assets Energy = new Assets("Energy", MyAssetsManager.MyTexturesManager.GetTexture("assets/Energy.png"), 660, GetScreenHeight() - 32, 0, 0, 14, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Energy);
             Assets bobIcone2 = new Assets("BobIcone1", MyAssetsManager.MyTexturesManager.GetTexture("assets/bobIcone.png"), 105, GetScreenHeight() - 32, 0, 0, 1, 0, false, false, false);
             MyAssetsManager.IconesMenu.Add(bobIcone2);
-            MyBob.Init();
+            
         }
         public void ReSpawnBob()
         {
@@ -286,15 +287,17 @@ namespace LADDERS
             MyMapRead = new MapRead();
             MyMapRead.LoadDatas("assets/LadderMapLV1.json");
             MyMapDraw = new MapDraw(MyMapRead, "assets/");
+            MyMapDraw.Init();   
+            MyBob.Respawn();
+            MyAssetsUpdate.Init();
             MyAssetsDraw = AssetsDraw.Instance;
-            MyAssetsUpdate = AssetsUpdate.Instance;
             Assets Endurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), 360, GetScreenHeight() - 32, 0, 0, 12, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Endurance);
             Assets Energy = new Assets("Energy", MyAssetsManager.MyTexturesManager.GetTexture("assets/Energy.png"), 660, GetScreenHeight() - 32, 0, 0, 14, 15, false, false, false);
             MyAssetsManager.IconesMenu.Add(Energy);
             Assets bobIcone2 = new Assets("BobIcone1", MyAssetsManager.MyTexturesManager.GetTexture("assets/bobIcone.png"), 105, GetScreenHeight() - 32, 0, 0, 1, 0, false, false, false);
             MyAssetsManager.IconesMenu.Add(bobIcone2);
-            MyBob.Respawn();
+            MapDraw.CameraYRespawn2 = false;
             Respawn = false;
         }
         public void Close()
@@ -305,9 +308,12 @@ namespace LADDERS
             MyAssetsDraw.Close();
             MyBob.Close();    
             UnloadTexture(ShotBackGround);
-            MyBob.Init();
             MyAssetsManager.Init();
+            MyBob.Init();
             Init();
+            MyMapDraw.Init();
+            MyAssetsUpdate.Init();
+            MapDraw.CameraYRespawn2 = false;
             EndGame = false;
         }
 

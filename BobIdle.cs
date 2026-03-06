@@ -52,7 +52,7 @@ namespace LADDERS
         {
             IsIdle = true;
 
-            MyBob.Energy += 0.5f * DeltaTime;
+            MyBob.Energy += 1f * DeltaTime;
             float AbsolutBobY = MyBob.Y + Math.Abs(MapDraw.CameraY);
 
             int tileCol = (int)(MyBob.X / MapRead.TileWidth);
@@ -74,11 +74,14 @@ namespace LADDERS
             // Si plus d'échelle, Bob tombe
             int DeleteTileId = MyMapRead.GetTileId(tileCol - 1, tileLig - 1, "Ladders");
             if (DeleteTileId == 0)
+            {
                 MyBob.StatesTransition(BobStates.Falling);
 
-           
-            
-               
+            }
+
+
+
+
             base.Update(MyBob);
         }
         public override void Draw(Bob MyBob)

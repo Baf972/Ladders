@@ -17,6 +17,7 @@ namespace LADDERS
         static GameMenu? MyGameMenu = new GameMenu();
         static GameOptions? MyGameOptions = new GameOptions();
         static GamePlay? MyGamePlay = new GamePlay();
+        static Music GameTheme;
         public static int Main()
         {
             int gameWidth = 1280;
@@ -34,6 +35,12 @@ namespace LADDERS
 
             MyGameState.ChangeScene("menu");
 
+
+            GameTheme = LoadMusicStream("assets/sounds/LaddersTheme.mp3");
+            SetMusicVolume(GameTheme, 0.1f);
+            GameTheme.Looping = true;
+            PlayMusicStream(GameTheme);
+
             //ToggleFullscreen();
 
             while (!WindowShouldClose() && !MyGameState.QuitMyGame)
@@ -41,6 +48,8 @@ namespace LADDERS
 
                 if (IsKeyPressed(KeyboardKey.F11))
                     ToggleFullscreen();
+
+                UpdateMusicStream(GameTheme);
 
                 MyGameState.Update();   
 

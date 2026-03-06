@@ -25,7 +25,9 @@ namespace LADDERS
         public static Vector2 BackGround2Pos;
 
         public static bool CloudsAppear;
-        public static  float CameraY;
+        public static float CameraY;
+        public static bool CameraYRespawn1;
+        public static bool CameraYRespawn2;
         private float CameraSpeed = 5f;
 
 
@@ -53,7 +55,14 @@ namespace LADDERS
             InitRectTilesets();
             LoadTextTilesets(assetsPath);
             AssoTilesTilesets();
-            DeliverGifts();
+        }
+        public void Init()
+        {
+
+            BackGround = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround.png");
+            BackGround2 = MyAssetsManager.MyTexturesManager.GetTexture("assets/BackGround2.png");
+            BackGroundPos =  new Vector2(0, 400);
+            BackGround2Pos =  new Vector2(0, -370);
         }
         
         private void InitRectTilesets()
@@ -102,7 +111,20 @@ namespace LADDERS
         {
             // Apparition des Clouds          
             if (CameraY >= - 1000 && CameraY < -999)
-                CloudsAppear = true;            
+                CloudsAppear = true;
+
+
+            //Zone Respawn1
+            if (CameraY > - 1500 && MyBob.X >= 1210)
+                CameraYRespawn1 = true;
+
+            //Zone Respawn2
+            if (CameraY > - 1180 && MyBob.X <= 150)
+            {
+                CameraYRespawn1 = false;
+                CameraYRespawn2 = true;
+
+            }
 
         }
 
@@ -234,56 +256,6 @@ namespace LADDERS
             UnloadTexture(BackGround2);
         }
 
-        public void DeliverGifts()
-        {
-            int NbCol = MapRead.Width;
-            int NbLig = MapRead.Height;
-
-            int TileWidth = 32;
-            int TileHeight = 32;
-
-            for (int Col = 0; Col < NbCol; Col++)
-            {
-                for (int Lig = 0; Lig < NbLig; Lig++)
-                {                    
-                    int TileId = MyMapRead.GetTileId(Col, Lig, "Gifts");
-                    if (TileId == 1387)
-                    {
-                        float x = (Col * TileWidth) + 16;
-                        float y = (Lig * TileHeight) + CameraY;
-
-                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
-
-                        Assets myGift = new Assets("Gift", MyAssetsManager.MyTexturesManager.GetTexture("assets/Gift.png"), (int)x , (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
-                        MyAssetsManager.Gifts.Add(myGift);
-                    }
-
-                    int TileIdFruits = MyMapRead.GetTileId(Col, Lig, "Energy");
-                    if (TileIdFruits == 1388)
-                    {
-                        float x = (Col * TileWidth) + 16;
-                        float y = (Lig * TileHeight) + CameraY;
-
-                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
-
-                        Assets myFruit = new Assets("Fruit", MyAssetsManager.MyTexturesManager.GetTexture("assets/Fruits.png"), (int)x, (int)y, 0, 0, 22, FrameTimerRandom, false, false, false);
-                        MyAssetsManager.Fruits.Add(myFruit);
-                    }
-
-                    int TileIdEndurance = MyMapRead.GetTileId(Col, Lig, "Endurance");
-                    if (TileIdEndurance == 9)
-                    {
-                        float x = (Col * TileWidth) + 16;
-                        float y = (Lig * TileHeight) + CameraY;
-
-                        int FrameTimerRandom = Assets.MyRandom.Next(7, 14);
-
-                        Assets MyEndurance = new Assets("Endurance", MyAssetsManager.MyTexturesManager.GetTexture("assets/Endurance.png"), (int)x, (int)y, 0, 0, 12, FrameTimerRandom, false, false, false);
-                        MyAssetsManager.Endurance.Add(MyEndurance);
-                    }
-                }
-            }
-            
-        }
+        
     }
 }

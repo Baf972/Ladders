@@ -20,6 +20,10 @@ namespace LADDERS
         protected Sound ClimbMetalSound;
         protected Sound LandingMetalSound;
         protected Sound LandingWoodSound;
+        protected Sound FallingSound;
+        protected Sound OufSound;
+        protected Sound BreakingWoodSound;
+        protected Sound BreakingWoodSound2;
         public bool Isflipped;
         public int CurrentFrame;
         public int FrameCount;
@@ -47,6 +51,10 @@ namespace LADDERS
         protected float ClimbMetalTimer;
         protected bool LandingWoodTimer;
         protected bool LandingMetalTimer;
+        protected bool JumpTimer;
+        protected bool FallingSoundTimer;
+        protected bool OufTimer;
+        protected float BreakingWoodSoundTimer;
 
 
 
@@ -61,13 +69,22 @@ namespace LADDERS
             FallingTimer = 2f;
             LadderPartsTimer = 0.1f;
             JumpingTimer = 1.5f;
-            JumpSound = LoadSound("assets/sounds/Jump.wav");
+            JumpSound = LoadSound("assets/sounds/JumpSound.wav");
+            FallingSound = LoadSound("assets/sounds/FallingSound.wav");
             ClimbWoodSound = LoadSound("assets/sounds/ClimbWood.wav");
             ClimbWoodTimer = 0.5f;
             ClimbMetalSound = LoadSound("assets/sounds/ClimbMetal.wav");
             ClimbMetalTimer = 0.5f;
             LandingMetalSound = LoadSound("assets/sounds/LandingWood.wav");
             LandingWoodSound = LoadSound("assets/sounds/LandingMetal.wav");
+            OufSound = LoadSound("assets/sounds/OufSound.wav");
+            BreakingWoodSound = LoadSound("assets/sounds/BreakingWoodSound.wav");
+            BreakingWoodSound2 = LoadSound("assets/sounds/BreakingWoodSound2.wav");
+            JumpTimer = true;
+            FallingSoundTimer = true;
+            OufTimer = true;
+            BreakingWoodSoundTimer = 1f;
+
         }
 
         public virtual void HandleInput(Bob MyBob)
@@ -178,8 +195,11 @@ namespace LADDERS
 
             //DrawRectangleLinesEx(MyBob.BobRec, 2, Color.White);
 
-           // DrawText("Life : " + MyBob.Life.ToString(), 10, 40, 20, Color.White);
-            //DrawText("JumpTimer  "  + JumpingTimer.ToString(), 10, 10, 20, Color.White);
+            //DrawText("X : " + MyBob.X.ToString(), 10, 10, 20, Color.White);
+            //DrawText("Camera  "  + MapDraw.CameraY.ToString(), 10, 30, 20, Color.White);
+            //DrawText("Respawn 1  "  + MapDraw.CameraYRespawn1.ToString(), 10, 50, 20, Color.White);
+            //DrawText("Respawn 2  " + MapDraw.CameraYRespawn2.ToString(), 10, 70, 20, Color.White);
+
         }
     };
 

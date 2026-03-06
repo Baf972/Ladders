@@ -114,7 +114,7 @@ namespace LADDERS
             if (Y >= GetScreenHeight() + FrameHeight && Life > 0)
                 Level1.Respawn = true;
 
-            else if ( Life < 1)
+            else if ( Life < 0)
             {
                 TakeScreenshot("BackGround.png");
                 Level1.ShotBackGround = LoadTexture("BackGround.png");
@@ -123,8 +123,8 @@ namespace LADDERS
             }
                 
 
-            if (Energy <= 50)
-                Endurance -= 1 * DeltaTime;            
+            if (Energy <= 70)
+                Endurance -= 0.2f * DeltaTime;            
 
             if (Energy >= 100)
                 Energy = 100;
@@ -142,7 +142,7 @@ namespace LADDERS
                 Level1.Respawn = true;
             }
 
-
+                                
 
 
 
@@ -158,21 +158,37 @@ namespace LADDERS
 
         public void Respawn()
         {
+            if (MapDraw.CameraYRespawn1)
+            {
+                X = 1248;
+                Y = 500;
+                MapDraw.CameraY = -1442;
+            }
+            else if (MapDraw.CameraYRespawn2)
+            {
+                X = 128;
+                Y = 500;
+                MapDraw.CameraY = -1115;
+            }
+            else
+            {
+                X = 768;
+                Y = 500;
+                MapDraw.CameraY = -2160;
+            }
+
             BobStatesTextures = new Dictionary<string, Texture2D>();
             LoadStatesTextures();
             Life -= 1f;
-            X = 768;
-            Y = 500;
             Energy = 100f;
             Endurance = 100f;
             SpeedJumpUp = 40f;
             SpeedFallDown = 200f;
             SpeedJumpLenght = 200f;
             IsFlipped = false;
-            MapDraw.CameraY = -2160;
             MyState = new BobIdle(this);
-            CollisionRange = 100;
             StatesTransition(BobStates.Idle);
+            CollisionRange = 100;
         }
         public void Close()
         {
